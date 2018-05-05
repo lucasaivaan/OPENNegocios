@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--__ NEGOCIOS __  -->
+    <string-array name="categorias">
+        <item>@string/elije_una_categoaria</item>
+        <item>@string/cat_kiosco</item>
+        <item>@string/cat_almacen</item>
+        <item>@string/cat_pizzeria</item>
+        <item>@string/cat_carniceria</item>
+        <item>@string/cat_verduleria</item>
+        <item>@string/cat_panaderia</item>
+        <item>@string/cat_pescaderia</item>
+        <item>@string/cat_heladeria</item>
+        <item>@string/cat_ferreteria</item>
+    </string-array>
+
+    <!--__ CATEGORIAS PRODUCTOS __  -->
+    <string-array name="categorias_productos">
+        <item>@string/elije_una_categoaria</item>
+        <item>@string/db_sdespensa</item>
+        <item>@string/db_sCarniceria</item>
+        <item>@string/db_sHeladeria</item>
+        <item>@string/db_sPanaderia</item>
+        <item>@string/db_sPescaderia</item>
+        <item>@string/db_sPizzeria</item>
+        <item>@string/db_sVerduleria</item>
+        <item>@string/db_sFiambrerriaQueseria</item>
+    </string-array>
+
+
+    <!--  SPINNER DESPENSA    -->
+    <string-array name="spinner_1">
+        <item>@string/elije_una_categoaria</item>
+        <item>Aceites y Aderezos</item>
+        <item>Aceitunas y Encurtidos</item>
+        <item>Conservas</item>
+        <item>Desayuno</item>
+        <item>Arroz y Legumbres</item>
+        <item>Snacks</item>
+        <item>Sopas, Caldos y Puré</item>
+        <item>Pastas,tapas y Harinas</item>
+        <item>Lacteos</item>
+        <item>Bebidas</item>
+    </string-array>
+    <!--__ spinner_SubCategoria Despensa __  -->
+    <string-array name="spinner_11">
+        <item>@string/elije_una_categoaria</item>
+        <item>Aceites</item>
+        <item>Mayonesa</item>
+        <item>Salsa Golf</item>
+        <item>Mostaza</item>
+        <item>Vinagre</item>
+        <item>Aceto</item>
+        <item>Jugo de Limón</item>
+        <item>Aderezos Salsas</item>
+        <item>Sal y Pimienta</item>
+        <item>Saborizadores</item>
+        <item>Otros Condimentos</item>
+    </string-array>
+    <string-array name="spinner_12">
+        <item>@string/elije_una_categoaria</item>
+        <item>Aceitunas Verdes</item>
+        <item>Aceitunas Negras</item>
+        <item>Aceitunas Rellenas</item>
+        <item>Encurtidos</item>
+    </string-array>
+    <string-array name="spinner_13">
+        <item>@string/elije_una_categoaria</item>
+        <item>Conservas de Verdura y Legumbres</item>
+        <item>Conservas de Pescado</item>
+        <item>Conservas de Frutas</item>
+        <item>Tomates y Salsas</item>
+    </string-array>
+    <string-array name="spinner_14">
+        <item>@string/elije_una_categoaria</item>
+        <item>Azucar y Edulcorante</item>
+        <item>Cacao</item>
+        <item>Leche en Polvo</item>
+        <item>Mermeladas y Dulces</item>
+        <item>Cafe</item>
+        <item>Te</item>
+        <item>Yerbas</item>
+        <item>Cereales</item>
+        <item>------ GALLETITAS ------</item>
+        <item>Galletitas Dulces</item>
+        <item>Galletitas Saladas</item>
+        <item>Galletitas de Arroz</item>
+    </string-array>
+    <string-array name="spinner_15">
+        <item>@string/elije_una_categoaria</item>
+        <item>Arroz Largo</item>
+        <item>Arroz Parboil</item>
+        <item>Arroz Doble</item>
+        <item>Arroz Integral</item>
+        <item>Arroz Especial</item>
+        <item>Arroz Preparado</item>
+        <item>Legumbres</item>
+    </string-array>
+    <string-array name="spinner_16">
+        <item>@string/elije_una_categoaria</item>
+        <item>Papas Fritas</item>
+        <item>Chizitos</item>
+        <item>Maní</item>
+        <item>Palitos</item>
+        <item>Tortillas</item>
+        <item>Pochoclos</item>
+        <item>Conos</item>
+        <item>Snacks Mix</item>
+        <item>Frutas Secas</item>
+    </string-array>
+    <string-array name="spinner_17">
+        <item>@string/elije_una_categoaria</item>
+        <item>Sopas</item>
+        <item>Caldos</item>
+        <item>Puré</item>
+    </string-array>
+    <string-array name="spinner_18">
+        <item>@string/elije_una_categoaria</item>
+        <item>Pastas</item>
+        <item>Harinas</item>
+        <item>Tapas</item>
+    </string-array>
+    <string-array name="spinner_19">
+        <item>@string/elije_una_categoaria</item>
+        <item>Leches</item>
+        <item>Leches infantiles</item>
+        <item>Yogures</item>
+        <item>Cremas de Leche</item>
+        <item>Dulce de Leche</item>
+        <item>Levaduras y Grasas</item>
+        <item>Mantecas y Margarinas</item>
+        <item>Postres y Flanes</item>
+        <item>Ricota</item>
+    </string-array>
+    <string-array name="spinner_110">
+        <item>@string/elije_una_categoaria</item>
+        <item>------ AGUAS --------</item>
+        <item>Agua Con Gas</item>
+        <item>Agua Sin Gas</item>
+        <item>Agua Saborizada</item>
+        <item>------ JUGOS --------</item>
+        <item>Jugos en Polvo</item>
+        <item>Jugos Listos</item>
+        <item>Jugos Concentrados</item>
+        <item>Jugos Refrigerados</item>
+        <item>------ GASEOSAS -----</item>
+        <item>Cola</item>
+        <item>Lima Limón</item>
+        <item>Gaseosa de Naranja</item>
+        <item>Gaseosa Sabor Pomelo</item>
+        <item>Tónica</item>
+        <item>------ CERVEZAS -----</item>
+        <item>Cerveza Rubias</item>
+        <item>Cerveza Negras y Rojas</item>
+        <item>Cerveza Sin Alcohol</item>
+        <item>------ VINOS --------</item>
+        <item>Vino Blanco</item>
+        <item>Vino Tinto</item>
+        <item>Vino Rosado</item>
+        <item>Vino espumantes</item>
+        <item>----------------------</item>
+        <item>Aperitivos</item>
+        <item>Bebidas Blancas</item>
+        <item>Licores</item>
+        <item>Whiskys</item>
+        <item>A Base de Hierbas</item>}
+        <item>Isotónicas</item>
+        <item>Energizantes</item>
+    </string-array>
+
+
+
+    <!--  SPINNER CARNICERIA    -->
+    <string-array name="spinner_2">
+        <item>@string/elije_una_categoaria</item>
+        <item>Aves</item>
+        <item>Cerdo</item>
+        <item>Ternera y Vacuno</item>
+        <item>Picada y Hamburguesas</item>
+        <item>Elaborados y embutidos</item>
+        <item>Cordero</item>
+        <item>Conejo</item>
+        <item>Carbón y Leña</item>
+        <item>otros</item>
+    </string-array>
+
+
+    <!--  SPINNER HELADERIA    -->
+    <string-array name="spinner_3">
+        <item>@string/elije_una_categoaria</item>
+        <item>Potes</item>
+        <item>Sabores</item>
+        <item>Agregados</item>
+        <item>Aderezos</item>
+        <item>Sundae</item>
+        <item>Cucuruchos</item>
+        <item>Palitos</item>
+        <item>Familiar</item>
+        <item>Tortas</item>
+        <item>Bombones</item>
+        <item>otros</item>
+    </string-array>
+    <!--__ spinner_SubCategoria HELADERIA __  -->
+    <string-array name="spinner_31">
+        <item>@string/elije_una_categoaria</item>
+        <item>1 KILO</item>
+        <item>1/2 KILO</item>
+        <item>1/4 KILO</item>
+        <item>OTRO</item>
+    </string-array>
+
+    <string-array name="spinner_33">
+        <item>@string/elije_una_categoaria</item>
+        <item>CONFITES DE CHOCOLATE</item>
+        <item>MINI CEREALES BAÑADOS</item>
+        <item>CROCANTE DE MANI</item>
+        <item>GRANIZADO DE CHOCOLATE NEGRO</item>
+        <item>otro</item>
+
+    </string-array>
+
+    <!--  SPINNER PANADERIA    -->
+    <string-array name="spinner_4">
+        <item>@string/elije_una_categoaria</item>
+        <item>Panificados</item>
+        <item>Facturas</item>
+        <item>Repostería</item>
+        <item>Pastelería</item>
+        <item>Tartinas</item>
+        <item>Alfajores</item>
+        <item>Galletitas</item>
+        <item>Sandwich miga</item>
+        <item>Masas secas y finas</item>
+        <item>Biscochuelos</item>
+        <item>Muffins</item>
+        <item>Pan Dulce</item>
+        <item>otros</item>
+
+    </string-array>
+
+    <!--  SPINNER PESCADERIA    -->
+    <string-array name="spinner_5">
+        <item>@string/elije_una_categoaria</item>
+        <item>Pescados</item>
+        <item>Mariscos</item>
+        <item>Rebozados</item>
+        <item>Moluscos</item>
+        <item>Sushi</item>
+        <item>otros</item>
+    </string-array>
+
+    <!--  SPINNER PIZZERIA    -->
+    <string-array name="spinner_6">}
+        <item>@string/elije_una_categoaria</item>
+        <item>Pizza</item>
+        <item>Pizza Vegetariana</item>
+        <item>Hamburpizza</item>
+        <item>Empanadas</item>
+        <item>Hamburguesas</item>
+        <item>otros</item>
+    </string-array>
+
+    <!--  SPINNER VERDULERIA    -->
+    <string-array name="spinner_7">
+        <item>@string/elije_una_categoaria</item>
+        <item>Verduras</item>
+        <item>Frutas</item>
+        <item>otros</item>
+    </string-array>
+
+    <!--  SPINNER FIAMBRERIA Y QUESERIA    -->
+    <string-array name="spinner_8">
+        <item>@string/elije_una_categoaria</item>
+        <item>Quesos</item>
+        <item>Fiambres</item>
+        <item>Picadas</item>
+        <item>Frutos secos</item>
+        <item>Picadas</item>
+    </string-array>
+
+
+
+</resources>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        cardview:cardElevation="0dp"
+        cardview:layout_constraintBottom_toBottomOf="parent"
+        cardview:layout_constraintEnd_toEndOf="parent"
+        cardview:layout_constraintStart_toStartOf="parent"
+        cardview:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/fotoPerfilReseña"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="false"
+                android:layout_centerVertical="false"
+                android:layout_margin="3dp"
+                android:background="@mipmap/ic_user2"
+                android:visibility="visible"
+                cardview:layout_constraintBottom_toBottomOf="parent"
+                cardview:layout_constraintLeft_toLeftOf="parent"
+                tools:ignore="MissingConstraints,NotSibling" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        cardview:layout_constraintBottom_toBottomOf="parent"
+                        cardview:layout_constraintStart_toStartOf="parent"
+                        cardview:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/textview_nombre"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_weight="1"
+                            android:text="nombre"
+                            android:textColor="@color/textColorPrimario"
+                            android:textStyle="bold"
+                            cardview:layout_constraintBottom_toBottomOf="parent"
+                            cardview:layout_constraintEnd_toEndOf="parent"
+                            cardview:layout_constraintRight_toRightOf="parent"
+                            cardview:layout_constraintStart_toEndOf="@+id/horaMensaje_2"
+                            cardview:layout_constraintTop_toTopOf="parent"
+                            cardview:layout_constraintVertical_bias="0.0" />
+
+                        <TextView
+                            android:id="@+id/textview_hora"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="00:00"
+                            android:textAlignment="textStart"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textColorSecundario"
+                            android:textSize="8sp"
+                            cardview:layout_constraintBottom_toBottomOf="parent"
+                            cardview:layout_constraintDimensionRatio=""
+                            cardview:layout_constraintEnd_toStartOf="@+id/nombreMensaje_2"
+                            cardview:layout_constraintHorizontal_bias="0.086"
+                            cardview:layout_constraintLeft_toLeftOf="parent"
+                            cardview:layout_constraintStart_toStartOf="parent"
+                            cardview:layout_constraintTop_toTopOf="parent"
+                            cardview:layout_constraintVertical_bias="0.0" />
+
+                    </LinearLayout>
+
+                    <RatingBar
+                        android:id="@+id/rationbar_star"
+                        style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        cardview:layout_constraintBottom_toBottomOf="parent"
+                        cardview:layout_constraintEnd_toEndOf="parent"
+                        cardview:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/textview_reseña"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="hola"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/textColorSecundario"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

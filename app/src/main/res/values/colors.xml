@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#039BE5</color>
+    <color name="colorPrimaryDark">#039BE5</color>
+    <color name="colorAccent">#5fb8ff</color>
+
+
+
+    <color name="primaryTextColor">#ffffff</color>
+
+
+
+    <color name="textColorPrimario">#757575</color>
+    <color name="textColorSecundario">#9e9e9e</color>
+    <color name="textColorSecundarioterciario">#EEEEEE</color>
+
+
+    <color name="color_verde">#66bb6a</color>
+    <color name="color_azul">#2471a3</color>
+    <color name="color_rojo">#f44336</color>
+    <color name="color_rojo_secundario">#FFCDD2</color>
+    <color name="color_naranja">#e77a3b</color>
+    <color name="color_celeste_sueave">#134766</color>
+    <color name="blanco_gris">#f2f2f2</color>
+    <color name="color_azul_transparente">#d10d47a1</color>
+
+
+    <!-- Color Categoria -->
+    <color name="color_kiosco">#993366</color>
+    <color name="color_almacen">#887959</color>
+    <color name="color_pizzeria">#ff9933</color>
+    <color name="color_carniceria">#E53935</color>
+    <color name="color_verduleria">#339933</color>
+    <color name="color_panaderia">#cc6633</color>
+    <color name="color_pescaderia">#0099cc</color>
+    <color name="color_heladeria">#ff6699</color>
+    <color name="color_ferreteria">#6633cc</color>
+
+
+
+
+
+
+
+</resources>

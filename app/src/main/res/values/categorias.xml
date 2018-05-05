@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="categoriasColores">
+        <item>@string/color_default</item>
+        <item>@string/color_kiosco</item>
+        <item>@string/color_almacen</item>
+        <item>@string/color_pizzeria</item>
+        <item>@string/color_carniceria</item>
+        <item>@string/color_verduleria</item>
+        <item>@string/color_panaderia</item>
+        <item>@string/color_pescaderia</item>
+        <item>@string/color_heladeria</item>
+        <item>@string/color_ferreteria</item>
+    </string-array>
+
+    <string-array name="cuentas">
+        <item>@string/selecciona_tipo_cuenta</item>
+        <item>@string/dueño</item>
+        <item>@string/empleado</item>
+
+    </string-array>
+
+    <string-array name="permisos">
+        <item>@string/debe_elejir_tipo_permiso</item>
+        <item>@string/administrador</item>
+        <item>@string/estandar</item>
+    </string-array>
+
+    <string-array name="tarjetas_stylos">
+        <item>card_style_1</item>
+        <item>card_style_2</item>
+        <item>card_style_3</item>
+        <item>card_style_4</item>
+        <item>card_style_5</item>
+    </string-array>
+
+
+</resources>

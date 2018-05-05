@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="346dp"
+                android:layout_height="135dp"
+                android:background="@mipmap/banner_tips" />
+
+            <Button
+                android:id="@+id/button23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_red_300"
+                android:elevation="4dp"
+                android:text="@string/negocio"
+                android:textColor="@color/cardview_light_background" />
+
+            <Button
+                android:id="@+id/button24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_deep_orange_300"
+                android:elevation="3dp"
+                android:text="@string/ofertas"
+                android:textColor="@color/cardview_light_background" />
+
+            <Button
+                android:id="@+id/button25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_orange_300"
+                android:elevation="2dp"
+                android:text="@string/servicios"
+                android:textColor="@color/cardview_light_background" />
+
+            <Button
+                android:id="@+id/button26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_lime_300"
+                android:elevation="1dp"
+                android:text="@string/clientes"
+                android:textColor="@color/cardview_light_background" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

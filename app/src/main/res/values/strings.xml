@@ -1,0 +1,422 @@
+<resources>
+    <string name="app_name">OPEN Store</string>
+    <string name="version">Versión 1.0</string>
+
+    <string name="title_activity_main_interface_principal">MainActivity_interface_principal</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="reportar_problema">Reportar Problema</string>
+
+    <!--_____________________________________ BASE DE DATOS ___________________________________  -->
+    <string name="DB_APP">APP</string>
+    <string name="DB_NEGOCIOS">NEGOCIOS</string>
+    <string name="DB_NEGOCIO">NEGOCIO</string>
+    <string name="DB_INFORMACION">INFORMACION</string>
+
+    <string name="DB_CLIENTES">CLIENTES</string>
+    <string name="DB_PRODUCTOS">PRODUCTOS</string>
+    <string name="DB_CATEGORIA">CATEGORIA</string>
+
+    <string name="DB_CUENTAS">CUENTAS</string>
+    <string name="DB_GALERIA_FOTOS">GALERIA_FOTOS</string>
+    <string name="DB_HORARIOS">HORARIOS</string>
+    <string name="DB_RESEÑAS">RESEÑAS</string>
+    <string name="DB_SERVICIOS">SERVICIOS</string>
+    <string name="DB_OFERTAS">OFERTAS</string>
+    <string name="DB_TIPS">TIPS</string>
+
+
+    <string name="DB_CUENTA">CUENTA</string>
+
+    //Chat
+    <string name="DB_mensaje_nuevo">mensaje_nuevo</string>
+    <string name="DB_ultimo_mensaje">ultimo_mensaje</string>
+
+
+    //MENSAJE
+    <string name="DB_mensaje">mensaje</string>
+    <string name="DB_timestamp">timestamp</string>
+    <string name="DB_type_mensaje">type_mensaje</string>
+    <string name="DB_CHAT">CHAT</string>
+
+
+    //Perfil Cliente
+
+    <string name="DB_nombrecliente">nombrecliente</string>
+    <string name="DB_nombre">nombre</string>
+    <string name="DB_urlfotoPerfil">urlfotoPerfil</string>
+
+
+    //Perfil negocio
+    <string name="DB_categoria">categoria</string>
+    <string name="DB_color">color</string>
+    <string name="DB_nombre_negocio">nombre_negocio</string>
+    <string name="DB_descripcion">descripcion</string>
+    <string name="DB_telefono">telefono</string>
+    <string name="DB_sitio_web">sitio_web</string>
+    <string name="DB_id">id</string>
+    //perfil geolocalizacion
+    <string name="DB_pais">pais</string>
+    <string name="DB_direccion">direccion</string>
+    <string name="DB_codigo_postal">codigo_postal</string>
+    <string name="DB_provincia">provincia</string>
+    <string name="DB_ciudad">ciudad</string>
+
+    //perfil SORAGE
+    <string name="DBS_PERFIL">PERFIL</string>
+    <string name="DBS_fotoperfil">fotoperfil</string>
+
+
+    <!--__ CATEGORIAS __  -->
+    <string name="db_sdespensa">DESPENSA</string>
+    <string name="db_sVerduleria">VERDULERIA</string>
+    <string name="db_sPanaderia">PANADERIA</string>
+    <string name="db_sCarniceria">CARNICERIA</string>
+    <string name="db_sPescaderia">PESCADERIA</string>
+    <string name="db_sPizzeria">PIZZERIA</string>
+    <string name="db_sHeladeria">HELADERIA</string>
+    <string name="db_sFiambrerriaQueseria">FIAMBRERIA Y QUESERIA</string>
+
+
+    <!--______________________________- DESPENSA  BEBIDAS-______________________________________  -->
+
+
+    <string name="db_negocios">negocios</string>
+    <string name="db_clientes">clientes</string>
+    <string name="db_cuentas">cuentas</string>
+    <string name="db_chat">chat</string>
+
+    <string name="db_puntos">puntos</string>
+    <string name="db_email">email</string>
+    <string name="db_estrellastotal">estrellastotal</string>
+
+
+    <!-- ________________________________  Firebase databse______________________________________ -->
+    <string name="business">business</string>
+    <string name="client">client</string>
+    <string name="offert">offert</string>
+    <string name="service">service</string>
+    <string name="profile">profile</string>
+    <!-- ________________________________________________________________________________________ -->
+
+    <string name="not_log_in">No se pudo iniciar sesión</string>
+    <string name="log_out">" Cerrar sesión"</string>
+    <string name="not_close_session">No se pudo cerrar sesión</string>
+    <string name="not_revoke">No se puede revocar el acceso</string>
+    <string name="not_firebase_auth">No se pudo autenticar con Firebase</string>
+    <string name="title_activity_maps_orifu">Map</string>
+
+    <!--  profile -->
+    <string name="nombre_comercial">Nombre Comercial</string>
+    <string name="descripcion_comercial">Breve descripción del comercio (opcional)</string>
+    <string name="pais_region">País/Región</string>
+    <string name="direccion">Dirección (Ej: calle 123)</string>
+    <string name="codigo_postal">Código postal:</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="provincia">Provincia</string>
+    <string name="telefono_principal">Télefono principal (opcional)</string>
+    <string name="categoria">Categoría</string>
+    <string name="sitio_web">Sitio web (opicional)</string>
+    <!-- -->
+
+    <!--  Categoria -->
+    <string name="cat_maxi_kiosco">"maxi-kiosco"</string>
+    <string name="cat_kiosco">"kiosco"</string>
+    <string name="cat_almacen">"almacen"</string>
+    <string name="cat_mercado">"mercado"</string>
+    <string name="cat_pizzeria">"pizzeria"</string>
+    <string name="cat_carniceria">"carniceria"</string>
+    <string name="cat_verduleria">"verduleria"</string>
+    <string name="cat_panaderia">"panaderia"</string>
+    <string name="cat_pescaderia">"pescaderia"</string>
+    <string name="cat_heladeria">"heladeria"</string>
+    <string name="cat_ferreteria">"ferreteria"</string>
+
+    <!--  Categoria color -->
+    <string name="color_default">"ffffff"</string>
+    <string name="color_kiosco">"#993366"</string>
+    <string name="color_almacen">"#887959"</string>
+    <string name="color_pizzeria">"#ff9933"</string>
+    <string name="color_carniceria">"#E53935"</string>
+    <string name="color_verduleria">"#339933"</string>
+    <string name="color_panaderia">"#cc6633"</string>
+    <string name="color_pescaderia">"#0099cc"</string>
+    <string name="color_heladeria">"#ff6699"</string>
+    <string name="color_ferreteria">"#6633cc"</string>
+
+    <!--  Categoria Cuentas -->
+    <string name="dueño">"Dueño"</string>
+    <string name="empleado">"Empleado"</string>
+
+    <!--  Categoria permisos -->
+
+    <string name="debe_elejir_tipo_permiso">"Seleccionar el tipo de permisos de la cuenta"</string>
+    <string name="administrador">"Administrador"</string>
+    <string name="estandar">"Estandar"</string>
+
+    <string name="no_tienes_permisos_necesarios">No tienes los permisos necesarios</string>
+
+
+    <!--   -->
+    <string name="mis_productos">"Mis productos"</string>
+    <string name="producto_nuevo">"Producto nuevo"</string>
+    <string name="imagen_subida">"Imagen subida"</string>
+    <string name="continuar">Continuar</string>
+    <string name="cambiar_ubicacion">Cambiar Ubicación</string>
+    <string name="perfil">Perfil</string>
+    <string name="perfil_completo">Perfil completo</string>
+    <string name="perfil_negocio_completo">Perfil del negcio completo</string>
+    <string name="perfil_negocio">Perfil del negocio</string>
+    <string name="editar">Editar</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="ofertas">Ofertas</string>
+    <string name="servicios">Servicios</string>
+    <string name="negocio">Negocio</string>
+
+    <string name="titulo">Titulo</string>
+    <string name="descripcion">Descripción</string>
+    <string name="precio">Precio</string>
+    <string name="agregar">Agregar</string>
+    <string name="informacion">Información</string>
+    <string name="contacto">Contacto</string>
+    <string name="completar_perfil_negocio">Completar perfil del Negocio</string>
+    <string name="clientes">Clientes</string>
+    <string name="no_tienes_ningun_cliente">No tienes clientes en tu lista</string>
+    <string name="eliminar_oferta">¿Eliminar oferta?</string>
+    <string name="si">Si</string>
+    <string name="cancel">Cancel</string>
+    <string name="eliminar_servicio">¿Eliminar servicio?</string>
+    <string name="actualizado">actualizado</string>
+    <string name="elije_una_categoaria">Elige una categoría</string>
+    <string name="uno_o_mas_campos_estan_vacios">Uno o más campos están vacíos</string>
+    <string name="debes_elegir_una_categoría">Debes elegir una categoría</string>
+    <string name="selecciona_tipo_cuenta">Selecciona el tipo de cuenta</string>
+    <string name="debes_elegir_una_dia">Elegir un día o varios dias</string>
+    <string name="Informacion_del_negocio">Información del negocio</string>
+
+    <string name="ubicacion">Ubicación</string>
+    <string name="pregunta_es_correcta_esta_ubicacion">¿Esta ubicación es correcta?</string>
+    <string name="configurar_horario">Configurar horario</string>
+    <string name="agrear_nueno_horario">Agregar nuevo horario</string>
+
+    // dias de la semana
+    <string name="lunes">Lunes</string>
+    <string name="martes">Martes</string>
+    <string name="miercoles">Miercoles</string>
+    <string name="jueves">Jueves</string>
+    <string name="viernes">Viernes</string>
+    <string name="sabado">Sabado</string>
+    <string name="domingo">Domingo</string>
+    //_____________________________________
+    <string name="guardar">Guardar</string>
+    <string name="guardar_producto">Guardar producto</string>
+    <string name="Debe_definir_un_horario_apertura_y_cierre">Debe definir un horario de apertura y cierre</string>
+    <string name="veinteycuatrihoras">24 Horas</string>
+    <string name="segundo_horario_opcional">Segundo horario (opcional)</string>
+    <string name="listo">listo</string>
+    <string name="horas">Horas</string>
+    <string name="pregunta_eliminar_horario">¿Borrar horario?</string>
+    <string name="direccion1">Dirección:</string>
+    <string name="telefono">Télefono</string>
+    <string name="desconocido">Desconocido</string>
+    <string name="sin_informacion">Sin información</string>
+    <string name="escriba_un_mensaje">Escriba algo</string>
+    <string name="enviar">Enviar</string>
+    <string name="chat">Chat</string>
+    <string name="vaciar_chat">Vacias chat</string>
+    <string name="chat_clientes">Chat clientes</string>
+    <string name="mi_tarjeta_de_negocio">Mi tarjeta de negocio</string>
+    <string name="tienes_nuevos_mensaje">Tienes nuevos mensajes sin leer</string>
+    <string name="cuentas">Cuentas</string>
+    <string name="horarios">Horarios</string>
+    <string name="sitio_web2">Sitio Web</string>
+    <string name="no_tienes_ninguna_cuenta_creada">No tienes ninguna cuenta creada</string>
+    <string name="agregar_producto">Agregar producto</string>
+    <string name="liquidar_cuenta">Liquidar cuenta</string>
+    <string name="escriba_un_precio">Escriba el precio</string>
+    <string name="Escriba_el_nombre_del_producto">Escriba el nombre del producto</string>
+    <string name="producto">Producto</string>
+    <string name="productos">Productos</string>
+    <string name="pregunta_elliminar_producto">¿Eliminar producto?</string>
+    <string name="liquidar_un_pago_parcial">Pago parcial</string>
+    <string name="liquidar_el_pago_final">Liquidar el pago final</string>
+    <string name="total">Total:</string>
+    <string name="escriba_la_cantidad">Escriba la cantidad</string>
+    <string name="tiene_un_pago_parcial_de">Tiene un pago parcial de :</string>
+    <string name="cuenta">Cuenta</string>
+    <string name="no_ahi_conexion_a_internet">No ahi conexion a internet</string>
+    <string name="open_para_clientes">OPEN para clientes</string>
+    <string name="editar_perfil">Editar perfil</string>
+    <string name="inicia_sesion_con_google">Iniciar sesión con Google</string>
+    <string name="bienvenido_a">Bienvenido/a</string>
+    <string name="sobre_open">Sobre Open</string>
+    <string name="crea_una_oferta">Crea una oferta</string>
+    <string name="crea_un_servicio">Crea un servicio</string>
+    <string name="el_titulo_demasiado_largo">El titulo es demasiado largo</string>
+    <string name="la_descripcion_demasiado_largo">La descripción es demasiado largo</string>
+    <string name="descripcion_opcional">Descripción (opcional)</string>
+    <string name="no_tienes_ninguna_oferta_creada">No tienes ninguna oferta creada</string>
+    <string name="no_tienes_ningun_servicio_creado">No tienes  ningun servicio creado</string>
+    <string name="no_ahi_informacion">No ahi información</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="actualizacion_proveedor_gps">Actualización del proveedor de GPS</string>
+    <string name="geolocalizar">Geolocalizar</string>
+    <string name="usa_la_ubicacion_gps">Usa la ubicación gps</string>
+    <string name="datos_gps_no_disponible">Datos GPS no esta disponible</string>
+    <string name="ubicacion_desactivada">Ubicación Desactivada</string>
+    <string name="ubicacion_no_disponible_info">Su ubicación esta desactivada.\\npor favor active su ubicación para geolocalizar</string>
+    <string name="config_ubicacion">Configuración de ubicación</string>
+    <string name="ver_horarios">Ver horarios</string>
+    <string name="ver_foto">Ver foto</string>
+    //______________________________________________________________________________________________
+    <!-- ________________________________  Service ic____________________________________________ -->
+
+    <!-- Sube -->
+    <string name="service_sube_titulo">SUBE</string>
+    <string name="service_sube_descripcion">Recarga de Sistema de Boleto Electrónico</string>
+    <!-- Recarga movil -->
+    <string name="service_recarga_movil_titulo">Carga Virtual</string>
+    <string name="service_recarga_movil_descripcion">Servicio Recarga saldo a tu línea de celular</string>
+    <!-- Pago Facil -->
+    <string name="service_pagofacil_titulo">Pago Facil</string>
+    <string name="service_pagofacil_descripcion">Pagos personales, recargar tu celular o enviar dinero dentro del país</string>
+    <!-- Cobro Express -->
+    <string name="service_cobroexpress_titulo">Cobro Express</string>
+    <string name="service_cobroexpress_descripcion">Pagos tarj. de crédito, luz, agua, teléfono y municipalidades y más!!!</string>
+    <!-- Rapi Pago -->
+    <string name="service_rapipago_titulo">RapiPago</string>
+    <string name="service_rapipago_descripcion">Pagos de facturas de más de 2.000 empresas, sin costo adicional.</string>
+    <!-- DIRECTV Prepago -->
+    <string name="service_directvprepago_titulo">DIRECTV Prepago</string>
+    <string name="service_directvprepago_descripcion">Sistema de recarga Directv Prepago</string>
+    <!-- Impresion -->
+    <string name="service_impresion_titulo">Impresion</string>
+    <string name="service_impresion_descripcion">Servicio De Impresion De Fotocopias</string>
+    <!-- Delivery -->
+    <string name="service_delivery_titulo">Delivery</string>
+    <string name="service_delivery_descripcion">Servicio de delivery (reparto o entrega) </string>
+    <!-- Delivery Pizza -->
+    <string name="service_deliverypizza_titulo">Delivery Pizza</string>
+    <string name="service_deliverypizza_descripcion">Servicio de delivery (reparto o entrega) </string>
+    <!-- Wifi -->
+    <string name="service_wifi_titulo">Wifi</string>
+    <string name="service_wifi_descripcion">Servicio de wifi </string>
+    <!-- Tarjeta de credito -->
+    <string name="service_tarjeta_credito">tarjeta de credito/debito</string>
+    <string name="service_tarjeta_credito_descripcion">Servicio de tarjetas de débito y de crédito </string>
+
+    <!-- 24-->
+    <string name="service_24">24</string>
+    <string name="service_24_descripcion">Abierto las 24 horas</string>
+
+    <!-- Restaurant-->
+    <string name="service_restaurant">Restaurant</string>
+    <string name="service_restaurant_descripcion">Servicio de Restaurant </string>
+
+    <string name="title_activity_splash__screeam">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_obtener_link_playstore">Error al obtener dirección de Play Store por favor compruebe su conexin a internet</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="sin_ofertas">Sin ofertas</string>
+    <string name="sin_servicios">Sin servicios</string>
+    <string name="sin_clientes">Sin clientes</string>
+
+    <!-- textos informativos-->
+
+    <string name="que_esperas_para_comenzar...">¿Qué esperas para comenzar a sumar clientes?</string>
+    <string name="info_compartir_cliente">Comparta OPEN con sus clientes, asi puedan estar al tanto de sus productos,ofertas, servicios Y ofrecerles una mejor atención </string>
+    <string name="info_compartir_mendaje_para_cliente">Informate de ofertas, servicios y si tienes una cuenta poder ir controlando el estado.</string>
+    <string name="info_ofertas">Publica tus ofertas para que tus clientes estén al tanto.</string>
+    <string name="info_servicios">Publica tus servicios para que tus clientes estén al tanto.</string>
+
+    <!-- Toats notificaciones / informativos-->
+    <string name="su_inforomacion_se_guardo">su informacion se guardó exitosamente</string>
+    <string name="su_inforomacion_nose_guardo">Error su informacion no se puedo guardar</string>
+    <string name="error_intente_denuevo">Se produjo un error intente de nuevo</string>
+    <!-- _______________________________________________________________________________________ -->
+
+    <!--  TIPS  -->
+    <string name="tips_para_tu_">Tips para tu </string>
+
+
+    <string name="nombre_cliente">Nombre del cliente</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="fotos">Fotos</string>
+    <string name="sin_descripcion">Sin descripción</string>
+    <string name="sin_telefono">Sin télefono</string>
+    <string name="sin_pagina_web">Sin pagina web</string>
+    <string name="geolocalizando">Geolocalizando...</string>
+    <string name="mi_negocio">Mi negocio</string>
+    <string name="publicar">Publicar</string>
+    <string name="reseñas">Reseñas</string>
+    <string name="agrega_un_nuevo_cliente_de_forma_local">Agrega un nuevo cliente de forma local </string>
+
+    <string name="no_tienes_resenas">Por el momento no tiene ninguna crítica</string>
+    <string name="perfil_info_categoria">Es importante que defina correctamente la categoría de su negocio, por lo que será más fácil para el cliente encontrate</string>
+    <string name="perfil_info_nombre">El nombre de tu negocio es la primera impresión que se llevarán tus potenciales clientes</string>
+    <string name="perfil_info_geolocation">Atraer a nuevos clientes a su negocio es uno de los objetivos principales para esto:\n\"sus usuarios deben saber dónde se encuentra\"</string>
+    <string name="perfil_info1_principal_open">Gestiona tú información, ofertas, servicios, cuenta de tus clientes, pedidos, consultas. Ofrece un mejor servicio al cliente y aumenta tus ventas</string>
+    <string name="perfil_info2_principal_open"><b>SUMA PUNTOS</b>  \n\nChatea con tus clientes, ofrece servicios, publica ofertas, completa tu informacion y suma puntos, personaliza al máximo tu tarjeta de negocio online y desbloquea insigneas que destaquen tu negocio</string>
+    <string name="tipo_cuenta">Tipo de cuenta</string>
+    <string name="nombre">Nombre completo</string>
+    <string name="correo_electronico">correo electrónico</string>
+    <string name="foto_actualizada">Se actualizo su foto de perfil</string>
+    <string name="cuenta_administrador">Cuenta administrador</string>
+    <string name="administrar_cuentas">Administrar cuentas</string>
+    <string name="agregar_cuenta">Agregar Cuenta</string>
+    <string name="crear">Crear</string>
+
+    <string name="info_cuentas">Si quieres que otra persona o tus empleados gestionen la app de tu negocio, puedes crearles una cuenta administrador o estándar</string>
+    <string name="eliminar_cuenta">Eliminar cuenta</string>
+    <string name="permisos">Permisos de usuario</string>
+    <string name="info_importante_email_sea_esacto">¡Es importante que el correo electrónico sea exacto!</string>
+    <string name="cerrar">Cerrar</string>
+    <string name="personalizar">Personalizar</string>
+    <string name="puntos">Puntos:</string>
+    <string name="puntos_necesitas_para_desbloquear_stylo">" Puntos necesitas para desbloquear este estilo"</string>
+    <string name="buscar">Buscar</string>
+    <string name="bebidas">Bebidas</string>
+    <string name="frescos">Frescos</string>
+    <string name="congelados">Congelados</string>
+    <string name="elaborados">Elaborados</string>
+    <string name="crear_producto">Crear producto</string>
+    <string name="subcategoria">Subcategoria</string>
+    <string name="tipo_de_producto">Tipo de producto</string>
+    <string name="marca">Marca</string>
+    <string name="marca_nombre">Marca o nombre</string>
+    <string name="informacion_producto">Información del producto</string>
+    <string name="codigo">Codigo</string>
+    <string name="escanear_codigo">Escanear codigo</string>
+    <string name="buscar_producto">Buscar producto</string>
+    <string name="ver_productos">Ver productos</string>
+    <string name="crear_un_tips">Crear un Tips</string>
+
+    <string name="imagen_de_perfil">Imagen de perfil</string>
+    <string name="actualizar_foto">Actualizar foto</string>
+    <string name="delivery">Delivery</string>
+    <string name="reintenter">Reintentar</string>
+    <string name="title_activity_a_main__interface__principal">aMainActivity_Interface_Principal
+    </string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="action_example">Example action</string>
+
+
+</resources>

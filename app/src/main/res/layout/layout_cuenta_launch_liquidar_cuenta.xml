@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/button_pago_parcial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_amber_300"
+        android:elevation="0dp"
+        android:text="@string/liquidar_un_pago_parcial"
+        android:textColor="@color/cardview_light_background" />
+
+    <Button
+        android:id="@+id/button_pago_final"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_green_300"
+        android:elevation="3dp"
+        android:text="@string/liquidar_el_pago_final"
+        android:textColor="@color/cardview_light_background" />
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@mipmap/ic_nav_business"
+        android:title="@string/negocio" />
+
+    <item
+        android:id="@+id/navigation_ofertas"
+        android:icon="@mipmap/ic_nav_ofertas"
+        android:title="@string/ofertas" />
+
+    <item
+        android:id="@+id/navigation_servicios"
+        android:icon="@mipmap/ic_service"
+        android:title="@string/servicios" />
+
+    <item
+        android:id="@+id/navigation_clientes"
+        android:icon="@mipmap/ic_clientes"
+        android:title="@string/clientes" />
+
+</menu>

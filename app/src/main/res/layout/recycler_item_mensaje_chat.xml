@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    cardview:cardBackgroundColor="@android:color/transparent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        cardview:layout_constraintBottom_toBottomOf="parent"
+        cardview:layout_constraintEnd_toEndOf="parent"
+        cardview:layout_constraintStart_toStartOf="parent"
+        cardview:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/linealLayout_receptor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            cardview:layout_constraintEnd_toEndOf="parent"
+            cardview:layout_constraintHorizontal_bias="0.0"
+            cardview:layout_constraintLeft_toLeftOf="parent"
+            cardview:layout_constraintStart_toStartOf="parent"
+            cardview:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/fotoPerfilMensaje_receptor"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="1dp"
+                android:elevation="3dp"
+                android:src="@mipmap/logo_kiosco"
+                cardview:civ_border_color="@color/cardview_light_background"
+                cardview:civ_border_width="3dp"
+                cardview:civ_circle_background_color="@color/cardview_light_background" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="310dp"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/fotoPerfilMensaje_receptor"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="5dp"
+                android:visibility="visible"
+                cardview:cardBackgroundColor="@color/cardview_light_background"
+                cardview:cardCornerRadius="20dp"
+                cardview:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    android:paddingEnd="35dp"
+                    android:paddingStart="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/horaMensaje_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="00:00"
+                            android:textAlignment="viewStart"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textColorSecundario"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/nombreMensaje_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="nombre"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/textColorPrimario"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/mensajeMensaje_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="hola"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/textColorSecundario"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/linealLayout_emisor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/fotoPerfilMensaje_emisor"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="1dp"
+                android:elevation="3dp"
+                android:src="@mipmap/ic_user2"
+                cardview:civ_border_color="@color/cardview_light_background"
+                cardview:civ_border_width="2dp"
+                cardview:civ_circle_background_color="@color/cardview_light_background"
+                cardview:layout_constraintBottom_toBottomOf="parent"
+                cardview:layout_constraintLeft_toLeftOf="parent"
+                tools:ignore="MissingConstraints,NotSibling" />
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="310dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="5dp"
+                cardview:cardBackgroundColor="@color/cardview_light_background"
+                cardview:cardCornerRadius="20dp"
+                cardview:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="40dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/nombreMensaje_2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_weight="1"
+                                android:text="nombre"
+                                android:textColor="@color/textColorPrimario"
+                                android:textStyle="bold"
+                                cardview:layout_constraintBottom_toBottomOf="parent"
+                                cardview:layout_constraintEnd_toEndOf="parent"
+                                cardview:layout_constraintRight_toRightOf="parent"
+                                cardview:layout_constraintStart_toEndOf="@+id/horaMensaje_2"
+                                cardview:layout_constraintTop_toTopOf="parent"
+                                cardview:layout_constraintVertical_bias="0.0" />
+
+                            <TextView
+                                android:id="@+id/horaMensaje_2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="00:00"
+                                android:textAlignment="viewEnd"
+                                android:textAllCaps="true"
+                                android:textColor="@color/textColorSecundario"
+                                android:textSize="12sp"
+                                cardview:layout_constraintBottom_toBottomOf="parent"
+                                cardview:layout_constraintDimensionRatio=""
+                                cardview:layout_constraintEnd_toStartOf="@+id/nombreMensaje_2"
+                                cardview:layout_constraintHorizontal_bias="0.086"
+                                cardview:layout_constraintLeft_toLeftOf="parent"
+                                cardview:layout_constraintStart_toStartOf="parent"
+                                cardview:layout_constraintTop_toTopOf="parent"
+                                cardview:layout_constraintVertical_bias="0.0" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/mensajeMensaje_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="hola"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/textColorSecundario"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

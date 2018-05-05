@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="@string/negocio">
+            <menu>
+
+                <item
+                    android:id="@+id/nav_chat"
+                    android:icon="@mipmap/nav_chat"
+                    android:title="@string/chat" />
+                <item
+                    android:id="@+id/nav_cuentas"
+                    android:icon="@drawable/ic_nav_cuenta"
+                    android:title="@string/cuentas" />
+
+            </menu>
+        </item>
+
+    </group>
+
+    <item android:title="@string/cuenta">
+        <menu>
+
+
+            <item
+                android:id="@+id/nav_perfil_cuenta"
+                android:icon="@drawable/ic_nav_cuenta_perfil"
+                android:title="@string/perfil" />
+
+            <item
+                android:id="@+id/nav_revoke"
+                android:icon="@mipmap/nav_close"
+                android:title="@string/cerrar_sesion" />
+
+        </menu>
+    </item>
+
+
+    <item android:title="@string/informacion">
+        <menu>
+            <item
+                android:id="@+id/nav_info"
+                android:icon="@mipmap/ic_nav_business"
+                android:title="@string/sobre_open" />
+
+        </menu>
+    </item>
+
+</menu>
