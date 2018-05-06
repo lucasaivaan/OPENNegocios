@@ -51,9 +51,15 @@ public class adapter_recyclerView_Servicios extends RecyclerView.Adapter<adapter
     public void onBindViewHolder(homeViwHolder holder, int position) {
         adapter_servicios_negocio ADP= pases.get(position);
 
+        // Titulo
         holder.dato1.setText(ADP.getTitulo());
-        holder.dato2.setText(ADP.getDescripcion());
 
+        // Descripcion
+        if(!ADP.getDescripcion().equals("")){
+            holder.dato2.setText(ADP.getDescripcion());
+        }else{  holder.dato2.setVisibility(View.GONE); }
+
+        // Imagen
         if(!ADP.getUrl_imagen().equals("default")){
             // Carga la imagen de perfil
             Glide.clear(holder.circleImageView);
