@@ -871,9 +871,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     //-------------------------------- Carga Datos --------------------------------------------------------
     public void carga_perfilNegocio(){
 
-
-        ////////////////////////////////////////// Firestore Perfil ///////////////////////////////////////
-
+        // FIRESTORE
         DocumentReference docRefprofile=db.collection( getString(R.string.DB_NEGOCIOS) ).document( ID_NEGOCIO );
         docRefprofile.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -881,12 +879,14 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                 @Nullable FirebaseFirestoreException e) {
 
                 if(snapshot.exists()){
+
+                    // Adaptador perfil de negocio
                     final adapter_profile_negocio adapterNegocioPerfil= snapshot.toObject(adapter_profile_negocio.class);
 
 
                     if(adapterNegocioPerfil.getNombre_negocio()!=null ){
-                        //Toast.makeText(MainActivity_interface_principal.this,"Direccion OK",Toast.LENGTH_SHORT).show();
 
+                        // Control de Visibilidad
                         ControlVisivilidadContenido("perfilCompleto");
                         lottieAnimationView_load.setVisibility(View.GONE);
                         imageView_home.setVisibility(View.GONE);
@@ -898,7 +898,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             textView_Puntos.setText(Integer.toString(valuePuntos));
                         }
 
-                        /////////////////////////  Carga los datos en los textView /////////////////////
+                        // Ubicacion
                         textViewPais.setText(adapterNegocioPerfil.getPais());
                         textViewProvincia.setText(adapterNegocioPerfil.getProvincia()+",");
                         textViewCiudad.setText(adapterNegocioPerfil.getCiudad()+",");
@@ -923,15 +923,37 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         sCategoria =adapterNegocioPerfil.getCategoria();
                         if(sCategoria ==null){
                             sCategoria ="null";
-                        }else{
-                            //-Habilita objeto vista y esconde button (commpletar perfil)
-                            ControlVisivilidadContenido("PerfilCompleto");
                         }
 
-                        //title
+                        //-------- Toolbar
+
+                        // Nombre del negocio
                         textViewTitle.setText(adapterNegocioPerfil.getNombre_negocio());
 
                         // Imagen de perfil
+                        if(!adapterNegocioPerfil.getImagen_perfil().equals("default")){
+
+                            CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
+
+                            // Carga la imagen de perfil
+                            Context context=CircleImageView_Title.getContext();
+                            Glide.with(context)
+                                    .load(adapterNegocioPerfil.getImagen_perfil())
+                                    .fitCenter()
+                                    .centerCrop()
+                                    .into(CircleImageView_Title);
+
+                        }else{
+                            //Asignacion de icono de la categoria
+                            try{
+
+                                int id = getResources().getIdentifier("logo_"+ sCategoria.toLowerCase(), "mipmap", getPackageName());
+                                CircleImageView_Title.setImageResource(id);
+                                CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
+
+                            }catch (Exception ex){ Toast.makeText(MainActivity_interface_principal.this,ex.toString(),Toast.LENGTH_LONG).show(); }
+                        }
+
                         CircleImageView_Title.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -985,10 +1007,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                                 break;
                                             case 2:
                                                 break;
-
-
-
-
                                         }
                                     }
                                 });
@@ -999,28 +1017,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
                             }
                         });
-
-                        // Condición
-                        if(!adapterNegocioPerfil.getImagen_perfil().equals("default")){
-
-                            CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
-
-                            // Carga la imagen de perfil
-                            Context context=CircleImageView_Title.getContext();
-                            Glide.with(context)
-                                    .load(adapterNegocioPerfil.getImagen_perfil())
-                                    .fitCenter()
-                                    .centerCrop()
-                                    .into(CircleImageView_Title);
-
-                        }else{
-                            //Asignacion de icono de la categoria
-
-                            int id = getResources().getIdentifier("logo_"+ sCategoria, "mipmap", getPackageName());
-                            CircleImageView_Title.setImageResource(id);
-                            CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
-
-                        }
 
 
 
