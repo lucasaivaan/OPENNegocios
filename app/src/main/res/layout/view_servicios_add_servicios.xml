@@ -13,8 +13,9 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:elevation="2dp"
+        app:cardBackgroundColor="@color/blanco_gris"
         app:cardCornerRadius="45dp"
-        app:cardElevation="1dp">
+        app:cardElevation="5dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_servicios"
