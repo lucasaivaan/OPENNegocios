@@ -123,17 +123,18 @@
     <!-- -->
 
     <!--  Categoria -->
-    <string name="cat_maxi_kiosco">"maxi-kiosco"</string>
-    <string name="cat_kiosco">"kiosco"</string>
-    <string name="cat_almacen">"almacen"</string>
-    <string name="cat_mercado">"mercado"</string>
-    <string name="cat_pizzeria">"pizzeria"</string>
-    <string name="cat_carniceria">"carniceria"</string>
-    <string name="cat_verduleria">"verduleria"</string>
-    <string name="cat_panaderia">"panaderia"</string>
-    <string name="cat_pescaderia">"pescaderia"</string>
-    <string name="cat_heladeria">"heladeria"</string>
-    <string name="cat_ferreteria">"ferreteria"</string>
+    <string name="cat_maxi_kiosco">"MAXI-KIOSCO"</string>
+    <string name="cat_kiosco">"KIOSCO"</string>
+    <string name="cat_almacen">"ALMACEN"</string>
+    <string name="cat_mercado">"MERCADO"</string>
+    <string name="cat_pizzeria">"PIZZERIA"</string>
+    <string name="cat_carniceria">"CARNICERIA"</string>
+    <string name="cat_verduleria">"VERDULERIA"</string>
+    <string name="cat_panaderia">"PANADERIA"</string>
+    <string name="cat_pescaderia">"PESCADERIA"</string>
+    <string name="cat_heladeria">"HELADERIA"</string>
+    <string name="cat_ferreteria">"FERRETERIA"</string>
+
 
     <!--  Categoria color -->
     <string name="color_default">"ffffff"</string>
