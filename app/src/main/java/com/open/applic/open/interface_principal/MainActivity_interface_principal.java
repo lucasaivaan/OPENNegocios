@@ -18,7 +18,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -95,6 +94,7 @@ import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_Ofertas;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_Reseñas;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_Servicios;
+import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_Servicios_all;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_horario;
 import com.open.applic.open.interface_principal.adaptadores.adapter_reseña;
 import com.open.applic.open.interface_principal.adaptadores.adapter_servicios_negocio;
@@ -193,6 +193,12 @@ public class MainActivity_interface_principal extends AppCompatActivity
     public List<adapter_servicios_negocio> adapterServiciosNegocios;
     public adapter_recyclerView_Servicios adapterRecyclerViewServicios;
 
+    // FloatService ADD
+    private RecyclerView view_recyclerview_Servicios;
+    private List<adapter_servicios_negocio> view_adapterServiciosNegocios;
+    private adapter_recyclerView_Servicios_all view_adapter_recyclerView_Servicios_all;
+    private adapter_servicios_negocio view_Item_Negocio=new adapter_servicios_negocio();
+
     private TextView notificacion_no_servicio_creada;
     //values
     private String ic_name="default";
@@ -217,8 +223,10 @@ public class MainActivity_interface_principal extends AppCompatActivity
     ////////////////////////////////////// NEGOCIO /////////////////////////////////////////////////
 
     private  int valueContClient;
+
     // Inten Result
     private static int ID_Intent_Result_ImagenPerfil =3;
+
     // Adaptadores de Perfiles
     public adapter_profile_negocio adaptert_Profile;
     public adapter_perfil_cuenta perfilCuenta;
@@ -1162,16 +1170,8 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             //---Carga todos los datos en el adaptador de Servicios al adaptador
                             adapter_servicios_negocio adapterServicios = doc.toObject(adapter_servicios_negocio.class);
 
-                            //Asigna el icono al adaptador del servicio
-                            if(adapterServicios.getIc_name()!=null){
-                                adapterServicios.setIc_servico(LoadIconService(adapterServicios.getIc_name()));
-                                adapterServicios.setId(doc.getId());
-                                adapterServiciosNegocios.add(adapterServicios);
-                            }else{
-                                adapterServicios.setIc_servico(LoadIconService("default"));
-                                adapterServiciosNegocios.add(adapterServicios);
-                            }
-
+                            adapterServicios.setId(doc.getId());  // ID del item
+                            adapterServiciosNegocios.add(adapterServicios);
                         }
                         adapterRecyclerViewServicios.notifyDataSetChanged();
                     }
@@ -1370,43 +1370,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 });
 
 
-
-    }
-
-    public Drawable LoadIconService(String titulo) {
-
-
-        if (titulo.equals( getResources().getString(R.string.service_sube_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_sube);
-        } else if (titulo.equals( getResources().getString(R.string.service_recarga_movil_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_carga_movil);
-        } else if (titulo.equals( getResources().getString(R.string.service_pagofacil_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_pagofacil);
-        } else if (titulo.equals( getResources().getString(R.string.service_cobroexpress_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_cobro_express);
-        } else if (titulo.equals( getResources().getString(R.string.service_rapipago_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_rapipago);
-        } else if (titulo.equals( getResources().getString(R.string.service_directvprepago_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_directv);
-        } else if (titulo.equals( getResources().getString(R.string.service_impresion_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_impresion);
-        } else if (titulo.equals( getResources().getString(R.string.service_delivery_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_delivery);
-        } else if (titulo.equals( getResources().getString(R.string.service_deliverypizza_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_deliverypizza);
-        } else if (titulo.equals( getResources().getString(R.string.service_wifi_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_wifi);
-        } else if (titulo.equals( getResources().getString(R.string.service_restaurant))) {
-            return getResources().getDrawable(R.mipmap.ic_service_restaurant);
-        } else if (titulo.equals( getResources().getString(R.string.service_24))) {
-            return getResources().getDrawable(R.mipmap.ic_service_24);
-        } else if (titulo.equals( getResources().getString(R.string.service_wifi_titulo))) {
-            return getResources().getDrawable(R.mipmap.ic_service_wifi);
-        } else if (titulo.equals( getResources().getString(R.string.service_tarjeta_credito))) {
-            return getResources().getDrawable(R.mipmap.ic_service_tarjeta_credito);
-        }else {
-            return getResources().getDrawable(R.mipmap.ic_service_default);
-        }
 
     }
 
@@ -2159,6 +2122,14 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
     }
     public void ButtonAddService(View view){
+
+        // Valores para la base de datos
+        String sPAIS=adaptert_Profile.getPais().toUpperCase(); // Convierte a mayuscula
+        String sCATEGORIA=adaptert_Profile.getCategoria().toUpperCase(); // Convierte a mayuscula
+
+
+
+
         //Crea el ventanta flotante
         LayoutInflater inflater = getLayoutInflater();
         View dialoglayout = inflater.inflate(R.layout.view_servicios_add_servicios, null);
@@ -2166,215 +2137,37 @@ public class MainActivity_interface_principal extends AppCompatActivity
         builder.setView(dialoglayout);
         alertDialogClient=builder.show();
 
-        //---------------------------------- EditText ----------------------------
+        //Instancias
         final EditText editTextTitle;
         final EditText editTextDescription;
+
+
         //--Reference
         editTextTitle=(EditText) dialoglayout.findViewById(R.id.editText_title_serv);
         editTextDescription=(EditText) dialoglayout.findViewById(R.id.editText_descripciom_serv);
         LinearLayout buttonAcept=(LinearLayout) dialoglayout.findViewById(R.id.LinealLayout_button_acept_servicio);
 
-        //Buttton ImageView Servicios items
-        ImageView ButtonServiceDefault=(ImageView)  dialoglayout.findViewById(R.id.ic_service_default);
+        // Recycler
+        //---Click en el item seleccionado
+        view_recyclerview_Servicios =(RecyclerView) dialoglayout.findViewById(R.id.recyclerview_servicios);
+        view_recyclerview_Servicios.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        //--Adaptadores
+        view_adapterServiciosNegocios =new ArrayList<>();
+        view_adapter_recyclerView_Servicios_all =new adapter_recyclerView_Servicios_all(view_adapterServiciosNegocios);
 
-        ImageView ButtonServiceSube=(ImageView)  dialoglayout.findViewById(R.id.ic_service_sube);
-        ButtonServiceSube.setVisibility(View.GONE);
-
-        ImageView ButtonServiceCargaMovil=(ImageView)  dialoglayout.findViewById(R.id.ic_service_carga_movil);
-        ButtonServiceCargaMovil.setVisibility(View.GONE);
-
-        ImageView ButtonServicepagoFacil=(ImageView)  dialoglayout.findViewById(R.id.ic_service_pagofacil);
-        ButtonServicepagoFacil.setVisibility(View.GONE);
-
-        ImageView ButtonServiceCobroExpress=(ImageView)  dialoglayout.findViewById(R.id.ic_service_cobroexpress);
-        ButtonServiceCobroExpress.setVisibility(View.GONE);
-
-        ImageView ButtonServiceRapiPago=(ImageView)  dialoglayout.findViewById(R.id.ic_service_rapipago);
-        ButtonServiceRapiPago.setVisibility(View.GONE);
-
-        ImageView ButtonServiceDirectvPrePago=(ImageView)  dialoglayout.findViewById(R.id.ic_service_directvprepago);
-        ButtonServiceDirectvPrePago.setVisibility(View.GONE);
-
-        ImageView ButtonServiceImpresion=(ImageView)  dialoglayout.findViewById(R.id.ic_service_impresion);
-        ButtonServiceImpresion.setVisibility(View.GONE);
-
-        ImageView ButtonServiceDelivery=(ImageView)  dialoglayout.findViewById(R.id.ic_service_delivery);
-        ButtonServiceDelivery.setVisibility(View.GONE);
-
-        ImageView ButtonServiceDeliveryPizza=(ImageView)  dialoglayout.findViewById(R.id.ic_service_deliverypizza);
-        ButtonServiceDeliveryPizza.setVisibility(View.GONE);
-
-        ImageView ButtonServiceWifi=(ImageView)  dialoglayout.findViewById(R.id.ic_service_wifi);
-        ButtonServiceWifi.setVisibility(View.GONE);
-
-        ImageView ButtonServiceTarjetaCredito=(ImageView)  dialoglayout.findViewById(R.id.ic_tarjeta_credito);
-        ButtonServiceTarjetaCredito.setVisibility(View.GONE);
-
-        ImageView ButtonService24=(ImageView)  dialoglayout.findViewById(R.id.ic_service_24);
-        ButtonService24.setVisibility(View.GONE);
-
-        ImageView ButtonServiceRestaurant=(ImageView)  dialoglayout.findViewById(R.id.ic_service_restaurant);
-        ButtonServiceRestaurant.setVisibility(View.GONE);
-
-        // Control de visibilidad
-        if(sCategoria.equals(getResources().getString(R.string.cat_kiosco))){
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceSube.setVisibility(View.VISIBLE);
-            ButtonServiceCargaMovil.setVisibility(View.VISIBLE);
-            ButtonServicepagoFacil.setVisibility(View.VISIBLE);
-            ButtonServiceCobroExpress.setVisibility(View.VISIBLE);
-            ButtonServiceRapiPago.setVisibility(View.VISIBLE);
-            ButtonServiceDirectvPrePago.setVisibility(View.VISIBLE);
-            ButtonServiceImpresion.setVisibility(View.VISIBLE);
-            ButtonServiceWifi.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_almacen))){
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_pizzeria))){
-
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceDeliveryPizza.setVisibility(View.VISIBLE);
-            ButtonServiceWifi.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-            ButtonServiceRestaurant.setVisibility(View.VISIBLE);
-
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_verduleria))){
-
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceDelivery.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_carniceria))){
-
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceDelivery.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_panaderia))){
-
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceDelivery.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_heladeria))){
-
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceDelivery.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_ferreteria))){
-
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-
-        }else if(sCategoria.equals(getResources().getString(R.string.cat_pescaderia))){
-
-            ButtonService24.setVisibility(View.VISIBLE);
-            ButtonServiceDelivery.setVisibility(View.VISIBLE);
-            ButtonServiceTarjetaCredito.setVisibility(View.VISIBLE);
-        }
-
-        //------------------------------ OnClick items service------------------------------------
-        ButtonServiceDefault.setOnClickListener(new View.OnClickListener() {
+        view_adapter_recyclerView_Servicios_all.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                editTextTitle.setText("");
-                editTextDescription.setText("");
+            public void onClick(final View view) {
+
+                view_Item_Negocio=view_adapterServiciosNegocios.get(view_recyclerview_Servicios.getChildAdapterPosition(view));
+
+                editTextTitle.setText(view_Item_Negocio.getTitulo());
+                editTextDescription.setText(view_Item_Negocio.getDescripcion());
+
             }});
 
-        ButtonServiceSube.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_sube_titulo);
-                editTextTitle.setText(R.string.service_sube_titulo);
-                editTextDescription.setText(R.string.service_sube_descripcion);
-            }});
-        ButtonServiceCargaMovil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_recarga_movil_titulo);
-                editTextTitle.setText(R.string.service_recarga_movil_titulo);
-                editTextDescription.setText(R.string.service_recarga_movil_descripcion);
-            }});
-        ButtonServicepagoFacil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_pagofacil_titulo);
-                editTextTitle.setText(R.string.service_pagofacil_titulo);
-                editTextDescription.setText(R.string.service_pagofacil_descripcion);
-            }});
-        ButtonServiceCobroExpress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_cobroexpress_titulo);
-                editTextTitle.setText(R.string.service_cobroexpress_titulo);
-                editTextDescription.setText(R.string.service_cobroexpress_descripcion);
-            }});
-        ButtonServiceRapiPago.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name=getResources().getString(R.string.service_rapipago_titulo);
-                editTextTitle.setText(R.string.service_rapipago_titulo);
-                editTextDescription.setText(R.string.service_rapipago_descripcion);
-            }});
-        ButtonServiceDirectvPrePago.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_directvprepago_titulo);
-                editTextTitle.setText(R.string.service_directvprepago_titulo);
-                editTextDescription.setText(R.string.service_directvprepago_descripcion);
-            }});
-        ButtonServiceImpresion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_impresion_titulo);
-                editTextTitle.setText(R.string.service_impresion_titulo);
-                editTextDescription.setText(R.string.service_impresion_descripcion);
-            }});
-        ButtonServiceDelivery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_delivery_titulo);
-                editTextTitle.setText(R.string.service_delivery_titulo);
-                editTextDescription.setText(R.string.service_delivery_descripcion);
-            }});
-        ButtonServiceDeliveryPizza.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_deliverypizza_titulo);
-                editTextTitle.setText(R.string.service_deliverypizza_titulo);
-                editTextDescription.setText(R.string.service_deliverypizza_descripcion);
-            }});
-        ButtonServiceWifi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_wifi_titulo);
-                editTextTitle.setText(R.string.service_wifi_titulo);
-                editTextDescription.setText(R.string.service_wifi_descripcion);
-            }});
-        ButtonServiceTarjetaCredito.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_tarjeta_credito);
-                editTextTitle.setText(R.string.service_tarjeta_credito);
-                editTextDescription.setText(R.string.service_tarjeta_credito_descripcion);
-            }});
-        ButtonService24.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_24);
-                editTextTitle.setText(R.string.service_24);
-                editTextDescription.setText(R.string.service_24_descripcion);
-            }});
-        ButtonServiceRestaurant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ic_name= getResources().getString(R.string.service_restaurant);
-                editTextTitle.setText(R.string.service_restaurant);
-                editTextDescription.setText(R.string.service_restaurant_descripcion);
-            }});
+        view_recyclerview_Servicios.setAdapter(view_adapter_recyclerView_Servicios_all);
+
 
 
         //------------------------------ OnClick Aceptar------------------------------------
@@ -2386,27 +2179,52 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 String descripcion=editTextDescription.getText().toString();
 
                 if(!tittle.equals("")  ){
-                    if(tittle.length()<=28 ){
-                        if(descripcion.length()<=75 ){
+                    if(tittle.length()<=30 ){
+                        if(descripcion.length()<=80 ){
 
                             // Suma puntos
                             PuntosCuenta.SumaPuntos(MainActivity_interface_principal.this,5,"");
 
-                            // Create a new user with a first and last name
-                            Map<String, Object> valueOfettas = new HashMap<>();
-                            valueOfettas.put("titulo",tittle);
-                            valueOfettas.put("descripcion",descripcion);
-                            valueOfettas.put("ic_name",ic_name);
+                            // Set
+                            view_Item_Negocio.setTitulo(tittle);
+                            view_Item_Negocio.setDescripcion(descripcion);
 
                             //Guarda los dato en la base de datos
-                            db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_SERVICIOS)  ).add(valueOfettas);
+                            db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_SERVICIOS)  ).add(view_Item_Negocio);
 
+                            // Reset
+                            view_Item_Negocio=null;
+                            view_Item_Negocio=new adapter_servicios_negocio();
 
                             //---Finaliza ventana flotante
                             alertDialogClient.dismiss();
+
                         }else{Toast.makeText(MainActivity_interface_principal.this,R.string.la_descripcion_demasiado_largo,Toast.LENGTH_SHORT).show();}
                     }else{Toast.makeText(MainActivity_interface_principal.this,R.string.el_titulo_demasiado_largo,Toast.LENGTH_SHORT).show();}
                 }else{Toast.makeText(MainActivity_interface_principal.this,R.string.uno_o_mas_campos_estan_vacios,Toast.LENGTH_SHORT).show();}
+            }
+        });
+
+
+        // BASE DE DATOS FIRESTORE
+        CollectionReference collectionReference=db.collection(  getString(R.string.DB_APP)  ).document(  sPAIS  ).collection(  getString(R.string.DB_SERVICIOS)  ).document( getString(R.string.DB_CATEGORIA) ).collection( sCATEGORIA );
+        collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                view_adapterServiciosNegocios.removeAll(view_adapterServiciosNegocios);
+
+
+                for (DocumentSnapshot doc : task.getResult()) {
+
+                    //---Carga todos los datos en el adaptador de Servicios al adaptador
+                    adapter_servicios_negocio adapterServicios = doc.toObject(adapter_servicios_negocio.class);
+
+
+                    adapterServicios.setId(doc.getId());
+                    view_adapterServiciosNegocios.add(adapterServicios);
+
+                }
+                view_adapter_recyclerView_Servicios_all.notifyDataSetChanged();
             }
         });
     }
