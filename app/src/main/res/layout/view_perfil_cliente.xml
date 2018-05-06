@@ -25,9 +25,9 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layout_stylo"
                 android:layout_width="match_parent"
                 android:layout_height="253dp"
-                android:background="@mipmap/fondo_card_perfil"
                 android:orientation="vertical">
 
                 <android.support.constraint.ConstraintLayout
@@ -77,6 +77,31 @@
                     android:textAlignment="center"
                     android:textColor="@color/cardview_light_background"
                     android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_reseñas"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView20"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@mipmap/ic_review" />
+
+                <TextView
+                    android:id="@+id/textView22_reseñasa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/reseñas"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
             <LinearLayout

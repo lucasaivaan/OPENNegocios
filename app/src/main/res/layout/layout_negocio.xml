@@ -641,14 +641,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:layout_weight="1"
+                            android:layout_weight="3"
                             android:background="@drawable/edittextview_style1"
                             android:elevation="2dp"
                             android:hint="@string/escriba_un_mensaje"
                             android:padding="10dp"
                             android:textColor="@color/textColorSecundario"
                             android:textColorHint="@color/textColorSecundario"
-                            android:textSize="24sp" />
+                            android:textSize="18sp" />
 
                         <Button
                             android:id="@+id/btnEnviar"
@@ -664,7 +664,7 @@
                             android:text="@string/publicar"
                             android:textAllCaps="true"
                             android:textColor="@color/cardview_light_background"
-                            android:textSize="24sp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                     <TextView

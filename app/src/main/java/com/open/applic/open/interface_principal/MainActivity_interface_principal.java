@@ -1190,6 +1190,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
             @Override
             public void onClick(final View view2) {
 
+                //Adaptador perfil del cliente
+                adapter_perfil_clientes adapterPerfilClientes = adapterClientesNegocios.get(recyclerViewClientes.getChildAdapterPosition(view2));
+
                 //////////////////////////////// Cuadro de Dialog //////////////////////////////////
                 final Dialog dialog = new Dialog(MainActivity_interface_principal.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1207,22 +1210,46 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 CircleImageView imagePerfil = (CircleImageView) dialog.findViewById(R.id.imageView_perfilcliente);
                 TextView textView_Nombre = (TextView) dialog.findViewById(R.id.textView_nombre);
                 final TextView textView_Telefono = (TextView) dialog.findViewById(R.id.textView_telefono);
+                TextView tReseña=(TextView) dialog.findViewById(R.id.textView22_reseñasa);
                 ProgressBar progressBar = (ProgressBar) dialog.findViewById(R.id.progressBar2);
+                LinearLayout layout_Cardstylo=(LinearLayout) dialog.findViewById(R.id.layout_stylo);
+                LinearLayout linearLayoutReseña=(LinearLayout)dialog.findViewById(R.id.layout_reseñas);
 
+                // Reseñas
+                if(adapterPerfilClientes.getNumreseñas() != null){
+                    linearLayoutReseña.setVisibility(View.VISIBLE);
 
-                // Onclick telefono
-                linearLayoutPhone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    int iNumeroReseña= adapterPerfilClientes.getNumreseñas().intValue();
 
-                        Intent i = new Intent(Intent.ACTION_DIAL);
-                        i.setData(Uri.parse("tel:" + textView_Telefono.getText().toString()));
-                        startActivity(i);
+                    tReseña.setText( iNumeroReseña +" "+getResources().getString(R.string.reseñas));
+
+                }else{
+                    linearLayoutReseña.setVisibility(View.GONE);
+
+                }
+
+                //stilo de tarjeta
+                Context context = layout_Cardstylo.getContext();
+                if(adapterPerfilClientes.getCardlayout() !=null && adapterPerfilClientes.getCardlayout() != ""){
+
+                    if(adapterPerfilClientes.getCardlayout().equals("default")){
+                        //layout_Cardstylo.setBackgroundColor(Color.parseColor(aPerfilUsuario.getColor()));
+                    }else {
+                        int id = context.getResources().getIdentifier( adapterPerfilClientes.getCardlayout(), "mipmap", context.getPackageName());
+                        layout_Cardstylo.setBackgroundResource(id);
+
+                        // nombre color
+                        //editTextNombre.setTextColor(Color.parseColor(aPerfilUsuario.getColor()));
                     }
-                });
+
+                }else{
+                    //layout_Cardstylo.setBackgroundColor(Color.parseColor(aPerfilUsuario.getColor()));
+                }
 
 
-                adapter_perfil_clientes adapterPerfilClientes = adapterClientesNegocios.get(recyclerViewClientes.getChildAdapterPosition(view2));
+
+
+
 
                 if (adapterPerfilClientes.getLocal() == false) {
 
@@ -1248,6 +1275,18 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     //---- Telefono
                     if (!adapterPerfilClientes.getTelefono().equals("")) {
                         textView_Telefono.setText(adapterPerfilClientes.getTelefono());
+
+                        // Onclick telefono
+                        linearLayoutPhone.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                Intent i = new Intent(Intent.ACTION_DIAL);
+                                i.setData(Uri.parse("tel:" + textView_Telefono.getText().toString()));
+                                startActivity(i);
+                            }
+                        });
+
                     } else { textView_Telefono.setText(getString(R.string.sin_telefono)); }
 
                     // Imagen
