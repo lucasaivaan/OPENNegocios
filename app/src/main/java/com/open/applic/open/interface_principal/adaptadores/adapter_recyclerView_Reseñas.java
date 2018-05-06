@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,7 +75,8 @@ public class adapter_recyclerView_Reseñas extends RecyclerView.Adapter<adapter_
 
                 //Asignacion de icono de la categoria
                 Context context = holder.circleImageView.getContext();
-                int id = context.getResources().getIdentifier("logo_"+ adapterReseña.getFotoPerfil(), "mipmap", context.getPackageName());
+                int id= icono.getIconLogoCategoria(adapterReseña.getFotoPerfil(),context);
+
                 holder.circleImageView.setBackgroundResource(id);
 
             }else{

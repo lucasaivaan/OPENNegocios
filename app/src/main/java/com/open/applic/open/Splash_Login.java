@@ -31,6 +31,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.create_form_profile.Add_info_profile;
 import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_cuenta;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
 
 public class Splash_Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -39,14 +40,13 @@ public class Splash_Login extends AppCompatActivity implements GoogleApiClient.O
     private ProgressBar progressBar4;
     private LinearLayout layout_nInternet;
 
-    // STATIC VARIABLE GLOBAL
-    public static String ID_NEGOCIO;
-    public static String ID_USUARIO;
-    public static String ID_PAIS;
 
 
-    public  SharedPreferences misPreferencias ;
-    private String PREFS_KEY = "MisPreferencias";
+
+
+
+    //  VARIABLE
+    public String ID_NEGOCIO;
 
 
     private GoogleApiClient googleApiClient;
@@ -76,7 +76,6 @@ public class Splash_Login extends AppCompatActivity implements GoogleApiClient.O
 
 
         // References
-        misPreferencias= getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
         progressBar4=(ProgressBar) findViewById(R.id.progressBar4);
         layout_nInternet=(LinearLayout) findViewById(R.id.lineallayout_no_internet);
 
@@ -175,18 +174,13 @@ public class Splash_Login extends AppCompatActivity implements GoogleApiClient.O
     }
     private void ComprobacionUsuario() {
 
-        String PrefCorreo = misPreferencias.getString("email", null);
-        final String PrefId_negocio = misPreferencias.getString("ID_NEGOCIO", null);
+        String PrefCorreo =SharePreferencesAPP.getID_USUARIO( Splash_Login.this);
+        final String PrefId_negocio =SharePreferencesAPP.getID_NEGOCIO( Splash_Login.this);
 
         if(PrefCorreo != null && PrefId_negocio != null && PrefCorreo.equals(firebaseUser.getEmail())){
 
-            // Inicio mas rapido mediante mis preferencias
-            // Asigna la Id del negocio a la variable global
-            ID_NEGOCIO=PrefId_negocio;
-            ID_USUARIO=PrefCorreo;
-
+            // Inicio mas rapido mediante mis preferencia
             goMainScreen();
-
 
         }else {
 
@@ -214,14 +208,11 @@ public class Splash_Login extends AppCompatActivity implements GoogleApiClient.O
 
                                                    // Asigna la Id del negocio a la variable global
                                                     ID_NEGOCIO=docRef.getId();
-                                                    ID_USUARIO=firebaseUser.getEmail();
                                                     estado=true;
 
-                                                    Toast.makeText(Splash_Login.this,"registe!!!",Toast.LENGTH_LONG).show();
-                                                    SharedPreferences.Editor editor = misPreferencias.edit();
-                                                    editor.putString("email",firebaseUser.getEmail());
-                                                    editor.putString("ID_NEGOCIO", docRef.getId());
-                                                    editor.commit();
+                                                    // datos de APP SharePreferences
+                                                    SharePreferencesAPP.setID_NEGOCIO(  firebaseUser.getEmail()  ,Splash_Login.this);
+                                                    SharePreferencesAPP.setID_NEGOCIO(  docRef.getId()  ,Splash_Login.this);
 
                                                     goMainScreen();
 

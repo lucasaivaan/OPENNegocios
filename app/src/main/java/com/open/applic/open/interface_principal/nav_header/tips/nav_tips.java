@@ -2,6 +2,7 @@ package com.open.applic.open.interface_principal.nav_header.tips;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -41,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
 import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.tips.adaptador.adapter_recyclerView_Tips;
 import com.open.applic.open.interface_principal.nav_header.tips.adaptador.adapter_tips;
 
@@ -50,8 +52,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 public class nav_tips extends AppCompatActivity {
 
@@ -78,6 +78,11 @@ public class nav_tips extends AppCompatActivity {
     private static final int idIntent_addImagenTips=1;
     public byte[] bFotoTips;
 
+    // DAtos SharePreferencesAPP
+    private String PREFS_KEY = "MisPreferencias";
+    public SharedPreferences misPreferencias;
+    private String ID_NEGOCIO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,9 @@ public class nav_tips extends AppCompatActivity {
 
         //---introduce button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Datos APP
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
 
 
         sCatgoria_Tips=getIntent().getExtras().getString("parametro");
@@ -251,7 +259,7 @@ public class nav_tips extends AppCompatActivity {
                             desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    PuntosCuenta.RestaPuntos(5);
+                                    PuntosCuenta.RestaPuntos(5,nav_tips.this);
 
                                 }
                             });

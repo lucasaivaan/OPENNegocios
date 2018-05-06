@@ -24,11 +24,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_horario;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_horario;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
+
 
 public class Panel_Horarios extends AppCompatActivity {
 
@@ -50,7 +51,9 @@ public class Panel_Horarios extends AppCompatActivity {
     public List<adapter_horario> adapterHorarios;
     public adapter_recyclerView_horario adapterRecyclerViewHorarios;
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    private String ID_NEGOCIO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,10 @@ public class Panel_Horarios extends AppCompatActivity {
 
         //---introduce button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Datos APP
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
+
 
 
         if(!ID_NEGOCIO.equals("null")){ID=firebaseUser.getUid();}

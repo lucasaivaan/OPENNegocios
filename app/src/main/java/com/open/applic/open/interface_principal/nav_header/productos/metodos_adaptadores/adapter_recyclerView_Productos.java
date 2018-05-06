@@ -1,6 +1,7 @@
 package com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -21,12 +22,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 /**
  * Created by lucas on 26/10/2017.
@@ -35,6 +35,9 @@ import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 public class adapter_recyclerView_Productos extends RecyclerView.Adapter<adapter_recyclerView_Productos.homeViwHolder>
         implements View.OnClickListener{
 
+
+
+    private String ID_NEGOCIO;
     private final Context context;
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     List<adapter_producto> adapter_productoList;
@@ -60,6 +63,10 @@ public class adapter_recyclerView_Productos extends RecyclerView.Adapter<adapter
     @Override
     public void onBindViewHolder(final homeViwHolder holder, int position) {
         final adapter_producto adapterProducto= adapter_productoList.get(position);
+
+        //Datos APP
+        ID_NEGOCIO = SharePreferencesAPP.getID_NEGOCIO(context);
+
 
         if(adapterProducto.getInfo1() != null){
             holder.datoMarca.setText(adapterProducto.getInfo1());

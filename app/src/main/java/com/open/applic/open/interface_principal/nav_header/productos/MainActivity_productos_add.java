@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,6 +47,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_producto;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_recyclerView_Productos;
 
@@ -59,11 +59,12 @@ import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
-import static com.open.applic.open.Splash_Login.ID_PAIS;
-
 public class MainActivity_productos_add extends AppCompatActivity   implements AdapterView.OnItemSelectedListener{
+
+    // DAtos SharePreferencesAPP
+    public String ID_NEGOCIO;
+
+
 
     //TOllbar
     public EditText editText_Toolbar_Seach;
@@ -108,7 +109,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
 
     //-Storage
-    // Create a storage reference from our app
+    // Create a storage reference from our SharePreferencesAPP
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     // Create a reference to the file to delete
@@ -134,6 +135,9 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
 
         //---introduce button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Datos APP SharePreferences commit
+        ID_NEGOCIO=SharePreferencesAPP.getID_NEGOCIO(this);
 
 
         // Rederece
@@ -349,7 +353,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
 
 
         //   BASE DE DATOS
-        CollectionReference collectionReference=db.collection(getString(R.string.DB_APP)).document(ID_PAIS).collection( getString(R.string.DB_PRODUCTOS) ).document(getString(R.string.DB_CATEGORIA)).collection(Categoria_1);
+        CollectionReference collectionReference=db.collection(getString(R.string.DB_APP)).document( SharePreferencesAPP.getPAIS(this) ).collection( getString(R.string.DB_PRODUCTOS) ).document(getString(R.string.DB_CATEGORIA)).collection(Categoria_1);
 
         // .whereEqualTo( getString(R.string.db_producto_categoria ),sProvincia)
         collectionReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -404,7 +408,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
     }
 
     public void BuscarProducto(String Categoria,final String producto){
-        CollectionReference collectionReference1=db.collection(getString(R.string.DB_APP)).document(ID_PAIS).collection( getString(R.string.DB_PRODUCTOS) ).document(getString(R.string.DB_CATEGORIA)).collection(Categoria);
+        CollectionReference collectionReference1=db.collection(getString(R.string.DB_APP)).document( SharePreferencesAPP.getPAIS(this) ).collection( getString(R.string.DB_PRODUCTOS) ).document(getString(R.string.DB_CATEGORIA)).collection(Categoria);
 
         // .whereEqualTo( getString(R.string.db_producto_categoria ),sProvincia)
         collectionReference1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

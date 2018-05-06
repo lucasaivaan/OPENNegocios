@@ -45,6 +45,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
 import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_producto;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_recyclerView_ProductosNegocio;
 
@@ -57,7 +58,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 public class MainActivity_productos extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
@@ -93,8 +93,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     private adapter_profile_negocio adapterProfileNegocio;
 
     //-Storage
-    // Storage
-    // Create a storage reference from our app
+    // Create a storage reference from our SharePreferencesAPP
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     // Create a reference to the file to delete
@@ -107,6 +106,9 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
     String idUnicoProducto;
 
     private ProgressBar progressBar_foto;
+
+    private String ID_NEGOCIO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +122,8 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        // Datos APP SharePreferences commit
+        ID_NEGOCIO=SharePreferencesAPP.getID_NEGOCIO(this);
 
 
         // Reference
@@ -261,7 +265,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                         desertRef.delete();
 
                         // Resta punto
-                        PuntosCuenta.RestaPuntos(1);
+                        PuntosCuenta.RestaPuntos(1,MainActivity_productos.this);
 
                         // Reset
                         idUnicoProducto=null;

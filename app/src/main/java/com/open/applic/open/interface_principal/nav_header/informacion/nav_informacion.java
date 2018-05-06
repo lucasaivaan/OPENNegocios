@@ -39,7 +39,7 @@ public class nav_informacion extends AppCompatActivity {
         DocumentReference documentSnapshot=db.collection(  getString(R.string.DB_APP)  ).document(  getString(R.string.DB_INFORMACION)  );
 
 
-        // Consulta informacion del app
+        // Consulta informacion del SharePreferencesAPP
         documentSnapshot.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

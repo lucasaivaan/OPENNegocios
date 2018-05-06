@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.IBinder;
@@ -24,13 +25,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.nav_header.chat.Chat_principal;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
-
 /**
  * Created by ivan on 24/1/2018.
  */
 
 public class ServiseNotify extends Service {
+
+    // DAtos SharePreferencesAPP
+    private String PREFS_KEY = "MisPreferencias";
+    public SharedPreferences misPreferencias;
 
     // FIRESTORE
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -45,6 +48,10 @@ public class ServiseNotify extends Service {
 
     @Override
     public int onStartCommand(Intent intent,int flag,int idProcess){
+
+        // ID negocio
+        misPreferencias= getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
+        String ID_NEGOCIO=misPreferencias.getString("ID_NEGOCIO", null);
 
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction("RSSPullService");

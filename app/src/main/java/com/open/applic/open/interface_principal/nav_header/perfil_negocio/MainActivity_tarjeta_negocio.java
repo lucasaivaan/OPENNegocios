@@ -27,12 +27,13 @@ import com.google.firebase.firestore.SetOptions;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
+
 
 public class MainActivity_tarjeta_negocio extends AppCompatActivity {
 
@@ -51,8 +52,6 @@ public class MainActivity_tarjeta_negocio extends AppCompatActivity {
 
      private int iPuntos;
 
-
-
     // Button
     private Button button_Perzonalizar;
     private Button button_Guardar;
@@ -69,6 +68,8 @@ public class MainActivity_tarjeta_negocio extends AppCompatActivity {
     private CardView style_5;
 
 
+    private String ID_NEGOCIO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,9 @@ public class MainActivity_tarjeta_negocio extends AppCompatActivity {
 
         //---habilita button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Datos APP SharePreferences commit
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
 
         // References
         cardViewNegocio=(CardView) findViewById(R.id.cardView_nengocio);

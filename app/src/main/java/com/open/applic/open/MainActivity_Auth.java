@@ -213,7 +213,7 @@ public class MainActivity_Auth extends AppCompatActivity implements GoogleApiCli
 
     public void ButtonRedireccionamientoOpenNegocios(View view){
 
-        //Redireccionamient a Play Store para la descarga del app
+        //Redireccionamient a Play Store para la descarga del SharePreferencesAPP
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://details?id=com.mypass.applic.mypass&hl"));
 

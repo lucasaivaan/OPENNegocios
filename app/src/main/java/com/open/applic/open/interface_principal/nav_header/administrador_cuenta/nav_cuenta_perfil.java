@@ -33,14 +33,13 @@ import com.google.firebase.storage.UploadTask;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_cuenta;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_Cuentas;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 public class nav_cuenta_perfil extends AppCompatActivity {
 
@@ -61,9 +60,10 @@ public class nav_cuenta_perfil extends AppCompatActivity {
 
     private ProgressBar progressBar_foto;
 
-
     // Firebase AUTH
     private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser(); //datos usuaio actual
+
+    private String ID_NEGOCIO;
 
 
     @Override
@@ -77,6 +77,8 @@ public class nav_cuenta_perfil extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        // Datos APP SharePreferences commit
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
 
         // Read Data
         LoadData();

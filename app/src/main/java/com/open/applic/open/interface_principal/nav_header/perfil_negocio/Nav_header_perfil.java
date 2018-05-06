@@ -36,8 +36,8 @@ import com.open.applic.open.R;
 import com.open.applic.open.create_form_profile.HttpDataHalder;
 import com.open.applic.open.create_form_profile.MapsActivity_profile;
 import com.open.applic.open.create_form_profile.Panel_Horarios;
-import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
 import org.json.JSONArray;
@@ -53,11 +53,12 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 public class Nav_header_perfil extends AppCompatActivity {
 
     private LinearLayout LinealLayout_categoria;
+    private String ID_NEGOCIO;
+
 
     //---Spinner
     public Spinner spinnerCategoria;
@@ -74,10 +75,8 @@ public class Nav_header_perfil extends AppCompatActivity {
     public  double Longitud=0;
 
 
-
     //-- Acceso a una instancia de Cloud Firestore desde la actividad
     private FirebaseFirestore CloudFirestoreDB=FirebaseFirestore.getInstance();
-
 
     //--EditText
     private EditText eProfile_name;
@@ -94,6 +93,7 @@ public class Nav_header_perfil extends AppCompatActivity {
     private EditText geteProfile_descripcion;
     private CircleImageView CircleImageView_Title;
     private TextInputLayout textInputLayoutCategoria;
+
     //imagenn
     private StorageReference storageReferenceGalery;
     public int ID_Intent_Result_ImagenPerfil=3;
@@ -111,6 +111,9 @@ public class Nav_header_perfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_header_perfil);
         setTitle(R.string.perfil);
+
+        //Datos APP
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
 
 
         //-------------------------------- Toolbar -------------------------------------------------
@@ -286,7 +289,7 @@ public class Nav_header_perfil extends AppCompatActivity {
         // Categoria
         String[] stringArrayCategoria = getResources().getStringArray(R.array.categorias);
         for(int x=0;x < stringArrayCategoria.length; x++){
-            if(eProfile_categoria.getText().toString().equals(stringArrayCategoria[x])){
+            if(eProfile_categoria.getText().toString().toUpperCase().equals(stringArrayCategoria[x].toUpperCase())){
                 spinnerCategoria.setSelection(x);
             }
         }
@@ -295,7 +298,7 @@ public class Nav_header_perfil extends AppCompatActivity {
         String[] stringArrayPaises = getResources().getStringArray(R.array.paises);
 
         for(int x=0;x < stringArrayPaises.length; x++){
-            if(eProfile_Pais.getText().toString().equals(stringArrayPaises[x])){
+            if(eProfile_Pais.getText().toString().toUpperCase().equals(stringArrayPaises[x].toUpperCase())){
                 spinnerPais.setSelection(x);
             }
         }
@@ -303,7 +306,7 @@ public class Nav_header_perfil extends AppCompatActivity {
         // Provincia
         String[] stringArrayProvincias = getResources().getStringArray(R.array.provincias);
         for(int x=0;x < stringArrayProvincias.length; x++){
-            if(eProfile_Pais.getText().toString().equals(stringArrayProvincias[x])){
+            if(eProfile_Pais.getText().toString().toUpperCase().equals(stringArrayProvincias[x].toUpperCase())){
                 spinnerProvincia.setSelection(x);
             }
         }

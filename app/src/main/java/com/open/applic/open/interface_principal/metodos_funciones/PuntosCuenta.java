@@ -20,7 +20,6 @@ import com.open.applic.open.R;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 
 public class PuntosCuenta {
@@ -30,6 +29,7 @@ public class PuntosCuenta {
     public static void SumaPuntos(final Context context, Integer iPuntos, final String texto){
 
         try{
+            String ID_NEGOCIO=SharePreferencesAPP.getID_NEGOCIO(context);
             contextView=context;
 
             if(iPuntos==0){iPuntos=1;}
@@ -104,9 +104,10 @@ public class PuntosCuenta {
 
     }
 
-    public static void RestaPuntos(Integer iPuntos){
+    public static void RestaPuntos(Integer iPuntos,Context context){
 
         try{
+            String ID_NEGOCIO=SharePreferencesAPP.getID_NEGOCIO(context);
 
             if(iPuntos==0){iPuntos=1;}
             final Integer finalIPuntos = iPuntos;

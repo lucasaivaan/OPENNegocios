@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.open.applic.open.R;
@@ -55,10 +56,13 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
 
             //Imagen del negocio
             if(listMensaje.get(position).getUrlfotoPerfil().equals("default")){
+
                 // icono
                 Context context =  holder.getFotoMensajePerfil1_1().getContext();
                 int id= icono.getIconLogoCategoria(listMensaje.get(position).getCategoria(),context);
-                holder.getFotoMensajePerfil1_1().setBackgroundResource(id);
+                holder.getFotoMensajePerfil1_1().setImageResource(id);
+
+
             }else{
                 //-Carga la imagen de perfil
                 Glide.with(c).load(listMensaje.get(position).getUrlfotoPerfil()).into(holder.getFotoMensajePerfil1_1());

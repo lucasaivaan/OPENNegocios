@@ -34,11 +34,11 @@ import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_Clientes;
 import com.open.applic.open.interface_principal.metodos_funciones.Buscardor;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 public class Cuenta_principal_list extends AppCompatActivity {
 
@@ -46,6 +46,7 @@ public class Cuenta_principal_list extends AppCompatActivity {
     private ImageView imageView_fondo_img;
 
     private String idCliente;
+    private String ID_NEGOCIO;
 
     public TextView textView_no_cliente;
 
@@ -86,6 +87,10 @@ public class Cuenta_principal_list extends AppCompatActivity {
 
         //---habilita button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //Datos APP
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
+
 
         //__________________________________________________________________________________________
         //Reference

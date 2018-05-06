@@ -4,12 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -101,6 +99,7 @@ import com.open.applic.open.interface_principal.adaptadores.adapter_servicios_ne
 import com.open.applic.open.interface_principal.metodos_funciones.Buscardor;
 import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
 import com.open.applic.open.interface_principal.metodos_funciones.OnSwipeTouchListener;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.MainActivity_tarjeta_negocio;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.Nav_header_perfil;
@@ -128,10 +127,6 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
-import static com.open.applic.open.Splash_Login.ID_PAIS;
-import static com.open.applic.open.Splash_Login.ID_USUARIO;
-
 /**
  * Created by lucas on 23/10/2017.
  */
@@ -149,7 +144,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     private FirebaseFirestore dbFirestoreClientes =FirebaseFirestore.getInstance();
 
 
-    public  SharedPreferences misPreferencias ;
+
     //-- Broadcastreceiver
     public  static  final String MENSAJE="MENSAJE";
 
@@ -224,6 +219,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     ////////////////////////////////////// NEGOCIO /////////////////////////////////////////////////
 
     private  int valueContClient;
+    private String ID_NEGOCIO;
 
     // Inten Result
     private static int ID_Intent_Result_ImagenPerfil =3;
@@ -314,7 +310,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     // Storage
-    // Create a storage reference from our app
+    // Create a storage reference from our SharePreferencesAPP
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
 
@@ -325,6 +321,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_interface_principal_adinistardor);
+
+        // DATOS APP
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(MainActivity_interface_principal.this);
 
 
         ////////////////////////////// Authentication GOOGLE ///////////////////////////////////////
@@ -636,7 +635,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         if(adaptert_Profile.getNombre_negocio() != null){
 
                             //ASIGNA VARIABLE GRLOBAL
-                            ID_PAIS=adaptert_Profile.getPais().toUpperCase();
+                            SharePreferencesAPP.setPAIS(adaptert_Profile.getPais().toUpperCase(),MainActivity_interface_principal.this);
 
 
                             //nombre del negocio
@@ -714,15 +713,10 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 public void onResult(@NonNull Status status) {
                     if (status.isSuccess()) {
 
-                        // References
-                        misPreferencias= getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = misPreferencias.edit();
-                        editor.putString("email",null);
-                        editor.putString("ID_NEGOCIO", null);
-                        ID_NEGOCIO=null;
-                        ID_USUARIO=null;
-                        editor.commit();
-
+                        //Datos APP  Reset Preferencias
+                        SharePreferencesAPP.setID_NEGOCIO(null,MainActivity_interface_principal.this);
+                        SharePreferencesAPP.setID_USUARIO(null,MainActivity_interface_principal.this);
+                        SharePreferencesAPP.setPAIS(null,MainActivity_interface_principal.this);
 
                         // Al cerrar la sescion detiene los servicios
                         stopService(new Intent(MainActivity_interface_principal.this, ServiseNotify.class));
@@ -853,12 +847,12 @@ public class MainActivity_interface_principal extends AppCompatActivity
     }
     @Override
     protected void onPause() {
-        //onPause cuendo la app se minimiza
+        //onPause cuendo la SharePreferencesAPP se minimiza
         super.onPause();
     }
     @Override
     protected void onResume() {
-        //onResume se ejecuta ante que la app empieze a correr despues de ser minimizada
+        //onResume se ejecuta ante que la SharePreferencesAPP empieze a correr despues de ser minimizada
         super.onResume();
 
     }
@@ -952,7 +946,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                 CircleImageView_Title.setImageResource(id);
                                 CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
 
-                            }catch (Exception ex){ Toast.makeText(MainActivity_interface_principal.this,ex.toString(),Toast.LENGTH_LONG).show(); }
+                            }catch (Exception ex){  }
                         }
 
                         CircleImageView_Title.setOnClickListener(new View.OnClickListener() {
@@ -1060,7 +1054,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int id) {
 
                         // Resta puntos
-                        PuntosCuenta.RestaPuntos(2);
+                        PuntosCuenta.RestaPuntos(2,MainActivity_interface_principal.this);
 
                         //---extrae la id de la Oferta
                         String Id=adapterProfileNegociosOfertas.get(recyclerViewOfertas.getChildAdapterPosition(view)).getId();
@@ -1073,7 +1067,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                PuntosCuenta.RestaPuntos(1);
+                                PuntosCuenta.RestaPuntos(1,MainActivity_interface_principal.this);
                             }
                         });
 
@@ -1135,7 +1129,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int id) {
 
                         // Resta puntos
-                        PuntosCuenta.RestaPuntos(5);
+                        PuntosCuenta.RestaPuntos(5,MainActivity_interface_principal.this);
 
                         //Extrae la id del servicio
                         String Id=adapterServiciosNegocios.get(recyclerViewServicios.getChildAdapterPosition(view)).getId();
@@ -1548,7 +1542,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             @Override
                             public void onSuccess(Void aVoid) {
 
-                                PuntosCuenta.RestaPuntos(1);
+                                PuntosCuenta.RestaPuntos(1,MainActivity_interface_principal.this);
                          }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override

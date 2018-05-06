@@ -35,6 +35,7 @@
  import com.google.firebase.firestore.WriteBatch;
  import com.open.applic.open.R;
  import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
+ import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
  import com.open.applic.open.interface_principal.nav_header.chat.adaptador.AdapterMensajes;
  import com.open.applic.open.interface_principal.nav_header.chat.adaptador.MensajeRecibir;
 
@@ -49,16 +50,14 @@
 
  import de.hdodenhof.circleimageview.CircleImageView;
 
- import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
-
  public class Chat_view extends AppCompatActivity {
 
 
+     private String ID_NEGOCIO ;
+
      //---------------------------------- Firestore -------------------------------------------------
      FirebaseFirestore db=FirebaseFirestore.getInstance();
-
      private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(2, 4, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
-
 
      //Auth
      private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser(); //datos usuaio actual
@@ -90,7 +89,8 @@
          //---introduce button de retroceso
          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+         //Datos APP
+         ID_NEGOCIO = SharePreferencesAPP.getID_NEGOCIO(this);
 
          //- Extraxion de dato pasado por parametro
          idClient =getIntent().getStringExtra("parametroIdClient");

@@ -41,6 +41,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.cuentas.adaptadores.adapter_productos;
 import com.open.applic.open.interface_principal.nav_header.cuentas.adaptadores.adapter_recyclerView_producos;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_producto;
@@ -60,8 +61,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 public class Cuenta_launchCliente extends AppCompatActivity {
 
@@ -109,6 +108,7 @@ public class Cuenta_launchCliente extends AppCompatActivity {
 
     //-String
     private String idCliente;
+    private String ID_NEGOCIO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,9 +117,11 @@ public class Cuenta_launchCliente extends AppCompatActivity {
         setTitle(R.string.cuentas);
         getSupportActionBar().setElevation(0);
 
-
         //---habilita button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Datos APP SharePreferences commit
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
 
         //ID del cliente
         idCliente= getIntent().getStringExtra("parametroIdCliente");
@@ -433,13 +435,13 @@ public class Cuenta_launchCliente extends AppCompatActivity {
 
         ////////////////////////////////////////////////////////////////////////////////////
         //Reference
-        Button buttonLiquidatePaymentFinal=(Button)  dialoglayout.findViewById(R.id.button_pago_final);
-        Button buttonLiquidatePaymentPartial=(Button)  dialoglayout.findViewById(R.id.button_pago_parcial);
+        Button Button_PagoFinal=(Button)  dialoglayout.findViewById(R.id.button_pago_final);
+        Button Button_PagoParcial=(Button)  dialoglayout.findViewById(R.id.button_pago_parcial);
         editTextProducto=(EditText)  dialoglayout.findViewById(R.id.editText_producto);
         editTextPrecio=(EditText)  dialoglayout.findViewById(R.id.editText_precio);
 
         //____________________________ Button ______________________________________________________
-        buttonLiquidatePaymentFinal.setOnClickListener(new View.OnClickListener() {
+        Button_PagoFinal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -474,7 +476,7 @@ public class Cuenta_launchCliente extends AppCompatActivity {
                 dialog.show();}});
 
         //____________________________________ Button _______________________________________________
-        buttonLiquidatePaymentPartial.setOnClickListener(new View.OnClickListener() {
+        Button_PagoParcial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -495,6 +497,7 @@ public class Cuenta_launchCliente extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 
+
                         // Grab the EditText's input
                         Double value = Double.valueOf(editTextValue.getText().toString());
                         priceTotal -= value;
@@ -510,6 +513,9 @@ public class Cuenta_launchCliente extends AppCompatActivity {
                             textViewPagoParcial.setText("$" + String.valueOf(value));
                             textViewPagoParcial.setVisibility(View.VISIBLE);
                             textViewPriceTotal.setText("$" + formato.format(priceTotal));
+
+                            //Control de visibilidad
+                            linearLayoutPagoParcial.setVisibility(View.VISIBLE);
 
                             alertDialogAddProduct.dismiss();
                             dialog.dismiss();

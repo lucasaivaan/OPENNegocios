@@ -42,6 +42,7 @@ import com.open.applic.open.interface_principal.MainActivity_interface_principal
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_cuenta;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
 import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +55,6 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.open.applic.open.Splash_Login.ID_NEGOCIO;
 
 public class Add_info_profile extends AppCompatActivity {
 
@@ -144,6 +144,10 @@ public class Add_info_profile extends AppCompatActivity {
     private AlertDialog alertDialogClient;
     private ProgressBar progressBar;
 
+
+    //---
+    private String ID_NEGOCIO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +155,7 @@ public class Add_info_profile extends AppCompatActivity {
         setTitle(R.string.perfil);
         getSupportActionBar().setElevation(0);
         getSupportActionBar().hide();
+
 
 
         //---Reference EditText
@@ -343,8 +348,6 @@ public class Add_info_profile extends AppCompatActivity {
             datos_PerfilNegocio.setTelefono(data_telefono);
             datos_PerfilNegocio.setSitio_web(data_sitio_web);
             datos_PerfilNegocio.setId(user.getUid());
-
-            ID_NEGOCIO=user.getUid(); // asigna a la  ID global del negocio
 
             PuntosCuenta.SumaPuntos(Add_info_profile.this,5,getString(R.string.perfil_negocio_completo)+"!");
 
@@ -655,12 +658,9 @@ public class Add_info_profile extends AppCompatActivity {
                                 public void run() {
 
                                     // SharePreferences commit
-                                    // References
-                                    misPreferencias= getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = misPreferencias.edit();
-                                    editor.putString("email",firebaseUser.getEmail());
-                                    editor.putString("ID_NEGOCIO", firebaseUser.getUid());
-                                    editor.commit();
+                                    SharePreferencesAPP.setID_NEGOCIO(firebaseUser.getUid(),Add_info_profile.this);
+                                    SharePreferencesAPP.setID_USUARIO(firebaseUser.getUid(),Add_info_profile.this);
+                                    SharePreferencesAPP.setPAIS(datos_PerfilNegocio.getPais(),Add_info_profile.this);
 
                                     //--.lanzadador Activity
                                     Intent intent2 = new Intent (Add_info_profile.this, MapsActivity_profile.class);
