@@ -501,7 +501,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                 if(urlImagen==null){urlImagen="default";}
                 final String finalUrlImagen = urlImagen;
 
-                // ID producto
+                // ID Unico
                 if(idUnicoProducto == null){
                     SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
                     idUnicoProducto = s.format(new Date());
