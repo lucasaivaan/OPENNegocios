@@ -13,6 +13,17 @@ public class adapter_perfil_clientes {
     private String urlfotoPerfil="default";
     private Boolean mensaje_nuevo =false;
     private Boolean local=false;
+    private String cardlayout="default";
+    private Double numreseñas;
+
+
+    public Double getNumreseñas() {return numreseñas;}
+
+    public void setNumreseñas(Double numreseñas) {this.numreseñas = numreseñas;}
+
+    public String getCardlayout() { return cardlayout; }
+
+    public void setCardlayout(String cardlayout) { this.cardlayout = cardlayout; }
 
     public Boolean getLocal() { return local; }
 
