@@ -20,19 +20,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/ic_service"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/ic_launcher" />
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/service_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:onClick="ButtonADDFothoService"
+                android:src="@drawable/ic_launcher_background"
+                app:civ_border_color="#ffffff"
+                app:civ_border_width="2dp" />
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
@@ -40,12 +35,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:weightSum="1"
                 app:layout_constraintBottom_toBottomOf="parent"
+
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/ic_service"
+                app:layout_constraintStart_toEndOf="@+id/service_image"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
