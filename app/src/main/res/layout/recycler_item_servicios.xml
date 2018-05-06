@@ -22,8 +22,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/service_image"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:onClick="ButtonADDFothoService"
                 android:src="@drawable/ic_launcher_background"
                 app:civ_border_color="#ffffff"
@@ -61,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.05"
                     android:text="@string/descripcion"
-                    android:textColor="@color/textColorSecundario" />
+                    android:textColor="@color/textColorSecundario"
+                    android:visibility="visible" />
 
 
             </LinearLayout>
