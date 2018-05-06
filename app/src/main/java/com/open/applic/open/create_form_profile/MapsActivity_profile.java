@@ -39,6 +39,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
+import com.open.applic.open.interface_principal.metodos_funciones.icono;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.Nav_header_perfil;
 
 import java.util.HashMap;
@@ -49,8 +50,10 @@ public class MapsActivity_profile extends FragmentActivity implements OnMapReady
     //--Button
     Button buttonCambiarUbicacion;
 
-    //---String
-    private String PREFS_KEY = "mispreferencias";
+    //Referencias
+    public  SharedPreferences misPreferencias ;
+    private String PREFS_KEY = "MisPreferencias";
+    private String id_Negocio;
 
     //------------------------------------ MAPS ----------------------------------------------------
     private LocationManager locationManage;
@@ -98,6 +101,8 @@ public class MapsActivity_profile extends FragmentActivity implements OnMapReady
 
         //---REference
         buttonCambiarUbicacion = (Button) findViewById(R.id.button6);
+        // References
+        misPreferencias= getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE);
 
 
         //----------------------------------Maps----------------------------------------------------
@@ -114,6 +119,8 @@ public class MapsActivity_profile extends FragmentActivity implements OnMapReady
         //---Extraxion de datos pasados por parametros
         Latitud = getIntent().getExtras().getDouble("parametroLatitud");
         Longitud = getIntent().getExtras().getDouble("parametroLongitud");
+
+        id_Negocio = misPreferencias.getString("ID_NEGOCIO", null);
 
 
     }
@@ -191,32 +198,36 @@ public class MapsActivity_profile extends FragmentActivity implements OnMapReady
         Latitud=Lat;
         Longitud=Long;
 
+        if(id_Negocio != null){
 
+            //  FIRESTORE
+            DocumentReference docRef = dbClodFirestore.collection( getString(R.string.DB_NEGOCIOS) ).document(id_Negocio);
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (mMap != null) { mMap.clear(); }
 
-        DocumentReference docRef = dbClodFirestore.collection( getString(R.string.DB_NEGOCIOS) ).document(firebaseUser.getUid());
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (mMap != null) {
-                    mMap.clear();
+                    adapter_profile_negocio ContructorItemRecycleview = documentSnapshot.toObject(adapter_profile_negocio.class);
+
+                    if(ContructorItemRecycleview.getCategoria() != null){
+
+                        ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
+                        String valueIdBusiness = ContructorItemRecycleview.getCategoria().toLowerCase();
+
+                        int id = icono.getIconLocationCategoria(valueIdBusiness,MapsActivity_profile.this);
+                        BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id);
+
+                        //---Crea los Makers
+                        mMap.addMarker(new MarkerOptions().position(new LatLng( Lat,Long ))).setIcon(icon);
+
+                        //Posiciona la camara en la ubicacion del negocio
+                        LatLng sydney = new LatLng(Lat, Long);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                    }
                 }
+            });
+        }
 
-                adapter_profile_negocio ContructorItemRecycleview = documentSnapshot.toObject(adapter_profile_negocio.class);
-                ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
-                String valueIdBusiness = ContructorItemRecycleview.getCategoria();
-
-                int id = getResources().getIdentifier("loc_"+valueIdBusiness, "mipmap", getPackageName());
-                BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id);
-                //---Crea los Makers
-                mMap.addMarker(new MarkerOptions().position(new LatLng(Lat,Long))).setIcon(icon);
-                //Posiciona la camara en la ubicacion del negocio
-                LatLng sydney = new LatLng(Lat, Long);
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
-
-            }
-        });
     }
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity_profile.this);

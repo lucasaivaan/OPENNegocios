@@ -101,6 +101,7 @@ import com.open.applic.open.interface_principal.adaptadores.adapter_servicios_ne
 import com.open.applic.open.interface_principal.metodos_funciones.Buscardor;
 import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
 import com.open.applic.open.interface_principal.metodos_funciones.OnSwipeTouchListener;
+import com.open.applic.open.interface_principal.metodos_funciones.icono;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.MainActivity_tarjeta_negocio;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.Nav_header_perfil;
 import com.open.applic.open.interface_principal.nav_header.administrador_cuenta.nav_adminitrador_cuenta;
@@ -665,7 +666,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             }else{
                               //Asignacion de icono de la categoria
                                 Context context = CircleImageView_nav_imagen.getContext();
-                                int id = context.getResources().getIdentifier("logo_"+ adaptert_Profile.getCategoria(), "mipmap", context.getPackageName());
+                                int id=icono.getIconLogoCategoria(adaptert_Profile.getCategoria(),MainActivity_interface_principal.this);
                                 CircleImageView_nav_imagen.setImageResource(id);
                                 CircleImageView_nav_imagen.setBorderColor( Color.parseColor("#FFFFFFFF") );
 
@@ -947,7 +948,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             //Asignacion de icono de la categoria
                             try{
 
-                                int id = getResources().getIdentifier("logo_"+ sCategoria.toLowerCase(), "mipmap", getPackageName());
+                                int id=icono.getIconLogoCategoria(adapterNegocioPerfil.getCategoria(),MainActivity_interface_principal.this);
                                 CircleImageView_Title.setImageResource(id);
                                 CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
 
@@ -2628,14 +2629,13 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
                     if(ContructorItemRecycleview.getNombre_negocio()!=null){
                         ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
-                        String valueIdBusiness=ContructorItemRecycleview.getCategoria();
-
-                        int id = getResources().getIdentifier("loc_"+valueIdBusiness, "mipmap", getPackageName());
+                        String valueIdBusiness=ContructorItemRecycleview.getCategoria().toLowerCase();
+                        int id=icono.getIconLocationCategoria(valueIdBusiness,MainActivity_interface_principal.this);
                         BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id);
 
                        //---Crea los Makers
-                        mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(),ContructorItemRecycleview.getGeopoint().getLongitude()))).setIcon(icon);
+                        mMap.addMarker(new MarkerOptions().position(  new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(),ContructorItemRecycleview.getGeopoint().getLongitude()))  ).setIcon(icon);
+
                         //Posiciona la camara en la ubicacion del negocio
                         LatLng sydney = new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude());
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));

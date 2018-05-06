@@ -3,8 +3,10 @@
     <!--__ NEGOCIOS __  -->
     <string-array name="categorias">
         <item>@string/elije_una_categoaria</item>
+        <item>@string/cat_maxikiosco</item>
         <item>@string/cat_kiosco</item>
         <item>@string/cat_almacen</item>
+        <item>@string/cat_mercado</item>
         <item>@string/cat_pizzeria</item>
         <item>@string/cat_carniceria</item>
         <item>@string/cat_verduleria</item>

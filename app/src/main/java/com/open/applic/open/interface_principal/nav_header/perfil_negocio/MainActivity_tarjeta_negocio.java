@@ -25,7 +25,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
+import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -261,6 +263,7 @@ public class MainActivity_tarjeta_negocio extends AppCompatActivity {
                             layout_Cardstylo.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor()));
                         }else {
                             int id = context.getResources().getIdentifier( adapterProfileNegocio.getCardlayout(), "mipmap", context.getPackageName());
+
                             layout_Cardstylo.setBackgroundResource(id);
 
                             // nombre color
@@ -276,7 +279,7 @@ public class MainActivity_tarjeta_negocio extends AppCompatActivity {
                     cardViewNegocio.setCardBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor()));
 
                     // Icono
-                    int id =getResources().getIdentifier("logo_"+ adapterProfileNegocio.getCategoria(), "mipmap", context.getPackageName());
+                    int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
                     imageViewIcon.setBackgroundResource(id);
 
                     // Nombre

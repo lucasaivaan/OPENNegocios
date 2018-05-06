@@ -27,8 +27,10 @@
 
 
     <!-- Color Categoria -->
+    <color name="color_maxikiosco">#AB47BC</color>
     <color name="color_kiosco">#993366</color>
     <color name="color_almacen">#887959</color>
+    <color name="color_mercado">#26A69A</color>
     <color name="color_pizzeria">#ff9933</color>
     <color name="color_carniceria">#E53935</color>
     <color name="color_verduleria">#339933</color>

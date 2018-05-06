@@ -122,8 +122,10 @@ public class Add_info_profile extends AppCompatActivity {
     private LinearLayout linearLayoutDescripcion;
     private LinearLayout linearLayoutUbicacion;
     //LinealLayout Button Categoria
+    private LinearLayout buttonCatMaxiKiosco;
     private LinearLayout buttonCatKiosco;
     private LinearLayout buttonCatAlmacen;
+    private LinearLayout buttonCatMercado;
     private LinearLayout buttonCatPizzeria;
     private LinearLayout buttonCatCarniceria;
     private LinearLayout buttonCatVerduleria;
@@ -377,43 +379,18 @@ public class Add_info_profile extends AppCompatActivity {
             datos_PerfilNegocio.setProvincia(data_provincia);
             datos_PerfilNegocio.setCiudad(data_ciudad);
 
+            try {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
 
-            // Guarda la cuenta del usuario
-            DocumentReference docREfCuenta=db.collection(getString(R.string.DB_NEGOCIOS)).document(firebaseUser.getUid()).collection(getString(R.string.DB_CUENTAS)).document(firebaseUser.getEmail());
-            docREfCuenta.set(adapterPerfilCuenta, SetOptions.merge());
+                        // Geolocalizacion
+                        String value=data_Pais+" "+data_provincia+" "+data_ciudad+" "+data_direccion;
+                        new Add_info_profile.GetCoordinatess().execute(value);
 
-            //DB
-            db.collection(getString(R.string.DB_NEGOCIOS)).document(user.getUid()).set(datos_PerfilNegocio,SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void v) {
-                    // guarda los puntos ganados y muestra la notificacion
-                    PuntosCuenta.SumaPuntos(Add_info_profile.this,5,getString(R.string.ubicacion)+"!");
-
-                    // SharePreferences commit
-                    // References
-                    misPreferencias= getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = misPreferencias.edit();
-                    editor.putString("email",firebaseUser.getEmail());
-                    editor.putString("ID_NEGOCIO", firebaseUser.getUid());
-                    editor.commit();
-
-
-                    try {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-
-                                String value=data_Pais+" "+data_provincia+" "+data_ciudad+" "+data_direccion;
-                                new Add_info_profile.GetCoordinatess().execute(value);
-
-                            }
-                        }, 500);// Tiempo de espera
-                    } catch (Exception e) { }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) { Toast.makeText(Add_info_profile.this,R.string.su_inforomacion_nose_guardo,Toast.LENGTH_LONG).show(); }
-            });
+                    }
+                }, 500);// Tiempo de espera
+            } catch (Exception e) { }
 
 
 
@@ -447,8 +424,10 @@ public class Add_info_profile extends AppCompatActivity {
         alertDialogClient=builder.show();
 
         //Reference
+        buttonCatMaxiKiosco=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_maxikiosco);
         buttonCatKiosco=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_kiosco);
         buttonCatAlmacen=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_almacen);
+        buttonCatMercado=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_mercado);
         buttonCatPizzeria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_pizzeria);
         buttonCatCarniceria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_carniceria);
         buttonCatVerduleria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_verduleria);
@@ -457,6 +436,18 @@ public class Add_info_profile extends AppCompatActivity {
         buttonCatFerreteria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_ferreteria);
         buttonCatHeladeria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_heladeria);
 
+        buttonCatMaxiKiosco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Imagen
+                Context context = imageView_Categoria.getContext();
+                int id = context.getResources().getIdentifier("logo_maxikiosco", "mipmap", context.getPackageName());
+                imageView_Categoria.setImageResource(id);
+                //Textviw
+                textview_nombre_categoria.setText(R.string.cat_maxikiosco);
+                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_maxikiosco));
+                alertDialogClient.dismiss();//finaliza el alertDialog
+            }});
         buttonCatKiosco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -479,6 +470,18 @@ public class Add_info_profile extends AppCompatActivity {
                 //Textviw
                 textview_nombre_categoria.setText(R.string.cat_almacen);
                 textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_almacen));
+                alertDialogClient.dismiss();//finaliza el alertDialog
+            }});
+        buttonCatMercado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Imagen
+                Context context = imageView_Categoria.getContext();
+                int id = context.getResources().getIdentifier("logo_mercado", "mipmap", context.getPackageName());
+                imageView_Categoria.setImageResource(id);
+                //Textviw
+                textview_nombre_categoria.setText(R.string.cat_mercado);
+                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_mercado));
                 alertDialogClient.dismiss();//finaliza el alertDialog
             }});
         buttonCatPizzeria.setOnClickListener(new View.OnClickListener() {
@@ -629,16 +632,62 @@ public class Add_info_profile extends AppCompatActivity {
                         .getJSONObject("location").get("lng");
 
                 if(Longitud!=0 && Latitud!=0){
-                    //--.lanzadador Activity
-                    Intent intent2 = new Intent (Add_info_profile.this, MapsActivity_profile.class);
-                    intent2.putExtra("parametroLatitud",Latitud);
-                    intent2.putExtra("parametroLongitud",Longitud);
-                    intent2.putExtra("parametroButton",false);
-                    startActivityForResult(intent2, 0);
+
+                    // Guarda la cuenta del usuario
+                    DocumentReference docREfCuenta=db.collection(getString(R.string.DB_NEGOCIOS)).document(firebaseUser.getUid()).collection(getString(R.string.DB_CUENTAS)).document(firebaseUser.getEmail());
+                    docREfCuenta.set(adapterPerfilCuenta, SetOptions.merge());
+
+                    //DB
+                    db.collection(getString(R.string.DB_NEGOCIOS)).document(user.getUid())
+                            .set(datos_PerfilNegocio,SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void v) {
+
+                            // guarda los puntos ganados y muestra la notificacion
+                            PuntosCuenta.SumaPuntos(Add_info_profile.this,5,getString(R.string.ubicacion)+"!");
+
+                            //stop Progressbar
+                            progressBar.setVisibility(View.GONE);
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+
+                                    // SharePreferences commit
+                                    // References
+                                    misPreferencias= getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = misPreferencias.edit();
+                                    editor.putString("email",firebaseUser.getEmail());
+                                    editor.putString("ID_NEGOCIO", firebaseUser.getUid());
+                                    editor.commit();
+
+                                    //--.lanzadador Activity
+                                    Intent intent2 = new Intent (Add_info_profile.this, MapsActivity_profile.class);
+                                    intent2.putExtra("parametroLatitud",Latitud);
+                                    intent2.putExtra("parametroLongitud",Longitud);
+                                    intent2.putExtra("parametroButton",false);
+                                    startActivityForResult(intent2, 0);
 
 
-                    //---finaliza activity
-                    finish();
+                                    //---finaliza activity
+                                    finish();
+
+                                }
+                            }, 500);// Tiempo de espera
+
+
+
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) { Toast.makeText(Add_info_profile.this,R.string.su_inforomacion_nose_guardo,Toast.LENGTH_LONG).show(); }
+                    });
+
+
+
+
                 }else{
                     Toast.makeText(getApplicationContext(),R.string.error_intente_denuevo, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();

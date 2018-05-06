@@ -36,7 +36,9 @@ import com.open.applic.open.R;
 import com.open.applic.open.create_form_profile.HttpDataHalder;
 import com.open.applic.open.create_form_profile.MapsActivity_profile;
 import com.open.applic.open.create_form_profile.Panel_Horarios;
+import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
+import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -241,7 +243,7 @@ public class Nav_header_perfil extends AppCompatActivity {
                     }else{
                         //Asignacion de icono de la categoria
                         Context context = CircleImageView_Title.getContext();
-                        int id = context.getResources().getIdentifier("logo_"+ AdapterPerfilNegocio.getCategoria(), "mipmap", context.getPackageName());
+                        int id= icono.getIconLogoCategoria(AdapterPerfilNegocio.getCategoria(),context);
                         CircleImageView_Title.setImageResource(id);
                         CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
 

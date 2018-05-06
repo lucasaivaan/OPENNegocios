@@ -4,8 +4,10 @@
 
     <string-array name="categoriasColores">
         <item>@string/color_default</item>
+        <item>@string/color_maxikiosco</item>
         <item>@string/color_kiosco</item>
         <item>@string/color_almacen</item>
+        <item>@string/color_mercado</item>
         <item>@string/color_pizzeria</item>
         <item>@string/color_carniceria</item>
         <item>@string/color_verduleria</item>

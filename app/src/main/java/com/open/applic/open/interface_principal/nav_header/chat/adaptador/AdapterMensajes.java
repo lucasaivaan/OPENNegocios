@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
             if(listMensaje.get(position).getUrlfotoPerfil().equals("default")){
                 // icono
                 Context context =  holder.getFotoMensajePerfil1_1().getContext();
-                int id = context.getResources().getIdentifier("logo_"+listMensaje.get(position).getCategoria(), "mipmap", context.getPackageName());
+                int id= icono.getIconLogoCategoria(listMensaje.get(position).getCategoria(),context);
                 holder.getFotoMensajePerfil1_1().setBackgroundResource(id);
             }else{
                 //-Carga la imagen de perfil

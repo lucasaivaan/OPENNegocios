@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OPEN Store</string>
+    <string name="app_name">OPEN STORE</string>
     <string name="version">Versión 1.0</string>
 
     <string name="title_activity_main_interface_principal">MainActivity_interface_principal</string>
@@ -70,7 +70,7 @@
     <string name="DBS_fotoperfil">fotoperfil</string>
 
 
-    <!--__ CATEGORIAS __  -->
+    <!--__ CATEGORIAS productos __  -->
     <string name="db_sdespensa">DESPENSA</string>
     <string name="db_sVerduleria">VERDULERIA</string>
     <string name="db_sPanaderia">PANADERIA</string>
@@ -123,7 +123,7 @@
     <!-- -->
 
     <!--  Categoria -->
-    <string name="cat_maxi_kiosco">"MAXI-KIOSCO"</string>
+    <string name="cat_maxikiosco">"MAXIKIOSCO"</string>
     <string name="cat_kiosco">"KIOSCO"</string>
     <string name="cat_almacen">"ALMACEN"</string>
     <string name="cat_mercado">"MERCADO"</string>
@@ -135,11 +135,12 @@
     <string name="cat_heladeria">"HELADERIA"</string>
     <string name="cat_ferreteria">"FERRETERIA"</string>
 
-
     <!--  Categoria color -->
-    <string name="color_default">"ffffff"</string>
+    <string name="color_default">"#E1F5FE"</string>
+    <string name="color_maxikiosco">"#AB47BC"</string>
     <string name="color_kiosco">"#993366"</string>
     <string name="color_almacen">"#887959"</string>
+    <string name="color_mercado">"#26A69A"</string>
     <string name="color_pizzeria">"#ff9933"</string>
     <string name="color_carniceria">"#E53935"</string>
     <string name="color_verduleria">"#339933"</string>
