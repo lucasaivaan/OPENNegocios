@@ -1,6 +1,7 @@
 package com.open.applic.open.interface_principal.adaptadores;
 
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.open.applic.open.R;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by lucas on 23/10/2017.
@@ -47,16 +51,23 @@ public class adapter_recyclerView_Servicios extends RecyclerView.Adapter<adapter
     public void onBindViewHolder(homeViwHolder holder, int position) {
         adapter_servicios_negocio ADP= pases.get(position);
 
+        holder.dato1.setText(ADP.getTitulo());
+        holder.dato2.setText(ADP.getDescripcion());
 
-        try{
-            holder.dato1.setText(ADP.getTitulo());
-            holder.dato2.setText(ADP.getDescripcion());
-            holder.ic_service.setImageDrawable(ADP.getIc_servico());
-
-
-            //holder.dato3.setImageDrawable(ADP.getImg());
-        }catch (Exception ex){
+        if(!ADP.getUrl_imagen().equals("default")){
+            // Carga la imagen de perfil
+            Glide.clear(holder.circleImageView);
+            Context context=holder.circleImageView.getContext();
+            Glide.with(context)
+                    .load(ADP.getUrl_imagen())
+                    .fitCenter()
+                    .centerCrop()
+                    .into(holder.circleImageView);
+        }else{
+            Glide.clear(holder.circleImageView);
         }
+
+
 
 
 
@@ -92,7 +103,7 @@ public class adapter_recyclerView_Servicios extends RecyclerView.Adapter<adapter
     public  static  class homeViwHolder extends RecyclerView.ViewHolder{
 
         TextView dato1,dato2;
-        ImageView ic_service;
+        CircleImageView circleImageView;
 
 
         public homeViwHolder(View itemView) {
@@ -100,7 +111,7 @@ public class adapter_recyclerView_Servicios extends RecyclerView.Adapter<adapter
 
             dato1=(TextView) itemView.findViewById(R.id.textView_nombre);
             dato2=(TextView) itemView.findViewById(R.id.textView_info);
-            ic_service=(ImageView) itemView.findViewById(R.id.ic_service);
+            circleImageView=(CircleImageView) itemView.findViewById(R.id.service_image);
             //dato3=(ImageView) itemView.findViewById(R.id.imageView2);
 
 
