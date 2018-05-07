@@ -57,6 +57,9 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     implementation 'com.google.zxing:core:3.2.1'
 
+    // ButtonNavigation
+    compile 'com.aurelhubert:ahbottomnavigation:2.1.0'
+
 
     implementation 'com.android.support:mediarouter-v7:27.+'
 }
