@@ -297,7 +297,7 @@ public class Add_info_profile extends AppCompatActivity {
 
         if(!data_categoria.equals(getResources().getString(R.string.debes_elegir_una_categoría)) && !data_categoria.equals("")){
 
-            datos_PerfilNegocio.setCategoria(data_categoria);
+            datos_PerfilNegocio.setCategoria(data_categoria.toUpperCase());
             datos_PerfilNegocio.setColor(getColorCategoria(data_categoria));
 
             //---Guardar los datos en la database de firebase
@@ -343,7 +343,7 @@ public class Add_info_profile extends AppCompatActivity {
                 data_descripcion=Character.toUpperCase(data_descripcion.charAt(0)) + data_descripcion.substring(1,data_descripcion.length());
             }
             // guarda los datos del perfil
-            datos_PerfilNegocio.setNombre_negocio(data_name);
+            datos_PerfilNegocio.setNombre_negocio(data_name.toUpperCase());
             datos_PerfilNegocio.setDescripcion(data_descripcion);
             datos_PerfilNegocio.setTelefono(data_telefono);
             datos_PerfilNegocio.setSitio_web(data_sitio_web);
@@ -376,11 +376,11 @@ public class Add_info_profile extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
 
             //Set geolocation
-            datos_PerfilNegocio.setPais(data_Pais);
-            datos_PerfilNegocio.setDireccion(data_direccion);
-            datos_PerfilNegocio.setCodigo_postal(data_code_postal);
-            datos_PerfilNegocio.setProvincia(data_provincia);
-            datos_PerfilNegocio.setCiudad(data_ciudad);
+            datos_PerfilNegocio.setPais(data_Pais.toUpperCase());
+            datos_PerfilNegocio.setDireccion(data_direccion.toUpperCase());
+            datos_PerfilNegocio.setCodigo_postal(data_code_postal.toUpperCase());
+            datos_PerfilNegocio.setProvincia(data_provincia.toUpperCase());
+            datos_PerfilNegocio.setCiudad(data_ciudad.toUpperCase());
 
             try {
                 Handler handler = new Handler();
@@ -660,7 +660,7 @@ public class Add_info_profile extends AppCompatActivity {
                                     // SharePreferences commit
                                     SharePreferencesAPP.setID_NEGOCIO(firebaseUser.getUid(),Add_info_profile.this);
                                     SharePreferencesAPP.setID_USUARIO(firebaseUser.getUid(),Add_info_profile.this);
-                                    SharePreferencesAPP.setPAIS(datos_PerfilNegocio.getPais(),Add_info_profile.this);
+                                    SharePreferencesAPP.setPAIS(datos_PerfilNegocio.getPais().toUpperCase(),Add_info_profile.this);
 
                                     //--.lanzadador Activity
                                     Intent intent2 = new Intent (Add_info_profile.this, MapsActivity_profile.class);

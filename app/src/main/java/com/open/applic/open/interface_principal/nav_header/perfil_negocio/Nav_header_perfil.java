@@ -371,17 +371,17 @@ public class Nav_header_perfil extends AppCompatActivity {
 
             // Adapter
 
-            AdapterPerfilNegocio.setNombre_negocio(data_name);
+            AdapterPerfilNegocio.setNombre_negocio(data_name.toUpperCase());
             AdapterPerfilNegocio.setDescripcion(data_descripcion);
-            AdapterPerfilNegocio.setPais(data_Pais);
-            AdapterPerfilNegocio.setDireccion(data_direccion);
-            AdapterPerfilNegocio.setCodigo_postal(data_code_postal);
-            AdapterPerfilNegocio.setProvincia(data_provincia);
-            AdapterPerfilNegocio.setCiudad(data_ciudad);
+            AdapterPerfilNegocio.setPais(data_Pais.toUpperCase());
+            AdapterPerfilNegocio.setDireccion(data_direccion.toUpperCase());
+            AdapterPerfilNegocio.setCodigo_postal(data_code_postal.toUpperCase());
+            AdapterPerfilNegocio.setProvincia(data_provincia.toUpperCase());
+            AdapterPerfilNegocio.setCiudad(data_ciudad.toUpperCase());
             AdapterPerfilNegocio.setTelefono(data_telefono);
-            AdapterPerfilNegocio.setCategoria(data_categoria);
-            AdapterPerfilNegocio.setSitio_web(data_sitio_web);
-            AdapterPerfilNegocio.setCategoria(data_categoria);
+            AdapterPerfilNegocio.setCategoria(data_categoria.toUpperCase());
+            AdapterPerfilNegocio.setSitio_web(data_sitio_web.toUpperCase());
+            AdapterPerfilNegocio.setCategoria(data_categoria.toUpperCase());
 
             if(AdapterPerfilNegocio.getCardlayout() == null || AdapterPerfilNegocio.getCardlayout()==""){
                 AdapterPerfilNegocio.setCardlayout("default");

@@ -43,6 +43,7 @@
         <item>Pastas,tapas y Harinas</item>
         <item>Lacteos</item>
         <item>Bebidas</item>
+        <item>otros</item>
     </string-array>
     <!--__ spinner_SubCategoria Despensa __  -->
     <string-array name="spinner_11">
@@ -58,6 +59,7 @@
         <item>Sal y Pimienta</item>
         <item>Saborizadores</item>
         <item>Otros Condimentos</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_12">
         <item>@string/elije_una_categoaria</item>
@@ -65,6 +67,7 @@
         <item>Aceitunas Negras</item>
         <item>Aceitunas Rellenas</item>
         <item>Encurtidos</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_13">
         <item>@string/elije_una_categoaria</item>
@@ -72,6 +75,7 @@
         <item>Conservas de Pescado</item>
         <item>Conservas de Frutas</item>
         <item>Tomates y Salsas</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_14">
         <item>@string/elije_una_categoaria</item>
@@ -83,10 +87,11 @@
         <item>Te</item>
         <item>Yerbas</item>
         <item>Cereales</item>
-        <item>------ GALLETITAS ------</item>
+        <item>--------------</item>
         <item>Galletitas Dulces</item>
         <item>Galletitas Saladas</item>
         <item>Galletitas de Arroz</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_15">
         <item>@string/elije_una_categoaria</item>
@@ -97,6 +102,7 @@
         <item>Arroz Especial</item>
         <item>Arroz Preparado</item>
         <item>Legumbres</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_16">
         <item>@string/elije_una_categoaria</item>
@@ -109,18 +115,21 @@
         <item>Conos</item>
         <item>Snacks Mix</item>
         <item>Frutas Secas</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_17">
         <item>@string/elije_una_categoaria</item>
         <item>Sopas</item>
         <item>Caldos</item>
         <item>Puré</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_18">
         <item>@string/elije_una_categoaria</item>
         <item>Pastas</item>
         <item>Harinas</item>
         <item>Tapas</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_19">
         <item>@string/elije_una_categoaria</item>
@@ -133,34 +142,35 @@
         <item>Mantecas y Margarinas</item>
         <item>Postres y Flanes</item>
         <item>Ricota</item>
+        <item>otros</item>
     </string-array>
     <string-array name="spinner_110">
         <item>@string/elije_una_categoaria</item>
-        <item>------ AGUAS --------</item>
+        <item>--------------</item>
         <item>Agua Con Gas</item>
         <item>Agua Sin Gas</item>
         <item>Agua Saborizada</item>
-        <item>------ JUGOS --------</item>
+        <item>--------------</item>
         <item>Jugos en Polvo</item>
         <item>Jugos Listos</item>
         <item>Jugos Concentrados</item>
         <item>Jugos Refrigerados</item>
-        <item>------ GASEOSAS -----</item>
+        <item>--------------</item>
         <item>Cola</item>
         <item>Lima Limón</item>
         <item>Gaseosa de Naranja</item>
         <item>Gaseosa Sabor Pomelo</item>
         <item>Tónica</item>
-        <item>------ CERVEZAS -----</item>
+        <item>--------------</item>
         <item>Cerveza Rubias</item>
         <item>Cerveza Negras y Rojas</item>
         <item>Cerveza Sin Alcohol</item>
-        <item>------ VINOS --------</item>
+        <item>--------------</item>
         <item>Vino Blanco</item>
         <item>Vino Tinto</item>
         <item>Vino Rosado</item>
         <item>Vino espumantes</item>
-        <item>----------------------</item>
+        <item>--------------</item>
         <item>Aperitivos</item>
         <item>Bebidas Blancas</item>
         <item>Licores</item>
@@ -168,20 +178,19 @@
         <item>A Base de Hierbas</item>}
         <item>Isotónicas</item>
         <item>Energizantes</item>
+        <item>otros</item>
     </string-array>
-
-
 
     <!--  SPINNER CARNICERIA    -->
     <string-array name="spinner_2">
         <item>@string/elije_una_categoaria</item>
         <item>Aves</item>
         <item>Cerdo</item>
+        <item>Cordero</item>
+        <item>Conejo</item>
         <item>Ternera y Vacuno</item>
         <item>Picada y Hamburguesas</item>
         <item>Elaborados y embutidos</item>
-        <item>Cordero</item>
-        <item>Conejo</item>
         <item>Carbón y Leña</item>
         <item>otros</item>
     </string-array>
@@ -205,10 +214,10 @@
     <!--__ spinner_SubCategoria HELADERIA __  -->
     <string-array name="spinner_31">
         <item>@string/elije_una_categoaria</item>
-        <item>1 KILO</item>
-        <item>1/2 KILO</item>
-        <item>1/4 KILO</item>
-        <item>OTRO</item>
+        <item>1 Kilo</item>
+        <item>1/2 Kilo</item>
+        <item>1/4 Kilo</item>
+        <item>otros</item>
     </string-array>
 
     <string-array name="spinner_33">
@@ -277,7 +286,7 @@
         <item>Fiambres</item>
         <item>Picadas</item>
         <item>Frutos secos</item>
-        <item>Picadas</item>
+        <item>otros</item>
     </string-array>
 
 
