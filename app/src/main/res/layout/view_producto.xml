@@ -47,7 +47,7 @@
                     android:adjustViewBounds="false"
                     android:cropToPadding="false"
                     android:elevation="1dp"
-                    android:src="@mipmap/ic_product_default"
+                    android:src="@drawable/ic_launcher_background"
                     app:civ_border_color="#f5f5f5"
                     app:civ_border_width="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"

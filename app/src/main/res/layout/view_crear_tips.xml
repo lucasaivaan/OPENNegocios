@@ -41,14 +41,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:background="@color/md_amber_200"
+                    android:background="@drawable/ic_launcher_background"
                     app:srcCompat="@mipmap/ic_image_default" />
 
                 <EditText
                     android:id="@+id/editText_tips_titulo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:ems="10"
                     android:hint="@string/titulo"
                     android:inputType="textPersonName"
@@ -58,7 +58,7 @@
                     android:id="@+id/editText_tips_descripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:layout_weight="1"
                     android:hint="@string/descripcion"
                     android:padding="10dp"
@@ -71,7 +71,8 @@
                     android:background="@color/md_green_300"
                     android:onClick="Button_CrearTips"
                     android:text="@string/crear"
-                    android:textColor="@color/cardview_light_background" />
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/button29"
@@ -80,6 +81,7 @@
                     android:background="@color/md_deep_orange_300"
                     android:text="@string/eliminar"
                     android:textColor="@color/cardview_light_background"
+                    android:textSize="18sp"
                     android:visibility="gone" />
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>

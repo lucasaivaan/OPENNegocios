@@ -2288,10 +2288,12 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 if(url_play_store != null){
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.info_compartir_mendaje_para_cliente)+url_play_store);
+                    intent.putExtra(Intent.EXTRA_TEXT, url_play_store);
                     startActivity(Intent.createChooser(intent, "Comparta con un cliente para que se contacte contigo por medio de OPEN"));
                     alertDialogClient.dismiss();
                 }
+
+
 
             }
         });
