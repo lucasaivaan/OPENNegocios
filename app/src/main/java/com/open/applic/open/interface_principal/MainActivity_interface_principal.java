@@ -101,6 +101,7 @@ import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
 import com.open.applic.open.interface_principal.metodos_funciones.OnSwipeTouchListener;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
+import com.open.applic.open.interface_principal.nav_header.galeria_fotos.galeria_fotos;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.MainActivity_tarjeta_negocio;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.Nav_header_perfil;
 import com.open.applic.open.interface_principal.nav_header.administrador_cuenta.nav_adminitrador_cuenta;
@@ -1726,8 +1727,8 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 if (id.equals(ID_NEGOCIO)) {
 
                     // 2 Opciones
-                    CharSequence opciones1[] = new CharSequence[]{"Editar", "Eliminar"};
-                    CharSequence opciones2[] = new CharSequence[]{"Eliminar"};
+                    CharSequence opciones1[] = new CharSequence[]{ getResources().getString(R.string.editar),  getResources().getString(R.string.eliminar), };
+                    CharSequence opciones2[] = new CharSequence[]{ getResources().getString(R.string.eliminar), };
 
                     if(datoFechaActual.equals(datoFechaReseña)){
 
@@ -1736,7 +1737,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             public void onClick(DialogInterface dialog, int item) {
                                 if(item == 0){
 
-                                    Toast.makeText(MainActivity_interface_principal.this,"Editar",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity_interface_principal.this, getResources().getString(R.string.eliminar) ,Toast.LENGTH_SHORT).show();
 
                                 }else if(item == 1){
                                     DocumentReference documentReference=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_RESEÑAS)  ).document(idReseña);
@@ -2441,6 +2442,36 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 }else{Toast.makeText(MainActivity_interface_principal.this,R.string.uno_o_mas_campos_estan_vacios,Toast.LENGTH_SHORT).show();}
             }
         });
+    }
+
+    public void Button_EditarPerfil(View view){
+
+        // AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_interface_principal.this);
+        builder.setTitle(  getString(R.string.perfil)  );
+
+        //Opciones
+        CharSequence opciones1[] = new CharSequence[]{ getResources().getString(R.string.editar)};
+
+        builder.setItems(opciones1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (item == 0) {
+                    //--.lanzadador Activity
+                    Intent intent = new Intent (MainActivity_interface_principal.this,Nav_header_perfil.class);
+                    startActivityForResult(intent, 0);
+                }
+            }
+        });
+
+        builder.show();
+
+
+    }
+    public void Button_GaleriaFotos(View view){
+        //--.lanzadador Activity
+        Intent intent = new Intent (MainActivity_interface_principal.this,galeria_fotos.class);
+        startActivityForResult(intent, 0);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

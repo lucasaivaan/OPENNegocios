@@ -98,7 +98,7 @@
         <activity
             android:name=".interface_principal.nav_header.tips.nav_tips"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity android:name=".interface_principal.nav_header.galeria_fotos.galeria_fotos"></activity>
     </application>
 
 </manifest>

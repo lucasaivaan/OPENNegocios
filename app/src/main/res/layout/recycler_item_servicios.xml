@@ -24,10 +24,15 @@
                 android:id="@+id/service_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_margin="5dp"
                 android:onClick="ButtonADDFothoService"
                 android:src="@drawable/ic_launcher_background"
                 app:civ_border_color="#ffffff"
-                app:civ_border_width="2dp" />
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
@@ -51,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/titulo"
                     android:textAllCaps="true"
-                    android:textColor="@color/color_azul"
+                    android:textColor="@color/md_falcon_400"
                     android:textSize="18sp"
                     android:textStyle="normal" />
 

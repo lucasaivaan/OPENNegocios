@@ -11,7 +11,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/color_azul"
+        app:cardBackgroundColor="@color/md_falcon_400"
         app:cardElevation="7dp">
 
         <android.support.constraint.ConstraintLayout
@@ -27,7 +27,7 @@
                 android:layout_gravity="top|center_horizontal"
                 android:layout_margin="5dp"
                 android:onClick="ButtonAddService"
-                app:backgroundTint="@color/md_teal_300"
+                app:backgroundTint="@color/md_light_blue_300"
                 app:layout_anchor="@+id/include_Negocio"
                 app:layout_anchorGravity="bottom|right"
                 app:layout_constraintBottom_toBottomOf="parent"

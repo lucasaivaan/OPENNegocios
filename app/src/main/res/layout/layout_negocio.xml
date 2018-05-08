@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="7dp"
-                android:elevation="0dp"
+                android:elevation="1dp"
                 android:visibility="visible"
                 app:cardBackgroundColor="@color/cardview_light_background"
                 app:cardCornerRadius="2dp"
@@ -126,7 +126,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:onClick="Button_EditarPerfil">
 
                     <TextView
                         android:id="@+id/textView27"
@@ -157,7 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="7dp"
-                android:elevation="0dp"
+                android:elevation="1dp"
                 android:visibility="visible"
                 app:cardBackgroundColor="@color/cardview_light_background"
                 app:cardCornerRadius="2dp"
@@ -166,7 +168,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:onClick="Button_EditarPerfil">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -320,122 +324,109 @@
                         map:layout_constraintTop_toBottomOf="@+id/linearLayout3"
                         tools:context="com.opencliente.applic.opencliente.interface_principal.negocio.MainActivity_lauch_Store" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/imageView7"
+                                android:layout_width="15sp"
+                                android:layout_height="15sp"
+                                android:layout_gravity="center_horizontal|center"
+                                android:background="@mipmap/ic_phone"
+                                android:backgroundTint="@color/cardview_dark_background" />
+
+                            <TextView
+                                android:id="@+id/textView9"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="@string/contacto"
+                                android:textAlignment="center"
+                                android:textAllCaps="true"
+                                android:textColor="@color/cardview_dark_background"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/telefono"
+                                android:textAlignment="viewStart"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textView_telefono"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/textColorSecundario"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView12"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/sitio_web2"
+                                android:textAlignment="viewStart"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/textView_web"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textAlignment="viewEnd"
+                                android:textColor="@color/textColorSecundario"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/contacto"
+                android:id="@+id/fotos"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="7dp"
                 android:elevation="0dp"
-                android:visibility="visible"
-                app:cardBackgroundColor="@color/cardview_light_background"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="3dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="right"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/imageView7"
-                            android:layout_width="15sp"
-                            android:layout_height="15sp"
-                            android:layout_gravity="center_horizontal|center"
-                            android:background="@mipmap/ic_phone"
-                            android:backgroundTint="@color/cardview_dark_background" />
-
-                        <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@string/contacto"
-                            android:textAlignment="center"
-                            android:textAllCaps="true"
-                            android:textColor="@color/cardview_dark_background"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/telefono"
-                            android:textAlignment="viewStart"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView_telefono"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/textColorSecundario"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/sitio_web2"
-                            android:textAlignment="viewStart"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView_web"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textAlignment="viewEnd"
-                            android:textColor="@color/textColorSecundario"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/fotos"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="7dp"
-                android:elevation="0dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="3dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -489,7 +480,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
                         <android.support.v7.widget.CardView
                             android:layout_width="wrap_content"
@@ -579,6 +571,25 @@
                         </android.support.v7.widget.CardView>
 
                     </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/cardview_shadow_start_color"
+                        android:orientation="vertical">
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textView22"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:onClick="Button_GaleriaFotos"
+                        android:text="@string/ver_fotos"
+                        android:textAlignment="center" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -586,9 +597,9 @@
                 android:id="@+id/button22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@color/md_blue_grey_300"
-                android:elevation="1dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/edittextview_style2"
+                android:elevation="3dp"
                 android:onClick="ButtonHorarios"
                 android:text="@string/ver_horarios"
                 android:textColor="@color/cardview_light_background" />
@@ -597,9 +608,9 @@
                 android:id="@+id/button21"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
-                android:background="@color/md_orange_300"
-                android:elevation="2dp"
+                android:layout_margin="7dp"
+                android:background="@drawable/edittextview_style2"
+                android:elevation="3dp"
                 android:onClick="ButtonProductos"
                 android:text="@string/ver_productos"
                 android:textColor="@color/cardview_light_background" />

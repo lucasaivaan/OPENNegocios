@@ -36,7 +36,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-places:11.4.2'
     implementation 'com.google.android.gms:play-services-location:11.4.2'//10.0.1 version estable
 
-
     //Firebase
     implementation 'com.google.firebase:firebase-database:11.4.2'
     implementation 'com.google.firebase:firebase-auth:11.4.2'
