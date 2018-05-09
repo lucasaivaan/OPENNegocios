@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -101,6 +102,7 @@ import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
 import com.open.applic.open.interface_principal.metodos_funciones.OnSwipeTouchListener;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
+import com.open.applic.open.interface_principal.nav_header.galeria_fotos.adaptadores.adaptador_foto;
 import com.open.applic.open.interface_principal.nav_header.galeria_fotos.galeria_fotos;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.MainActivity_tarjeta_negocio;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.Nav_header_perfil;
@@ -1415,7 +1417,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
         imageViewFoto1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DocumentReference docRefGalery=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_GALERIA_FOTOS)  ).document("foto1");
+                final DocumentReference docRefGalery=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_GALERIA_FOTOS)  ).document("foto1");
                 docRefGalery.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -1423,7 +1425,12 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
                             PhotoValueDirectUri="foto1";
-                            ViewImagenGalery(documentSnapshot.getString("id") );
+
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewFoto(PhotoValueDirectUri,adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario());
                         }else{
                             //Selecciona la imagen desde la galeria del telefono
                             ID_Intent_Result_addFoto =1;
@@ -1444,8 +1451,13 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
-                            ViewImagenGalery(documentSnapshot.getString("id") );
                             PhotoValueDirectUri="foto2";
+
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewFoto(PhotoValueDirectUri,adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario());
                         }else{
                             //Selecciona la imagen desde la galeria del telefono
                             PhotoValueDirectUri="foto2";
@@ -1466,12 +1478,22 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
                             PhotoValueDirectUri="foto3";
-                            ViewImagenGalery(documentSnapshot.getString("id") );
+
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewFoto(PhotoValueDirectUri,adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario());
                         }else{
                             //Selecciona la imagen desde la galeria del telefono
                             ID_Intent_Result_addFoto =1;
                             PhotoValueDirectUri="foto3";
-                            startActivityForResult(intent, ID_Intent_Result_addFoto);
+
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewFoto(PhotoValueDirectUri,adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario());
                         }
                     }
                 });
@@ -1487,7 +1509,12 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
                             PhotoValueDirectUri="foto4";
-                            ViewImagenGalery(documentSnapshot.getString("id"));
+
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewFoto(PhotoValueDirectUri,adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario());
                         }else{
                             //Selecciona la imagen desde la galeria del telefono
                             ID_Intent_Result_addFoto =1;
@@ -1508,7 +1535,12 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         if(documentSnapshot.exists()){
                             //Genera la vista ampliada de la imagen
                             PhotoValueDirectUri="foto5";
-                            ViewImagenGalery(documentSnapshot.getString("id") );
+
+                            // Adaptador
+                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
+
+                            // funcion de viste de la imagen
+                            ViewFoto(PhotoValueDirectUri,adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario());
                         }else{
                             //Selecciona la imagen desde la galeria del telefono
                             ID_Intent_Result_addFoto =1;
@@ -1521,71 +1553,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
 
 
-    }
-    public void ViewImagenGalery(String uri){
-        //Crear AlertDialog Hors
-        LayoutInflater inflater = getLayoutInflater();
-        View dialoglayout = inflater.inflate(R.layout.view_galery_foto, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_interface_principal.this);
-        builder.setView(dialoglayout);
-        alertDialogHors=builder.show();
-        progressbar_load_photo=(ProgressBar) dialoglayout.findViewById(R.id.progressbar_load_photo);
-        ImageView imageViewFoto=(ImageView) dialoglayout.findViewById(R.id.imageView_galery_foto);
-        Button buttonDelete =(Button) dialoglayout.findViewById(R.id.button_view_foto_delete);
-        Button buttonCancel =(Button) dialoglayout.findViewById(R.id.button_view_foto_cancel);
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //////////////////  Eliminada el Servicio seleccionando ////////////////////////////////////
-                db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_GALERIA_FOTOS)  ).document(PhotoValueDirectUri).delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-
-                                PuntosCuenta.RestaPuntos(1,MainActivity_interface_principal.this);
-                         }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { }
-                });
-
-
-                if(PhotoValueDirectUri.equals("foto1")){
-                    imageViewFoto1.setImageResource(R.mipmap.ic_add1);
-                }else if(PhotoValueDirectUri.equals("foto2")){
-                    imageViewFoto2.setImageResource(R.mipmap.ic_add1);
-                }else if(PhotoValueDirectUri.equals("foto3")){
-                    imageViewFoto3.setImageResource(R.mipmap.ic_add1);
-                }else if(PhotoValueDirectUri.equals("foto4")){
-                    imageViewFoto4.setImageResource(R.mipmap.ic_add1);
-                }else if(PhotoValueDirectUri.equals("foto5")){
-                    imageViewFoto5.setImageResource(R.mipmap.ic_add1);
-                }
-
-                alertDialogHors.dismiss();//Finaliza el ViewFhoto
-
-            }
-        });
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialogHors.dismiss();//Finaliza el ViewFhoto
-            }
-        });
-
-
-        // Carga la imagen
-        try{
-
-            //progressbar_load_photo.setVisibility(View.GONE);
-
-            Glide.with(MainActivity_interface_principal.this)
-                    .load(uri)
-                    .fitCenter()
-                    .centerCrop()
-                    .into(imageViewFoto);
-        }catch (Exception ex){}
     }
     public void LoadImageGalery(){
 
@@ -1600,7 +1567,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
 
                         Glide.with(MainActivity_interface_principal.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto1);
@@ -1619,7 +1586,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     try{
 
                         Glide.with(MainActivity_interface_principal.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto2);
@@ -1637,7 +1604,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 if(snapshot.exists()){
                     try{
                         Glide.with(MainActivity_interface_principal.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto3);
@@ -1655,7 +1622,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 if(snapshot.exists()){
                     try{
                         Glide.with(MainActivity_interface_principal.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto4);
@@ -1673,7 +1640,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 if(snapshot.exists()){
                     try{
                         Glide.with(MainActivity_interface_principal.this)
-                                .load(snapshot.getString("id"))
+                                .load(snapshot.getString("urlfoto"))
                                 .fitCenter()
                                 .centerCrop()
                                 .into(imageViewFoto5);
@@ -1681,6 +1648,224 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 }
 
             }});
+
+    }
+    public void ViewFoto(final String id, String sUrlFoto, String sComentario){
+
+        //Crear AlertDialog Hors
+        LayoutInflater inflater = getLayoutInflater();
+        View dialoglayout = inflater.inflate(R.layout.view_foto, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_interface_principal.this);
+        builder.setView(dialoglayout);
+        final AlertDialog alertDialogHors;
+        alertDialogHors=builder.show();
+
+        // Reference
+        ImageView imageView_Cerrar=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
+        ImageView imageView_Foto=(ImageView) dialoglayout.findViewById(R.id.imageView_foto);
+        final EditText editText_Comentario=(EditText) dialoglayout.findViewById(R.id.editText_comentario);
+        final ProgressBar progressBar=(ProgressBar) dialoglayout.findViewById(R.id.progressBar9);
+        final Button button_Agregar=(Button) dialoglayout.findViewById(R.id.button_agregarFoto);
+        button_Agregar.setVisibility(View.GONE);
+        final Button button_Editar=(Button) dialoglayout.findViewById(R.id.button_aditarFoto);
+        button_Editar.setVisibility(View.VISIBLE);
+        final Button button_Actualizar=(Button) dialoglayout.findViewById(R.id.button_actualizarFoto);
+        button_Actualizar.setVisibility(View.GONE);
+        final Button button_Eliminar=(Button) dialoglayout.findViewById(R.id.button_EliminarFoto);
+        button_Eliminar.setVisibility(View.GONE);
+
+        // Condiciones
+        if(sComentario.equals("")){
+            editText_Comentario.setVisibility(View.GONE);
+        }
+
+
+        imageView_Cerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Cierra la vista
+                alertDialogHors.dismiss();
+            }
+        });
+        // Imagen
+        Glide.with(MainActivity_interface_principal.this)
+                .load(sUrlFoto)
+                .fitCenter()
+                .centerCrop()
+                .into(imageView_Foto);
+
+        // Comentario
+        editText_Comentario.setText(sComentario);
+
+
+        // OnClick
+        button_Editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Control de visibilidad
+                button_Editar.setVisibility(View.GONE);
+                button_Actualizar.setVisibility(View.VISIBLE);
+                button_Eliminar.setVisibility(View.VISIBLE);
+                editText_Comentario.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        button_Actualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // informacion de la reseña
+                Map<String , Object> mFoto=new HashMap<>();
+                mFoto.put("comentario",editText_Comentario.getText().toString());
+
+
+                //Guarda los dato en la base de datos
+                db.collection(  getString(R.string.DB_NEGOCIOS  )).document(ID_NEGOCIO).collection(  getString(R.string.DB_GALERIA_FOTOS)  ).document(id).set(mFoto,SetOptions.merge());
+
+                alertDialogHors.dismiss();
+            }
+        });
+        button_Eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //  Eliminada la foto seleccionando
+
+                // Firestore
+                DocumentReference documentReference=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_GALERIA_FOTOS)).document(  id );
+                documentReference.delete();
+
+                // Storage
+                storageReferenceGalery= FirebaseStorage.getInstance().getReference();
+                StorageReference  storageReference= storageReferenceGalery.child(getString(R.string.DB_NEGOCIOS)).child(ID_NEGOCIO).child(getString(R.string.DB_GALERIA_FOTOS)).child( id );
+                storageReference.delete();
+
+                //icon imagen
+                if(id.equals("foto1")){
+                    imageViewFoto1.setImageResource(R.mipmap.ic_add1);
+                }else if(id.equals("foto2")){
+                    imageViewFoto2.setImageResource(R.mipmap.ic_add1);
+                }else if(id.equals("foto3")){
+                    imageViewFoto3.setImageResource(R.mipmap.ic_add1);
+                }else if(id.equals("foto4")){
+                    imageViewFoto4.setImageResource(R.mipmap.ic_add1);
+                }else if(id.equals("foto5")){
+                    imageViewFoto5.setImageResource(R.mipmap.ic_add1);
+                }
+
+                PuntosCuenta.RestaPuntos(1,MainActivity_interface_principal.this);
+
+
+                // Resta punto
+                //PuntosCuenta.RestaPuntos(1,galeria_fotos.this);
+
+
+                alertDialogHors.dismiss();
+
+            }
+        });
+
+    }
+    public void ADD_Foto(final byte[] bytesFoto, final String ID_FOTO){
+
+        //Crear AlertDialog Hors
+        LayoutInflater inflater = getLayoutInflater();
+        View dialoglayout = inflater.inflate(R.layout.view_foto, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_interface_principal.this);
+        builder.setView(dialoglayout);
+        final AlertDialog alertDialogHors;
+        alertDialogHors=builder.show();
+
+        // Reference
+        ImageView imageView_Cerrar=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
+        ImageView imageView_Foto=(ImageView) dialoglayout.findViewById(R.id.imageView_foto);
+        final EditText editText_Comentario=(EditText) dialoglayout.findViewById(R.id.editText_comentario);
+        editText_Comentario.setHint(getResources().getString(R.string.haz_comentario_de_esta_foto));
+        final ProgressBar progressBar=(ProgressBar) dialoglayout.findViewById(R.id.progressBar9);
+        final Button button_Agregar=(Button) dialoglayout.findViewById(R.id.button_agregarFoto);
+        button_Agregar.setVisibility(View.VISIBLE);
+        final Button button_Editar=(Button) dialoglayout.findViewById(R.id.button_aditarFoto);
+        button_Editar.setVisibility(View.GONE);
+        final Button button_Actualizar=(Button) dialoglayout.findViewById(R.id.button_actualizarFoto);
+        button_Actualizar.setVisibility(View.GONE);
+        final Button button_Eliminar=(Button) dialoglayout.findViewById(R.id.button_EliminarFoto);
+        button_Eliminar.setVisibility(View.GONE);
+
+        //Carga imagen seleccionada
+        try{
+            Glide.with(MainActivity_interface_principal.this)
+                    .load(bytesFoto)
+                    .fitCenter()
+                    .centerCrop()
+                    .into(imageView_Foto);
+        }catch (Exception ex){}
+
+        imageView_Cerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Cierra la vista
+                alertDialogHors.dismiss();
+            }
+        });
+        button_Agregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(bytesFoto != null){
+
+                    progressBar.setVisibility(View.VISIBLE);
+                    button_Agregar.setVisibility(View.GONE);
+
+
+
+                    if(ID_FOTO != null){
+
+                        //Referencia a la direccion donde se va a guardar la foto
+                        storageReferenceGalery= FirebaseStorage.getInstance().getReference();
+                        StorageReference filePath= storageReferenceGalery.child(  getString(R.string.DB_NEGOCIOS)  ).child(ID_NEGOCIO).child(  getString(R.string.DB_GALERIA_FOTOS)  ).child(ID_FOTO);
+                        UploadTask uploadTask= filePath.putBytes(bytesFoto);
+
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                                //-Obtiene la url de la foto
+                                Uri descargarFoto=taskSnapshot.getDownloadUrl();
+
+                                // informacion de la reseña
+                                Map<String , Object> mFoto=new HashMap<>();
+                                mFoto.put("id","favorito");
+                                mFoto.put("urlfoto",descargarFoto.toString());
+                                mFoto.put("comentario",editText_Comentario.getText().toString());
+                                mFoto.put("timestamp", FieldValue.serverTimestamp());
+
+
+                                //Guarda los dato en la base de datos
+                                db.collection(  getString(R.string.DB_NEGOCIOS  )).document(ID_NEGOCIO).collection(  getString(R.string.DB_GALERIA_FOTOS)  ).document(ID_FOTO).set(mFoto,SetOptions.merge());
+
+                                // Suma puntos
+                                PuntosCuenta.SumaPuntos(MainActivity_interface_principal.this,1,getString(R.string.imagen_subida)+"!");
+
+                                alertDialogHors.dismiss();
+
+                            }
+                        });
+                    }else{
+
+                        Toast.makeText(MainActivity_interface_principal.this,R.string.error_field_required,Toast.LENGTH_LONG).show();
+
+                    }
+
+                }
+
+            }
+        });
+
+
 
     }
 
@@ -1934,6 +2119,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
             }
         });
     }
+
     //////////////////////////////// Control de Visibilidad de contenido ///////////////////////////
     public void ControlVisivilidadContenido(String parametro){
         if(parametro.equals("NoCliente")){
@@ -2007,6 +2193,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
         builder.setView(dialoglayout);
         alertDialogHors=builder.show();
 
+        //Reference
+        final TextView textViewNoti_sinHorario=dialoglayout.findViewById(R.id.textViewNoti_sinHorario);
+
         ////////////////////////////////////Adaptador Navigation  Horarios //////////////////////////////////////////////////////
         //---Click en el item seleccionado
         recyclerViewHorarios =(RecyclerView) dialoglayout.findViewById(R.id.recyclerView_Horarios);
@@ -2048,6 +2237,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
             public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
                 //---vacia la lista  recyclerView
                 adapterHorarios.removeAll(adapterHorarios);
+                textViewNoti_sinHorario.setVisibility(View.VISIBLE);
 
                 for(DocumentSnapshot doc:querySnapshot){
                     if(doc.exists()){
@@ -2055,6 +2245,8 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         adapter_horario adapterServicios = doc.toObject(adapter_horario.class);
                         adapterServicios.setId(doc.getId());
                         adapterHorarios.add(adapterServicios);
+
+                        textViewNoti_sinHorario.setVisibility(View.GONE);
                     }
 
                 }
@@ -2536,9 +2728,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
         if(requestCode== ID_Intent_Result_addFoto && resultCode==RESULT_OK ){
             Uri uri=data.getData();
 
-            lottieAnimationViewLoad_Galery.setVisibility(View.VISIBLE);
-            Lineallayout_galery.setVisibility(View.GONE);
-
             //Reduce el tamaño de la imagen
             Bitmap bitmap=null;
             try {bitmap= MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
@@ -2558,27 +2747,10 @@ public class MainActivity_interface_principal extends AppCompatActivity
             StorageReference filePath= storageReferenceGalery.child(  getString(R.string.DB_NEGOCIOS)  ).child(ID_NEGOCIO).child(  getString(R.string.DB_GALERIA_FOTOS)  ).child(PhotoValueDirectUri);
             UploadTask uploadTask= filePath.putBytes(foto);
 
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            if(foto != null){
+                ADD_Foto(foto,PhotoValueDirectUri);
+            }
 
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    lottieAnimationViewLoad_Galery.setVisibility(View.GONE);
-                    Lineallayout_galery.setVisibility(View.VISIBLE);
-
-                    // Suma puntos
-                    PuntosCuenta.SumaPuntos(MainActivity_interface_principal.this,1,getString(R.string.imagen_subida)+"!");
-
-                    //-Obtiene la url de la foto
-                    Uri descargarFoto=taskSnapshot.getDownloadUrl();
-                    Map<String, Object> url = new HashMap<>();
-                    url.put("id",descargarFoto.toString());
-
-                    //-Guardar el Uri de la foto en el Profile del Negocio en un String
-                    db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_GALERIA_FOTOS) ).document(PhotoValueDirectUri)
-                            .set(url,SetOptions.merge());
-
-                }
-            });
         }
 
         //////////////////////////  Intent Result Add Foto nueva Oferta ///////////////////////////////////

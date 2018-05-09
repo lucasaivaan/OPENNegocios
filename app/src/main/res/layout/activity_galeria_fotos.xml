@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".interface_principal.nav_header.galeria_fotos.galeria_fotos">
 
+    <TextView
+        android:id="@+id/textViewNoti_SinFotos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/sin_fotos"
+        android:textAlignment="center"
+        android:textColor="@color/cardview_shadow_start_color"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -17,6 +30,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_galeria"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
@@ -26,6 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/md_green_300"
+        android:onClick="Button_AgregarFoto"
         android:text="@string/agregar_foto"
         android:textColor="@color/cardview_light_background"
         android:textSize="18sp"

@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +35,7 @@ import java.util.List;
 public class Panel_Horarios extends AppCompatActivity {
 
     private  String ID=null;
+    private TextView textViewNoti_sinHorario;
 
     // FIRESTORE FB
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -65,6 +67,9 @@ public class Panel_Horarios extends AppCompatActivity {
 
         //Datos APP
         ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
+
+        //Reference
+        textViewNoti_sinHorario= findViewById(R.id.textViewNoti_sinHorario);
 
 
 
@@ -135,6 +140,7 @@ public class Panel_Horarios extends AppCompatActivity {
                 if(task.isSuccessful()){
                     //---vacia la lista  recyclerView
                     adapterHorarios.removeAll(adapterHorarios);
+                    textViewNoti_sinHorario.setVisibility(View.VISIBLE);
 
                     for(DocumentSnapshot doc:task.getResult()){
                         if(doc.exists()){
@@ -143,6 +149,7 @@ public class Panel_Horarios extends AppCompatActivity {
 
                             adapterServicios.setId(doc.getId());
                             adapterHorarios.add(adapterServicios);
+                            textViewNoti_sinHorario.setVisibility(View.GONE);
                         }
 
                     }

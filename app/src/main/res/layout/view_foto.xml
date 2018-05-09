@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/imageButton_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/cardview_shadow_end_color"
+        android:elevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/mr_dialog_close_light" />
+
+    <ProgressBar
+        android:id="@+id/progressBar9"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="361dp"
+        android:layout_height="325dp"
+        android:elevation="1dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView_foto"
+        android:layout_width="411dp"
+        android:layout_height="350dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout17"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/editText_comentario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@color/cardview_light_background"
+            android:ems="10"
+            android:hint="@string/haz_comentario_de_esta_foto"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/button_agregarFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_green_300"
+            android:text="@string/agregar"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button_aditarFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_deep_orange_300"
+            android:text="@string/editar"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button_actualizarFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_green_300"
+            android:text="@string/actualizar"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button_EliminarFoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_red_300"
+            android:text="@string/eliminar"
+            android:textColor="@color/cardview_light_background"
+            android:textSize="18sp" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

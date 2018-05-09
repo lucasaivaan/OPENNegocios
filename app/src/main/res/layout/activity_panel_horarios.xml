@@ -41,6 +41,16 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewNoti_sinHorario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/Debe_definir_un_horario_apertura_y_cierre"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="15sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_Horarios"
         android:layout_width="match_parent"

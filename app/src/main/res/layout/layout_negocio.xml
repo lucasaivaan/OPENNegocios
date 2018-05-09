@@ -586,10 +586,11 @@
                         android:id="@+id/textView22"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_margin="10dp"
                         android:onClick="Button_GaleriaFotos"
                         android:text="@string/ver_fotos"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
