@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -189,6 +190,8 @@ public class nav_cuenta_perfil extends AppCompatActivity {
         progressBar_foto =(ProgressBar) findViewById(R.id.progressBar3);
         progressBar_foto.setVisibility(View.GONE);
 
+        SpinnerProfile_cuenta_permisos.setEnabled(false);
+
         Button buttonUpdate=(Button)findViewById(R.id.button_crear);
         buttonUpdate.setText(R.string.actualizar);
 
@@ -217,7 +220,6 @@ public class nav_cuenta_perfil extends AppCompatActivity {
 
                         if(Peril_cuenta.getTipocuenta().equals(getString(R.string.estandar))){
                             SpinnerProfile_cuenta.setEnabled(false);
-                            SpinnerProfile_cuenta_permisos.setEnabled(false);
                         }
                         // Nombre y email
                         editTextNombre.setText(Peril_cuenta.getNombre());

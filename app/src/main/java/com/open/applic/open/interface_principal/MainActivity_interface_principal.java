@@ -540,6 +540,8 @@ public class MainActivity_interface_principal extends AppCompatActivity
     }
 
     public void verificarCuenta(){
+        Toast.makeText(MainActivity_interface_principal.this, firebaseUser.getEmail() ,Toast.LENGTH_LONG).show();
+
 
         DocumentReference docRefUsuario=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_CUENTAS)  ).document(firebaseUser.getEmail());
         docRefUsuario.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -547,18 +549,41 @@ public class MainActivity_interface_principal extends AppCompatActivity
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
 
                 if(documentSnapshot.exists()){
-
-                    if(documentSnapshot.exists()){
-
-                        perfilCuenta=documentSnapshot.toObject(adapter_perfil_cuenta.class);
+                    perfilCuenta=documentSnapshot.toObject(adapter_perfil_cuenta.class);
 
 
-                        if(perfilCuenta.getTipocuenta().equals(getString(R.string.administrador))){
+                    if(perfilCuenta.getTipocuenta().equals(getString(R.string.administrador))){
+
+                        // infla el navigation menu
+                        navigationView = (NavigationView) findViewById(R.id.nav_view_administrador);
+                        navigationView.getMenu().clear();
+                        navigationView.inflateMenu(R.menu.drawer_menu_administrador);
+                        View hview = navigationView.getHeaderView(0);
+
+                        //------------- Cuenta del usuario
+                        // Referencer
+                        CircleImageView circleImageViewPerfil = (CircleImageView) hview.findViewById(R.id.nav_fotoPerfil);
+                        TextView navEmail = (TextView) hview.findViewById(R.id.nav_email);
+
+                        // Carga la imagen de perfil
+                        if(!perfilCuenta.getUrlfotoPerfil().equals("default")){
+                            try {
+                                Glide.with(MainActivity_interface_principal.this).load(perfilCuenta.getUrlfotoPerfil()).fitCenter().centerCrop().into(circleImageViewPerfil);
+                            }catch (Exception ex){}
+                        }else {circleImageViewPerfil.setImageResource(R.mipmap.ic_user2);}
+
+                        //Carga el correo del usuario
+                        navEmail.setText(perfilCuenta.getEmail());
+
+                        NavigationDrawelPerfilNegocio(hview);
+
+                    }else {
+                        if(perfilCuenta.getTipocuenta().equals(getString(R.string.estandar))) {
 
                             // infla el navigation menu
                             navigationView = (NavigationView) findViewById(R.id.nav_view_administrador);
                             navigationView.getMenu().clear();
-                            navigationView.inflateMenu(R.menu.drawer_menu_administrador);
+                            navigationView.inflateMenu(R.menu.drawer_menu_estandar);
                             View hview = navigationView.getHeaderView(0);
 
                             //------------- Cuenta del usuario
@@ -568,45 +593,19 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
                             // Carga la imagen de perfil
                             if(!perfilCuenta.getUrlfotoPerfil().equals("default")){
-                                try {
-                                    Glide.with(MainActivity_interface_principal.this).load(perfilCuenta.getUrlfotoPerfil()).fitCenter().centerCrop().into(circleImageViewPerfil);
-                                }catch (Exception ex){}
-                             }else {circleImageViewPerfil.setImageResource(R.mipmap.ic_user2);}
+                                Glide.with(MainActivity_interface_principal.this).load(perfilCuenta.getUrlfotoPerfil()).fitCenter().centerCrop().into(circleImageViewPerfil);
+                            }else {circleImageViewPerfil.setImageResource(R.mipmap.ic_user2);}
 
                             //Carga el correo del usuario
                             navEmail.setText(perfilCuenta.getEmail());
 
+                            // carga el pergil del negocio en el nav
                             NavigationDrawelPerfilNegocio(hview);
-
-                        }else {
-                            if(perfilCuenta.getTipocuenta().equals(getString(R.string.estandar))) {
-
-                                // infla el navigation menu
-                                navigationView = (NavigationView) findViewById(R.id.nav_view_administrador);
-                                navigationView.getMenu().clear();
-                                navigationView.inflateMenu(R.menu.drawer_menu_estandar);
-                                View hview = navigationView.getHeaderView(0);
-
-                                //------------- Cuenta del usuario
-                                // Referencer
-                                CircleImageView circleImageViewPerfil = (CircleImageView) hview.findViewById(R.id.nav_fotoPerfil);
-                                TextView navEmail = (TextView) hview.findViewById(R.id.nav_email);
-
-                                // Carga la imagen de perfil
-                                if(!perfilCuenta.getUrlfotoPerfil().equals("default")){
-                                    Glide.with(MainActivity_interface_principal.this).load(perfilCuenta.getUrlfotoPerfil()).fitCenter().centerCrop().into(circleImageViewPerfil);
-                                }else {circleImageViewPerfil.setImageResource(R.mipmap.ic_user2);}
-
-                                //Carga el correo del usuario
-                                navEmail.setText(perfilCuenta.getEmail());
-
-                                // carga el pergil del negocio en el nav
-                                NavigationDrawelPerfilNegocio(hview);
-                            }
                         }
-
-
                     }
+
+                }else {
+                    Toast.makeText(MainActivity_interface_principal.this,R.string.error_DB,Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -1191,148 +1190,48 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 //Adaptador perfil del cliente
                 adapter_perfil_clientes adapterPerfilClientes = adapterClientesNegocios.get(recyclerViewClientes.getChildAdapterPosition(view2));
 
-                //////////////////////////////// Cuadro de Dialog //////////////////////////////////
-                final Dialog dialog = new Dialog(MainActivity_interface_principal.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setContentView(R.layout.view_perfil_cliente);
-                dialog.show();
-
-                // Reference
-                LinearLayout linearLayoutPhone = (LinearLayout) dialog.findViewById(R.id.lineallayout_phone);
-                Button buttonChat = (Button) dialog.findViewById(R.id.button_chat);
-                Button buttonCuenta = (Button) dialog.findViewById(R.id.button_cuenta);
-                Button buttonDelete = (Button) dialog.findViewById(R.id.button15);
-                buttonDelete.setVisibility(View.GONE);
-                CircleImageView imagePerfil = (CircleImageView) dialog.findViewById(R.id.imageView_perfilcliente);
-                TextView textView_Nombre = (TextView) dialog.findViewById(R.id.textView_nombre);
-                final TextView textView_Telefono = (TextView) dialog.findViewById(R.id.textView_telefono);
-                TextView tReseña=(TextView) dialog.findViewById(R.id.textView22_reseñasa);
-                ProgressBar progressBar = (ProgressBar) dialog.findViewById(R.id.progressBar2);
-                LinearLayout layout_Cardstylo=(LinearLayout) dialog.findViewById(R.id.layout_stylo);
-                LinearLayout linearLayoutReseña=(LinearLayout)dialog.findViewById(R.id.layout_reseñas);
-
-                // Reseñas
-                if(adapterPerfilClientes.getNumreseñas() != null){
-                    linearLayoutReseña.setVisibility(View.VISIBLE);
-
-                    int iNumeroReseña= adapterPerfilClientes.getNumreseñas().intValue();
-
-                    tReseña.setText( iNumeroReseña +" "+getResources().getString(R.string.reseñas));
-
-                }else{
-                    linearLayoutReseña.setVisibility(View.GONE);
-
-                }
-
-                //stilo de tarjeta
-                Context context = layout_Cardstylo.getContext();
-                if(adapterPerfilClientes.getCardlayout() !=null && adapterPerfilClientes.getCardlayout() != ""){
-
-                    if(adapterPerfilClientes.getCardlayout().equals("default")){
-                        //layout_Cardstylo.setBackgroundColor(Color.parseColor(aPerfilUsuario.getColor()));
-                    }else {
-                        int id = context.getResources().getIdentifier( adapterPerfilClientes.getCardlayout(), "mipmap", context.getPackageName());
-                        layout_Cardstylo.setBackgroundResource(id);
-
-                        // nombre color
-                        //editTextNombre.setTextColor(Color.parseColor(aPerfilUsuario.getColor()));
-                    }
-
-                }else{
-                    //layout_Cardstylo.setBackgroundColor(Color.parseColor(aPerfilUsuario.getColor()));
-                }
-
-
-
-
-
 
                 if (adapterPerfilClientes.getLocal() == false) {
 
                     //------------------------------- Usuario Cliente
-
-
-                    // TextVie Nombre
-                    // pone la iniciales en mayuscula
-                    String name = adapterPerfilClientes.getNombre();
-                    char[] caracteres = name.toCharArray();
-                    caracteres[0] = Character.toUpperCase(caracteres[0]);
-                    // el -2 es para evitar una excepción al caernos del arreglo
-                    for (int i = 0; i < name.length() - 2; i++) {
-                        // Es 'palabra'
-                        if (caracteres[i] == ' ' || caracteres[i] == '.' || caracteres[i] == ',')
-                            // Reemplazamos
-                            caracteres[i + 1] = Character.toUpperCase(caracteres[i + 1]);
-                    }
-                    name = new String(caracteres);
-                    textView_Nombre.setText(name);// Set EditText
-
-
-                    //---- Telefono
-                    if (!adapterPerfilClientes.getTelefono().equals("")) {
-                        textView_Telefono.setText(adapterPerfilClientes.getTelefono());
-
-                        // Onclick telefono
-                        linearLayoutPhone.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent i = new Intent(Intent.ACTION_DIAL);
-                                i.setData(Uri.parse("tel:" + textView_Telefono.getText().toString()));
-                                startActivity(i);
-                            }
-                        });
-
-                    } else { textView_Telefono.setText(getString(R.string.sin_telefono)); }
-
-                    // Imagen
-                    if (!adapterPerfilClientes.getUrlfotoPerfil().equals("default")) {
-
-                        Glide.with(MainActivity_interface_principal.this)
-                                .load(adapterPerfilClientes.getUrlfotoPerfil())
-                                .fitCenter()
-                                .centerCrop()
-                                .into(imagePerfil);
-                    } else { progressBar.setVisibility(View.GONE); }
-
-
-                    buttonChat.setOnClickListener(new View.OnClickListener() {
-
-                        // Cliente
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                            //--.lanzadador Activity
-                            Intent intent2 = new Intent(MainActivity_interface_principal.this, Chat_view.class);
-                            intent2.putExtra("parametroIdClient", adapterClientesNegocios.get(recyclerViewClientes.getChildAdapterPosition(view2)).getId());
-                            startActivityForResult(intent2, 0);
-                        }
-                    });
-
-                    buttonCuenta.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                            //--.lanzadador Activity
-                            Intent intent2 = new Intent(MainActivity_interface_principal.this, Cuenta_launchCliente.class);
-                            intent2.putExtra("parametroIdCliente", adapterClientesNegocios.get(recyclerViewClientes.getChildAdapterPosition(view2)).getId());
-                            startActivityForResult(intent2, 0);
-                        }
-                    });
+                    ViewCardCliete(adapterPerfilClientes.getId());
                 } else {
-
                     // ------------------------------ Cliente Local
 
-                    // TextVie Nombre
-                    textView_Nombre.setText(adapterClientesNegocios.get(recyclerViewClientes.getChildAdapterPosition(view2)).getNombre());
+                    //////////////////////////////// Cuadro de Dialog //////////////////////////////////
+                    final Dialog dialog = new Dialog(MainActivity_interface_principal.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.setContentView(R.layout.view_perfil_cliente);
+                    dialog.show();
+
+                    // Reference
+                    LinearLayout linearLayoutPhone = (LinearLayout) dialog.findViewById(R.id.lineallayout_phone);
+                    Button buttonChat = (Button) dialog.findViewById(R.id.button_chat);
+                    Button buttonCuenta = (Button) dialog.findViewById(R.id.button_cuenta);
+                    Button buttonDelete = (Button) dialog.findViewById(R.id.button15);
+
+                    CircleImageView imagePerfil = (CircleImageView) dialog.findViewById(R.id.imageView_perfilcliente);
+                    TextView textView_Nombre = (TextView) dialog.findViewById(R.id.textView_nombre);
+                    final TextView textView_Telefono = (TextView) dialog.findViewById(R.id.textView_telefono);
+                    TextView tReseña=(TextView) dialog.findViewById(R.id.textView22_reseñasa);
+                    ProgressBar progressBar = (ProgressBar) dialog.findViewById(R.id.progressBar2);
+                    LinearLayout layout_Cardstylo=(LinearLayout) dialog.findViewById(R.id.layout_stylo);
+                    LinearLayout linearLayoutReseña=(LinearLayout)dialog.findViewById(R.id.layout_reseñas);
+
+                    // Control de visibilidad
+                    linearLayoutReseña.setVisibility(View.GONE);
                     linearLayoutPhone.setVisibility(View.GONE);
-                    // Cliente local
+                    buttonDelete.setVisibility(View.GONE);
                     buttonChat.setVisibility(View.GONE);
                     buttonDelete.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
 
+                    // TextVie Nombre
+                    textView_Nombre.setText(adapterClientesNegocios.get(recyclerViewClientes.getChildAdapterPosition(view2)).getNombre());
+
+                    // Button
                     buttonCuenta.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -1489,11 +1388,10 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             ID_Intent_Result_addFoto =1;
                             PhotoValueDirectUri="foto3";
 
-                            // Adaptador
-                            adaptador_foto adapterNegocioPerfil= documentSnapshot.toObject(adaptador_foto.class);
-
-                            // funcion de viste de la imagen
-                            ViewFoto(PhotoValueDirectUri,adapterNegocioPerfil.getUrlfoto(),adapterNegocioPerfil.getComentario());
+                            //Selecciona la imagen desde la galeria del telefono
+                            PhotoValueDirectUri="foto3";
+                            ID_Intent_Result_addFoto =1;
+                            startActivityForResult(intent, ID_Intent_Result_addFoto);
                         }
                     }
                 });
@@ -1960,7 +1858,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
         // ------------------- Carga lla lista de objetos en el recyclerView
         // Firestore
-        CollectionReference AddReseñaNegocio=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_RESEÑAS)  );
+        CollectionReference AddReseñaNegocio=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_RESEÑAS)  );
         AddReseñaNegocio.orderBy(  getString(R.string.DB_timestamp)  , Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot querySnapshot, FirebaseFirestoreException e) {
@@ -2035,7 +1933,8 @@ public class MainActivity_interface_principal extends AppCompatActivity
         dialog.show();
 
         // Reference
-        LinearLayout linearLayoutPhone=(LinearLayout) dialog.findViewById(R.id.lineallayout_phone);
+        final LinearLayout linearLayoutPhone=(LinearLayout) dialog.findViewById(R.id.lineallayout_phone);
+        final LinearLayout linearLayoutReseña =(LinearLayout) dialog.findViewById(R.id.layout_reseñas);
         final Button buttonChat=(Button) dialog.findViewById(R.id.button_chat);
         final Button buttonCuenta=(Button) dialog.findViewById(R.id.button_cuenta);
         Button buttonDelete=(Button) dialog.findViewById(R.id.button15);
@@ -2043,7 +1942,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
         final CircleImageView imagePerfil =(CircleImageView) dialog.findViewById(R.id.imageView_perfilcliente);
         final TextView textView_Nombre=(TextView) dialog.findViewById(R.id.textView_nombre);
         final TextView textView_Telefono=(TextView) dialog.findViewById(R.id.textView_telefono);
+        final TextView textView_Reseña=(TextView) dialog.findViewById(R.id.textView22_reseñasa);
         final ProgressBar progressBar=(ProgressBar) dialog.findViewById(R.id.progressBar2);
+        final LinearLayout layout_Cardstylo=(LinearLayout) dialog.findViewById(R.id.layout_stylo);
 
 
         DocumentReference docClient=db.collection(  getString(R.string.DB_CLIENTES)  ).document(idCliente);
@@ -2054,6 +1955,24 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     DocumentSnapshot doc=task.getResult();
                     if(doc.exists()){
                         final adapter_perfil_clientes perfil=doc.toObject(adapter_perfil_clientes.class);
+
+                        //stilo de tarjeta
+                        Context context = layout_Cardstylo.getContext();
+                        if(perfil.getCardlayout() !=null && perfil.getCardlayout() != ""){
+
+                            if(perfil.getCardlayout().equals("default")){
+                                //layout_Cardstylo.setBackgroundColor(Color.parseColor(aPerfilUsuario.getColor()));
+                            }else {
+                                int id = context.getResources().getIdentifier( perfil.getCardlayout(), "mipmap", context.getPackageName());
+                                layout_Cardstylo.setBackgroundResource(id);
+
+                                // nombre color
+                                //editTextNombre.setTextColor(Color.parseColor(aPerfilUsuario.getColor()));
+                            }
+
+                        }else{
+                            //layout_Cardstylo.setBackgroundColor(Color.parseColor(aPerfilUsuario.getColor()));
+                        }
 
                         //---- Carga imagen de perfil
                         if(!perfil.getUrlfotoPerfil().equals("default")){
@@ -2083,10 +2002,30 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         textView_Nombre.setText(name);
 
                         //---- Telefono
-                        if(!perfil.getTelefono().equals("")){
+                        if (!perfil.getTelefono().equals("")) {
                             textView_Telefono.setText(perfil.getTelefono());
-                        }else{ textView_Telefono.setText(  getString(R.string.sin_telefono)  );}
 
+                            // Onclick telefono
+                            linearLayoutPhone.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    Intent i = new Intent(Intent.ACTION_DIAL);
+                                    i.setData(Uri.parse("tel:" + textView_Telefono.getText().toString()));
+                                    startActivity(i);
+                                }
+                            });
+
+                        } else { textView_Telefono.setText(getString(R.string.sin_telefono)); }
+
+                        // Reseñas
+                        if(perfil.getNumreseñas() != null){
+                            if(perfil.getNumreseñas() != 0){
+                                String numReseña=String.valueOf( perfil.getNumreseñas() );
+                                textView_Reseña.setText(numReseña+" "+getResources().getString(R.string.reseñas));
+
+                            }else {linearLayoutReseña.setVisibility(View.GONE);}
+                        }else {linearLayoutReseña.setVisibility(View.GONE);}
 
 
                         //---- Button
@@ -2195,6 +2134,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
         //Reference
         final TextView textViewNoti_sinHorario=dialoglayout.findViewById(R.id.textViewNoti_sinHorario);
+        LinearLayout lButton_NewHorario=(LinearLayout) dialoglayout.findViewById(R.id.button_newhorario);
 
         ////////////////////////////////////Adaptador Navigation  Horarios //////////////////////////////////////////////////////
         //---Click en el item seleccionado
@@ -2228,9 +2168,26 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 //----------------------------------------------Fin Alert Dialog
             }});
         recyclerViewHorarios.setAdapter(adapterRecyclerViewHorarios);
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        lButton_NewHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(perfilCuenta != null){
+                    if(perfilCuenta.getTipocuenta().equals(getString(R.string.administrador))){
+                        //---Launch activity Config Hors
+                        Intent Lanzador1=new Intent(MainActivity_interface_principal.this,Configuracion_Horario.class);
+                        startActivity(Lanzador1);
+
+                        //finaliza AlertDialog Hors
+                        alertDialogHors.dismiss();
+                    }else{ Toast.makeText(MainActivity_interface_principal.this,getString(R.string.no_tienes_permisos_necesarios),Toast.LENGTH_LONG).show(); }
+                } Toast.makeText(MainActivity_interface_principal.this,getString(R.string.error_field_required),Toast.LENGTH_LONG).show(); }
+
+        });
+
+        // BASE DE DATOS
         CollectionReference collecHorario = db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_HORARIOS)  );
         collecHorario.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -2258,21 +2215,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
 
     }
-    public void ButtonNewHors(View view){
 
-        if(perfilCuenta.getTipocuenta().equals(getString(R.string.administrador))){
-            //---Launch activity Config Hors
-            Intent Lanzador1=new Intent(MainActivity_interface_principal.this,Configuracion_Horario.class);
-            startActivity(Lanzador1);
-
-            //finaliza AlertDialog Hors
-            alertDialogHors.dismiss();
-        }else{
-            Toast.makeText(MainActivity_interface_principal.this,getString(R.string.no_tienes_permisos_necesarios),Toast.LENGTH_LONG).show();
-        }
-
-
-    }
     public void ButtonFinish(View view){
         //finaliza AlertDialog Hors
         alertDialogHors.dismiss();

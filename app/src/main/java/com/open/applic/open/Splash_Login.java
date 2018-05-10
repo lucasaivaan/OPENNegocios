@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -174,6 +175,8 @@ public class Splash_Login extends AppCompatActivity implements GoogleApiClient.O
     }
     private void ComprobacionUsuario() {
 
+
+
         String PrefCorreo =SharePreferencesAPP.getID_USUARIO( Splash_Login.this);
         final String PrefId_negocio =SharePreferencesAPP.getID_NEGOCIO( Splash_Login.this);
 
@@ -184,72 +187,95 @@ public class Splash_Login extends AppCompatActivity implements GoogleApiClient.O
 
         }else {
 
-            // Consulta a la Base de Datos
-            CollectionReference collectionReferenceDB=db.collection( getString(R.string.DB_NEGOCIOS) );
-            collectionReferenceDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            DocumentReference referenceDB_Cuenta=db.collection( getString(R.string.DB_NEGOCIOS) ).document(firebaseAuth.getUid());
+            referenceDB_Cuenta.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()){
-                        for(final DocumentSnapshot docRef:task.getResult()){
+                        DocumentSnapshot documentSnapshot=task.getResult();
+                        if(documentSnapshot.exists()){
 
-                            //Base de Datos de cuentas del negocio
-                            CollectionReference collectionReferenceCuentas=db.collection( getString(R.string.DB_NEGOCIOS) ).document(docRef.getId()).collection( getString(R.string.DB_CUENTAS) );
-                            collectionReferenceCuentas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            // datos de APP SharePreferences
+                            SharePreferencesAPP.setID_USUARIO(  firebaseUser.getEmail()  ,Splash_Login.this);
+                            SharePreferencesAPP.setID_NEGOCIO(  documentSnapshot.getId()  ,Splash_Login.this);
+
+                            goMainScreen();
+
+                        }else{
+
+                            // Consulta a la Base de Datos
+                            CollectionReference collectionReferenceDB=db.collection( getString(R.string.DB_NEGOCIOS) );
+                            collectionReferenceDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if(task.isSuccessful()){
-                                        for (DocumentSnapshot docCuenta:task.getResult()){
-                                            if (docCuenta.exists()) {
 
-                                                adapter_perfil_cuenta perfilCuenta =docCuenta.toObject(adapter_perfil_cuenta.class);
+                                        for(final DocumentSnapshot docRef:task.getResult()){
 
-                                                // Comprobar existencia de la cuenta en el negocio
-                                                if(perfilCuenta.getEmail().equals(firebaseUser.getEmail())){
+                                            //Base de Datos de cuentas del negocio
+                                            CollectionReference collectionReferenceCuentas=db.collection( getString(R.string.DB_NEGOCIOS) ).document(docRef.getId()).collection( getString(R.string.DB_CUENTAS) );
+                                            collectionReferenceCuentas.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                    if(task.isSuccessful()){
+                                                        for (DocumentSnapshot docCuenta:task.getResult()){
+                                                            if (docCuenta.exists()) {
 
-                                                   // Asigna la Id del negocio a la variable global
-                                                    ID_NEGOCIO=docRef.getId();
-                                                    estado=true;
+                                                                adapter_perfil_cuenta perfilCuenta =docCuenta.toObject(adapter_perfil_cuenta.class);
 
-                                                    // datos de APP SharePreferences
-                                                    SharePreferencesAPP.setID_NEGOCIO(  firebaseUser.getEmail()  ,Splash_Login.this);
-                                                    SharePreferencesAPP.setID_NEGOCIO(  docRef.getId()  ,Splash_Login.this);
+                                                                // Comprobar existencia de la cuenta en el negocio
+                                                                if(perfilCuenta.getEmail().equals(firebaseUser.getEmail())){
 
-                                                    goMainScreen();
+                                                                    // Asigna la Id del negocio a la variable global
+                                                                    ID_NEGOCIO=docRef.getId();
+                                                                    estado=true;
 
-                                                    break;
+                                                                    // datos de APP SharePreferences
+                                                                    SharePreferencesAPP.setID_USUARIO(  firebaseUser.getEmail()  ,Splash_Login.this);
+                                                                    SharePreferencesAPP.setID_NEGOCIO(  docRef.getId()  ,Splash_Login.this);
+
+                                                                    goMainScreen();
+
+                                                                    break;
+                                                                }
+
+
+                                                            }else{ }
+
+                                                        }
+                                                    }
                                                 }
-
-
-                                            }else{ }
+                                            });
 
                                         }
+
+                                        if(estado==false){
+                                            // SI EL USUARIO NO TIENE RELACION CON NINGUN NEGOCIO
+                                            ID_NEGOCIO=firebaseUser.getUid();
+                                            if(ID_NEGOCIO != null) {
+
+
+                                                //---Lanzador de activity Auth
+                                                Intent Lanzador1=new Intent(Splash_Login.this,Add_info_profile.class);
+                                                startActivity(Lanzador1);
+                                                finish();
+
+                                            }
+
+                                        }
+
+
                                     }
+
                                 }
                             });
-
                         }
-
-                        if(estado==false){
-                            // SI EL USUARIO NO TIENE RELACION CON NINGUN NEGOCIO
-
-                            ID_NEGOCIO=firebaseUser.getUid();
-                            if(ID_NEGOCIO != null) {
-
-
-                                //---Lanzador de activity Auth
-                                Intent Lanzador1=new Intent(Splash_Login.this,Add_info_profile.class);
-                                startActivity(Lanzador1);
-                                finish();
-
-                            }
-
-                        }
-
 
                     }
-
                 }
             });
+
+
 
         }
 

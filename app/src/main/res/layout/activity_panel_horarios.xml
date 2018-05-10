@@ -8,12 +8,12 @@
     tools:context="com.open.applic.open.create_form_profile.Panel_Horarios">
 
     <LinearLayout
+        android:id="@+id/button_newhorario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="@drawable/edittextview_style4"
-        android:onClick="ButtonNewHors"
         android:orientation="horizontal">
 
         <com.airbnb.lottie.LottieAnimationView

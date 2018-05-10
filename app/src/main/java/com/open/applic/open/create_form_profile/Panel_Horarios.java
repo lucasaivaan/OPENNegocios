@@ -10,7 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_horario;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_horario;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
@@ -36,6 +39,7 @@ public class Panel_Horarios extends AppCompatActivity {
 
     private  String ID=null;
     private TextView textViewNoti_sinHorario;
+    private LinearLayout lButton_NewHorario;
 
     // FIRESTORE FB
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -70,6 +74,17 @@ public class Panel_Horarios extends AppCompatActivity {
 
         //Reference
         textViewNoti_sinHorario= findViewById(R.id.textViewNoti_sinHorario);
+        lButton_NewHorario=(LinearLayout) findViewById(R.id.button_newhorario);
+
+        lButton_NewHorario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //---Launch activity
+                Intent Lanzador1=new Intent(Panel_Horarios.this,Configuracion_Horario.class);
+                startActivity(Lanzador1);
+            }
+        });
 
 
 
@@ -162,12 +177,7 @@ public class Panel_Horarios extends AppCompatActivity {
 
     }
 
-    public void ButtonNewHors(View view){
-        //---Launch activity
-        Intent Lanzador1=new Intent(Panel_Horarios.this,Configuracion_Horario.class);
-        startActivity(Lanzador1);
 
-    }
     public void ButtonFinish(View view){
         //Finish Activity
         finish();

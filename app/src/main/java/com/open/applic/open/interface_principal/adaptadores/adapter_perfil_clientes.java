@@ -14,12 +14,12 @@ public class adapter_perfil_clientes {
     private Boolean mensaje_nuevo =false;
     private Boolean local=false;
     private String cardlayout="default";
-    private Double numreseñas;
+    private Integer numreseñas=0;
 
 
-    public Double getNumreseñas() {return numreseñas;}
+    public Integer getNumreseñas() {return numreseñas;}
 
-    public void setNumreseñas(Double numreseñas) {this.numreseñas = numreseñas;}
+    public void setNumreseñas(Integer numreseñas) {this.numreseñas = numreseñas;}
 
     public String getCardlayout() { return cardlayout; }
 

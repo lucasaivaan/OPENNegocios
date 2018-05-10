@@ -331,9 +331,10 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_obtener_link_playstore">Error al obtener dirección de Play Store por favor compruebe su conexin a internet</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="error_DB">Error en la base de datos</string>
+
+
+    <string name="permission_rationale">"Contacts permissions are needed for providing emailcompletions."</string>
     <string name="sin_ofertas">Sin ofertas</string>
     <string name="sin_servicios">Sin servicios</string>
     <string name="sin_clientes">Sin clientes</string>
