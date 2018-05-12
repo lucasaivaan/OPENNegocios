@@ -9,12 +9,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +27,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,13 +42,17 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.open.applic.open.MainActivity_Auth;
 import com.open.applic.open.R;
 import com.open.applic.open.create_form_profile.HttpDataHalder;
 import com.open.applic.open.create_form_profile.MapsActivity_profile;
 import com.open.applic.open.create_form_profile.Panel_Horarios;
+import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
+import com.open.applic.open.interface_principal.metodos_funciones.EliminarDatosCuenta;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
+import com.open.applic.open.service.ServiseNotify;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,11 +64,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class Nav_header_perfil extends AppCompatActivity {
+public class Nav_header_perfil extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private LinearLayout LinealLayout_categoria;
     private String ID_NEGOCIO;
@@ -77,6 +94,12 @@ public class Nav_header_perfil extends AppCompatActivity {
 
     //-- Acceso a una instancia de Cloud Firestore desde la actividad
     private FirebaseFirestore CloudFirestoreDB=FirebaseFirestore.getInstance();
+    private static final ThreadPoolExecutor EXECUTOR = new ThreadPoolExecutor(2, 4,
+            60, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+    //-------- signOut
+    private FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
+    private GoogleApiClient googleApiClient;
+
 
     //--EditText
     private EditText eProfile_name;
@@ -123,6 +146,18 @@ public class Nav_header_perfil extends AppCompatActivity {
 
         //---introduce button de retroceso
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        ///////////////////////////////////// signOut //////////////////////////////////////////////
+        //----Authentication Google
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this,this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
 
         //---Reference EditText
@@ -197,7 +232,7 @@ public class Nav_header_perfil extends AppCompatActivity {
                             //agrega item menu
                             List<String> Menu = new ArrayList<String>();
                             Menu.add(getString(R.string.actualizar_foto));
-                            Menu.add(getString(R.string.cancel));
+                            Menu.add(getString(R.string.cancelar));
 
                             //Create sequence of items
                             final CharSequence[] charSequences = Menu.toArray(new String[Menu.size()]);
@@ -422,6 +457,9 @@ public class Nav_header_perfil extends AppCompatActivity {
         return idColor;
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {}
+
     private class GetCoordinatess extends AsyncTask<String,Void,String> {
 
         ProgressDialog dialog = new ProgressDialog(Nav_header_perfil.this);
@@ -492,21 +530,113 @@ public class Nav_header_perfil extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        //---Finish Activity
+
+
+        //---Lanzador de activity
+        Intent intent = new Intent(Nav_header_perfil.this, MainActivity_interface_principal.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
         switch (item.getItemId()) {
             case android.R.id.home:
+
+                //---Lanzador de activity Auth
+                Intent intent = new Intent(Nav_header_perfil.this, MainActivity_interface_principal.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
+                return true;
+
+            case  R.id.action_eliminar_cuenta:
+
+                new AlertDialog.Builder(Nav_header_perfil.this)
+                        .setIcon(R.mipmap.ic_launcher)
+                        //.setTitle(R.string.pregunta_eliminar_negocio_de_lista)
+                        .setMessage(R.string.confirma_eliminacion_cuenta)
+                        .setPositiveButton(R.string.si, null)
+                        .setNegativeButton(R.string.cancelar, null)
+                        .setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+
+                                EliminarDatosCuenta.Galeriafotos(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Clientes(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Cuentas(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Horarios(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Ofertas(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Productos(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Reseñas(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Servicios(ID_NEGOCIO,Nav_header_perfil.this);
+                                EliminarDatosCuenta.Cuenta(ID_NEGOCIO,Nav_header_perfil.this);
+
+
+                                try {
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        public void run() {
+
+
+                                            ///////////////////////////////// Cerrar Sesion //////////////////////////////////////////////
+
+                                            ///////////////////////////////// signOut //////////////////////////////////////////////
+                                            firebaseAuth.signOut();
+                                            Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+                                                @Override
+                                                public void onResult(@NonNull Status status) {
+                                                    if (status.isSuccess()) {
+
+                                                        stopService(new Intent(Nav_header_perfil.this,ServiseNotify.class));
+
+                                                        SharePreferencesAPP.setID_USUARIO(null,Nav_header_perfil.this);
+                                                        SharePreferencesAPP.setID_NEGOCIO(null,Nav_header_perfil.this);
+                                                        SharePreferencesAPP.setPAIS(null,Nav_header_perfil.this);
+
+                                                        //---Lanzador de activity Auth
+                                                        Intent Lanzador1=new Intent(Nav_header_perfil.this,MainActivity_Auth.class);
+                                                        startActivity(Lanzador1);
+                                                        finish();
+
+                                                    } else {Toast.makeText(getApplicationContext(), R.string.not_close_session, Toast.LENGTH_SHORT).show();}}});
+                                            ////////////////////////////////////////////////////////////////////////////////////////
+
+                                        }
+                                    }, 3000);// Tiempo de espera
+                                } catch (Exception e) { }
+
+
+
+
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {}
+                        }).show();
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_perfil, menu);
+        return true;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -541,7 +671,7 @@ public class Nav_header_perfil extends AppCompatActivity {
                     .into(CircleImageView_Title);
 
             //Referencia a la direccion donde se va a guardar la foto
-            StorageReference filePath= storageReferenceGalery.child(  getString(R.string.DB_NEGOCIOS)  ).child(ID_NEGOCIO).child(  getString(R.string.DBS_PERFIL)  ).child("perfil");
+            StorageReference filePath= storageReferenceGalery.child(  getString(R.string.DB_NEGOCIOS)  ).child(ID_NEGOCIO).child(  getString(R.string.DBS_PERFIL)  ).child(getString(R.string.DBS_imagen_perfil));
             UploadTask uploadTask= filePath.putBytes(foto);
 
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -552,7 +682,7 @@ public class Nav_header_perfil extends AppCompatActivity {
                     //-Obtiene la url de la foto
                     Uri descargarFoto=taskSnapshot.getDownloadUrl();
                     Map<String, Object> url = new HashMap<>();
-                    url.put("imagen_perfil",descargarFoto.toString());
+                    url.put(getString(R.string.DBS_imagen_perfil),descargarFoto.toString());
 
                     //-Guardar el Uri de la foto en el Profile del Negocio en un String
                     CloudFirestoreDB.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).set(url,SetOptions.merge());

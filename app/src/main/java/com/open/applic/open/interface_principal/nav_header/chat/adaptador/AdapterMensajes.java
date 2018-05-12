@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
@@ -24,7 +25,6 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
 
     private List<MensajeRecibir> listMensaje = new ArrayList<>();
     private Context c;
-
     private View viewMensaje;
 
     public AdapterMensajes(Context c) {
@@ -68,7 +68,6 @@ public class AdapterMensajes extends RecyclerView.Adapter<HolderMensaje> {
                 Glide.with(c).load(listMensaje.get(position).getUrlfotoPerfil()).into(holder.getFotoMensajePerfil1_1());
 
             }
-
 
 
             // hora

@@ -60,13 +60,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -180,6 +177,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
     public RecyclerView recyclerViewOfertas;
     public List<adapter_ofertas_negocio> adapterProfileNegociosOfertas;
     public adapter_recyclerView_Ofertas adapterRecyclerViewOfertas;
+    private adapter_ofertas_negocio adapter_ofertas_negocio=new adapter_ofertas_negocio();
 
     private TextView notificacion_no_oferta_creada;
     private static final int idIntent_addImagenOferta =2;
@@ -208,6 +206,11 @@ public class MainActivity_interface_principal extends AppCompatActivity
     public RecyclerView recyclerViewClientes;
     public List<adapter_perfil_clientes> adapterClientesNegocios;
     public adapter_recyclerView_Clientes adapterRecyclerViewClientes;
+
+    /// Buscador
+    public RecyclerView recyclerViewClientesBuscador;
+    public List<adapter_perfil_clientes> adapterClientesNegociosBuscador;
+    public adapter_recyclerView_Clientes adapterRecyclerViewClientesBuscador;
 
 
     //---TextView
@@ -491,7 +494,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
         recyclerView_home.setOnTouchListener(new OnSwipeTouchListener(MainActivity_interface_principal.this) {
             public void onSwipeBottom() {
                 //---Funcion para actualizar los datos
-                carga_Clientes("");
+                carga_Clientes();
                 //message
                 Toast.makeText(MainActivity_interface_principal.this,R.string.actualizado, Toast.LENGTH_SHORT).show();
             }});
@@ -512,10 +515,10 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 if(!edittext_seachCliente.getText().toString().equals("")){
 
                     // Buscador
-                    carga_Clientes(edittext_seachCliente.getText().toString());
+                    BuscardorCliente(adapterClientesNegocios,edittext_seachCliente.getText().toString());
                 }else {
                     // Buscador
-                    carga_Clientes ("");
+                    carga_Clientes ();
                 }
             }
         });
@@ -535,14 +538,13 @@ public class MainActivity_interface_principal extends AppCompatActivity
         cargar_Ofertas();
         carga_Servicios();
         carga_perfilNegocio();
-        carga_Clientes("");
+        carga_Clientes();
 
     }
 
     public void verificarCuenta(){
-        Toast.makeText(MainActivity_interface_principal.this, firebaseUser.getEmail() ,Toast.LENGTH_LONG).show();
 
-
+        // Firestore
         DocumentReference docRefUsuario=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_CUENTAS)  ).document(firebaseUser.getEmail());
         docRefUsuario.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -644,7 +646,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                             navUsername.setText(adaptert_Profile.getNombre_negocio());
 
                             int iPuntos=0;
-                            if(adaptert_Profile.getEstrellastotal() != null){ iPuntos=adaptert_Profile.getEstrellastotal() + adaptert_Profile.getPuntos(); }
+                            if(adaptert_Profile.getEstrellastotal() != null){ iPuntos=adaptert_Profile.getEstrellastotal() ; }
                             else if(adaptert_Profile.getPuntos() != null){ iPuntos=adaptert_Profile.getPuntos(); }
 
                             // Puntos
@@ -786,9 +788,14 @@ public class MainActivity_interface_principal extends AppCompatActivity
             startActivityForResult(intent, 0);
 
         } else if (id == R.id.nav_perfil) {
-            //--.lanzadador Activity
-            Intent intent = new Intent (MainActivity_interface_principal.this,Nav_header_perfil.class);
-            startActivityForResult(intent, 0);
+
+            //---Lanzador de activity
+            Intent intent = new Intent(MainActivity_interface_principal.this, Nav_header_perfil.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_productos) {
 
@@ -815,10 +822,20 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 @Override
                 public void onResult(@NonNull Status status) {
                     if (status.isSuccess()) {
+
+                        // Al cerrar la sescion detiene los servicios
+                        stopService(new Intent(MainActivity_interface_principal.this, ServiseNotify.class));
+
+
+                        SharePreferencesAPP.setID_USUARIO(null,MainActivity_interface_principal.this);
+                        SharePreferencesAPP.setID_NEGOCIO(null,MainActivity_interface_principal.this);
+                        SharePreferencesAPP.setPAIS(null,MainActivity_interface_principal.this);
+
                         //---Lanzador de activity Auth
                         Intent Lanzador1=new Intent(MainActivity_interface_principal.this,MainActivity_Auth.class);
                         startActivity(Lanzador1);
                         finish();
+
                     } else {Toast.makeText(getApplicationContext(), R.string.not_close_session, Toast.LENGTH_SHORT).show();}}});
             ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -961,7 +978,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                 Menu.removeAll(Menu);
                                 Menu.add(getString(R.string.actualizar_foto));
                                 if(!adapterNegocioPerfil.getImagen_perfil().equals("default")){ Menu.add(getString(R.string.ver_foto)); }
-                                Menu.add(getString(R.string.cancel));
+                                Menu.add(getString(R.string.cancelar));
 
                                 //Create sequence of items
                                 final CharSequence[] charSequences = Menu.toArray(new String[Menu.size()]);
@@ -1048,15 +1065,146 @@ public class MainActivity_interface_principal extends AppCompatActivity
         adapterRecyclerViewOfertas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                //----------------------------------------Alert Dialog
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity_interface_principal.this);
-                builder1.setMessage(R.string.eliminar_oferta);
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
 
-                        // Resta puntos
-                        PuntosCuenta.RestaPuntos(2,MainActivity_interface_principal.this);
+                // Adapter del item  oferta
+                adapter_ofertas_negocio=adapterProfileNegociosOfertas.get(recyclerViewOfertas.getChildAdapterPosition(view));
+
+                //Crea el ventanta flotante
+                LayoutInflater inflater = getLayoutInflater();
+                View dialoglayout = inflater.inflate(R.layout.view_oferta_add_oferta, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_interface_principal.this);
+                builder.setView(dialoglayout);
+                alertDialogClient=builder.show();
+
+                //----EditText
+                final EditText editTextTitle;
+                final EditText editTextDescription;
+                final EditText editTextPrice;
+                LinearLayout linearLayoutAceptar;
+                final ProgressBar progressBar;
+
+                //--Reference
+                editTextTitle=(EditText) dialoglayout.findViewById(R.id.editText_title);
+                editTextDescription=(EditText) dialoglayout.findViewById(R.id.editText_decription);
+                editTextPrice=(EditText) dialoglayout.findViewById(R.id.editText_price);
+                linearLayoutAceptar=(LinearLayout) dialoglayout.findViewById(R.id.LineallayoutOferta_aceptar);
+                circleImageViewFoto=(ImageView) dialoglayout.findViewById(R.id.imageView_imageProducto2);
+                progressBar=(ProgressBar) dialoglayout.findViewById(R.id.progressBar6);
+                progressBar.setVisibility(View.GONE);
+                Button buttonEliminar=(Button) dialoglayout.findViewById(R.id.button31_Eliminar);
+                TextView textViewButtonactualizar=(TextView) dialoglayout.findViewById(R.id.button009);
+                textViewButtonactualizar.setText(getResources().getString(R.string.actualizar));
+                ImageButton imageButton_Close=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
+
+                // Set Nombre
+                editTextTitle.setText(adapter_ofertas_negocio.getTitulo());
+                // Set Descripcion
+                editTextDescription.setText(adapter_ofertas_negocio.getDescripcion());
+                // Set precio
+                editTextPrice.setText(adapter_ofertas_negocio.getPrecio());
+                // Set imagen
+                if(!adapter_ofertas_negocio.getUrlFoto().equals("default")){
+                    Glide.with(circleImageViewFoto.getContext()).load(adapter_ofertas_negocio.getUrlFoto()).fitCenter().centerCrop().into(circleImageViewFoto);
+                }
+
+
+
+                // Set onClick Imagen
+                circleImageViewFoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Intent intent=new Intent(Intent.ACTION_PICK);
+                        intent.setType("image/*");
+                        startActivityForResult(intent, idIntent_addImagenOferta);
+                    }
+                });
+
+                imageButton_Close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //---Finaliza ventana flotante
+                        alertDialogClient.dismiss();
+                    }
+                });
+
+                // Set onClick Button Guardar
+                linearLayoutAceptar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        // Get Datos
+                        String tittle=editTextTitle.getText().toString();
+                        String description=editTextDescription.getText().toString();
+                        String pricee=editTextPrice.getText().toString();
+
+                        // Condicion
+                        if(!tittle.equals("") && !pricee.equals("") ){
+                            if(tittle.length()<=20 ){
+                                if(description.length()<=100 ){
+
+                                    adapter_ofertas_negocio.setTitulo(tittle);
+                                    adapter_ofertas_negocio.setDescripcion(description);
+                                    adapter_ofertas_negocio.setPrecio(pricee);
+
+
+                                    // Condicion si agrego una foto
+                                    if(fotoOFerta != null){
+
+                                        progressBar.setVisibility(View.VISIBLE);
+
+                                        //Referencia a la direccion donde se va a guardar la foto
+                                        StorageReference filePath= storageReferenceGalery.child(  getString(R.string.DB_NEGOCIOS)  ).child(ID_NEGOCIO).child(  getString(R.string.DB_OFERTAS)  ).child(adapter_ofertas_negocio.getId());
+                                        UploadTask uploadTask= filePath.putBytes(fotoOFerta);
+
+
+                                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                lottieAnimationViewLoad_Galery.setVisibility(View.GONE);
+                                                Lineallayout_galery.setVisibility(View.VISIBLE);
+
+                                                //-Obtiene la url de la foto
+                                                Uri descargarFoto=taskSnapshot.getDownloadUrl();
+                                                adapter_ofertas_negocio.setUrlFoto(descargarFoto.toString());
+
+
+                                                //Guarda los dato en la base de datos
+                                                db.collection(  getString(R.string.DB_NEGOCIOS  )).document(ID_NEGOCIO).collection(  getString(R.string.DB_OFERTAS)  ).document( adapter_ofertas_negocio.getId() ).set(adapter_ofertas_negocio,SetOptions.merge());
+
+
+                                                //---Finaliza ventana flotante
+                                                progressBar.setVisibility(View.GONE);
+                                                alertDialogClient.dismiss();
+                                            }
+                                        });
+
+                                        // Clear
+                                        fotoOFerta=null;
+
+
+                                    }else {
+
+                                        //Guarda los dato en la base de datos
+                                        db.collection(  getString(R.string.DB_NEGOCIOS  )).document(ID_NEGOCIO).collection(  getString(R.string.DB_OFERTAS)  ).document( adapter_ofertas_negocio.getId() ).set(adapter_ofertas_negocio,SetOptions.merge());
+
+                                        //---Finaliza ventana flotante
+                                        alertDialogClient.dismiss();
+                                    }
+
+
+
+                                }else{Toast.makeText(MainActivity_interface_principal.this,R.string.la_descripcion_demasiado_largo,Toast.LENGTH_SHORT).show();}
+                            }else{Toast.makeText(MainActivity_interface_principal.this,R.string.el_titulo_demasiado_largo,Toast.LENGTH_SHORT).show();}
+                        }else{Toast.makeText(MainActivity_interface_principal.this,R.string.uno_o_mas_campos_estan_vacios,Toast.LENGTH_SHORT).show();}
+                    }
+                });
+
+                // OnClick Button Eliminar
+                buttonEliminar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
 
                         //---extrae la id de la Oferta
                         String Id=adapterProfileNegociosOfertas.get(recyclerViewOfertas.getChildAdapterPosition(view)).getId();
@@ -1069,18 +1217,21 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         desertRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                PuntosCuenta.RestaPuntos(1,MainActivity_interface_principal.this);
+                                PuntosCuenta.RestaPuntos(2,MainActivity_interface_principal.this);
                             }
                         });
 
-                        dialog.cancel();
-                    }});
-                builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {dialog.cancel();}});
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
-                //----------------------------------------------Fin Alert Dialog
-            }});
+                        //---Finaliza ventana flotante
+                        alertDialogClient.dismiss();
+
+                    }
+                });
+
+
+
+
+            }
+        });
         recyclerViewOfertas.setAdapter(adapterRecyclerViewOfertas);
 
 
@@ -1140,7 +1291,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_SERVICIOS)  ).document(Id).delete();
 
                         dialog.cancel();}});
-                builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder1.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {dialog.cancel();}});
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
@@ -1171,7 +1322,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 });
 
     }
-    public void carga_Clientes(final String valueSeach) {
+    public void carga_Clientes() {
 
         ///////////////////////////////Adaptador Navigation  Clientes //////////////////////////////
         notificacion_no_cliente = (TextView) findViewById(R.id.textView_no_cliente);
@@ -1286,14 +1437,11 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                 adapter_perfil_clientes aCliente = doc.toObject(adapter_perfil_clientes.class);
                                 aCliente.setId(doc.getId());
 
-                                if(   valueSeach.equals("")  || Buscardor.Buscar( aCliente.getNombre(),valueSeach)){
-
-                                    // ADD
-                                    adapterClientesNegocios.add(aCliente);
-                                    adapterRecyclerViewClientes.notifyDataSetChanged();
-                                    // Clear
-                                    aCliente=null;
-                                }
+                                // ADD
+                                adapterClientesNegocios.add(aCliente);
+                                adapterRecyclerViewClientes.notifyDataSetChanged();
+                                // Clear
+                                aCliente=null;
 
                             }
                         }
@@ -1301,6 +1449,118 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     }
                 });
 
+
+
+    }
+    public void BuscardorCliente(List<adapter_perfil_clientes> listCliente,String sBuscar){
+
+        ///////////////////////////////Adaptador Navigation  Clientes //////////////////////////////
+        notificacion_no_cliente = (TextView) findViewById(R.id.textView_no_cliente);
+
+        //---Clickn el item seleccionado
+        recyclerViewClientesBuscador = (RecyclerView) findViewById(R.id.recyclerView_clientes);
+        recyclerViewClientesBuscador.setLayoutManager(new LinearLayoutManager(this));
+        //--Adaptadores
+        adapterClientesNegociosBuscador = new ArrayList<>();
+        adapterRecyclerViewClientesBuscador = new adapter_recyclerView_Clientes(adapterClientesNegociosBuscador,this);
+
+        adapterRecyclerViewClientesBuscador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view2) {
+
+                //Adaptador perfil del cliente
+                adapter_perfil_clientes adapterPerfilClientes = adapterClientesNegociosBuscador.get(recyclerViewClientesBuscador.getChildAdapterPosition(view2));
+
+
+                if (adapterPerfilClientes.getLocal() == false) {
+
+                    //------------------------------- Usuario Cliente
+                    ViewCardCliete(adapterPerfilClientes.getId());
+                } else {
+                    // ------------------------------ Cliente Local
+
+                    //////////////////////////////// Cuadro de Dialog //////////////////////////////////
+                    final Dialog dialog = new Dialog(MainActivity_interface_principal.this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(true);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    dialog.setContentView(R.layout.view_perfil_cliente);
+                    dialog.show();
+
+                    // Reference
+                    LinearLayout linearLayoutPhone = (LinearLayout) dialog.findViewById(R.id.lineallayout_phone);
+                    Button buttonChat = (Button) dialog.findViewById(R.id.button_chat);
+                    Button buttonCuenta = (Button) dialog.findViewById(R.id.button_cuenta);
+                    Button buttonDelete = (Button) dialog.findViewById(R.id.button15);
+
+                    CircleImageView imagePerfil = (CircleImageView) dialog.findViewById(R.id.imageView_perfilcliente);
+                    TextView textView_Nombre = (TextView) dialog.findViewById(R.id.textView_nombre);
+                    final TextView textView_Telefono = (TextView) dialog.findViewById(R.id.textView_telefono);
+                    TextView tReseña=(TextView) dialog.findViewById(R.id.textView22_reseñasa);
+                    ProgressBar progressBar = (ProgressBar) dialog.findViewById(R.id.progressBar2);
+                    LinearLayout layout_Cardstylo=(LinearLayout) dialog.findViewById(R.id.layout_stylo);
+                    LinearLayout linearLayoutReseña=(LinearLayout)dialog.findViewById(R.id.layout_reseñas);
+
+                    // Control de visibilidad
+                    linearLayoutReseña.setVisibility(View.GONE);
+                    linearLayoutPhone.setVisibility(View.GONE);
+                    buttonDelete.setVisibility(View.GONE);
+                    buttonChat.setVisibility(View.GONE);
+                    buttonDelete.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+
+                    // TextVie Nombre
+                    textView_Nombre.setText(adapterClientesNegociosBuscador.get(recyclerViewClientesBuscador.getChildAdapterPosition(view2)).getNombre());
+
+                    // Button
+                    buttonCuenta.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            //--.lanzadador Activity
+                            Intent intent2 = new Intent(MainActivity_interface_principal.this, Cuenta_launchCliente.class);
+                            intent2.putExtra("parametroIdCliente", adapterClientesNegociosBuscador.get(recyclerViewClientesBuscador.getChildAdapterPosition(view2)).getId());
+                            startActivityForResult(intent2, 0);
+                        }
+                    });
+
+                    buttonDelete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+
+                            DocumentReference documentReference = db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO)
+                                    .collection(getString(R.string.DB_CLIENTES)).document(adapterClientesNegociosBuscador.get(recyclerViewClientesBuscador.getChildAdapterPosition(view2)).getId());
+                            documentReference.delete();
+                        }}
+                    );
+                }
+            }
+        });
+        recyclerViewClientesBuscador.setAdapter(adapterRecyclerViewClientesBuscador);
+
+        if(listCliente != null){
+            if(listCliente.size() !=0){
+
+                adapterClientesNegociosBuscador.removeAll(adapterClientesNegociosBuscador);
+
+                // Recorre la lista de clientes
+                for(adapter_perfil_clientes aPerfil:listCliente){
+
+                    if( Buscardor.Buscar( aPerfil.getNombre(),sBuscar)){
+
+                        // ADD
+                        adapterClientesNegociosBuscador.add(aPerfil);
+                        adapterRecyclerViewClientesBuscador.notifyDataSetChanged();
+                        // Clear
+                        aPerfil=null;
+
+
+                    }
+                }
+                adapterRecyclerViewClientesBuscador.notifyDataSetChanged();
+            }
+        }
 
 
     }
@@ -2097,9 +2357,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
             lottieAnimationView_load.setVisibility(View.GONE);
             imageView_home.setVisibility(View.VISIBLE);
 
-            Intent myIntent = new Intent(MainActivity_interface_principal.this, Add_info_profile.class);
-            startActivity(myIntent);
-            finish();
+
 
 
 
@@ -2161,7 +2419,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                         documentReference.delete();
                         ////////////////////////////////////////////////////////////////////////////////////////////
                         dialog.cancel();}});
-                builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder1.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {dialog.cancel();}});
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
@@ -2215,7 +2473,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
 
 
     }
-
     public void ButtonFinish(View view){
         //finaliza AlertDialog Hors
         alertDialogHors.dismiss();
@@ -2484,6 +2741,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
         linearLayoutAceptar=(LinearLayout) dialoglayout.findViewById(R.id.LineallayoutOferta_aceptar);
         circleImageViewFoto=(ImageView) dialoglayout.findViewById(R.id.imageView_imageProducto2);
         progressBar=(ProgressBar) dialoglayout.findViewById(R.id.progressBar6);
+        Button buttonEliminar=(Button) dialoglayout.findViewById(R.id.button31_Eliminar);
+        buttonEliminar.setVisibility(View.GONE);
+
         progressBar.setVisibility(View.GONE);
         circleImageViewFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2496,18 +2756,26 @@ public class MainActivity_interface_principal extends AppCompatActivity
             }
         });
 
+        ImageButton imageButton_Close=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
+        imageButton_Close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //---Finaliza ventana flotante
+                alertDialogClient.dismiss();
+            }
+        });
+
         linearLayoutAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tittle=editTextTitle.getText().toString();
                 String description=editTextDescription.getText().toString();
                 String pricee=editTextPrice.getText().toString();
-                //Referencia para acceso de DB)
-                DatabaseReference firebaseDatabaseOferta= FirebaseDatabase.getInstance().getReference();
+
 
                 if(!tittle.equals("") && !pricee.equals("") ){
                     if(tittle.length()<=20 ){
-                        if(description.length()<=50 ){
+                        if(description.length()<=100 ){
 
                             // ID unico
                             SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
@@ -2578,7 +2846,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
             }
         });
     }
-
     public void Button_EditarPerfil(View view){
 
         // AlertDialog
@@ -2646,7 +2913,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     .into(CircleImageView_Title);
 
             //Referencia a la direccion donde se va a guardar la foto
-            StorageReference filePath= storageReferenceGalery.child(  getString(R.string.DB_NEGOCIOS)  ).child(ID_NEGOCIO).child(  getString(R.string.DBS_PERFIL)  ).child("perfil");
+            StorageReference filePath= storageReferenceGalery.child(  getString(R.string.DB_NEGOCIOS)  ).child(ID_NEGOCIO).child(  getString(R.string.DBS_PERFIL)  ).child(getString(R.string.DBS_imagen_perfil));
             UploadTask uploadTask= filePath.putBytes(foto);
 
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -2657,7 +2924,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     //-Obtiene la url de la foto
                     Uri descargarFoto=taskSnapshot.getDownloadUrl();
                     Map<String, Object> url = new HashMap<>();
-                    url.put("imagen_perfil",descargarFoto.toString());
+                    url.put(getString(R.string.DBS_imagen_perfil),descargarFoto.toString());
 
                     //-Guardar el Uri de la foto en el Profile del Negocio en un String
                     db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).set(url,SetOptions.merge());

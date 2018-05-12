@@ -34,6 +34,7 @@
  import com.google.firebase.firestore.SetOptions;
  import com.google.firebase.firestore.WriteBatch;
  import com.open.applic.open.R;
+ import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
  import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
  import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
  import com.open.applic.open.interface_principal.nav_header.chat.adaptador.AdapterMensajes;
@@ -54,6 +55,7 @@
 
 
      private String ID_NEGOCIO ;
+     private adapter_perfil_clientes adapter_PERFIL_CLIENTE;
 
      //---------------------------------- Firestore -------------------------------------------------
      FirebaseFirestore db=FirebaseFirestore.getInstance();
@@ -104,14 +106,13 @@
          btnEnviar = (Button) findViewById(R.id.btnEnviar);
          fotoPerfilCadena = "";
 
-         //---Carga el chat
-         Load();
+         //---Carga datos del cliente
+         CargaPerfilCliente();
 
      }
 
 
-     //- Metodo que carga el chat
-     protected void Load() {
+     public void CargaPerfilCliente(){
          ///////////////////////////////// Carga el nombre del Cliente //////////////////////////////
          DocumentReference docRefCliente = db.collection( getString(R.string.DB_CLIENTES) ).document(idClient);
          docRefCliente .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -119,12 +120,17 @@
              public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                  if (task.isSuccessful()) {
                      DocumentSnapshot document = task.getResult();
-                     if (document != null) {
+                     if (document.exists()) {
+
+                         //Set Adapter
+                         adapter_PERFIL_CLIENTE=document.toObject(adapter_perfil_clientes.class);
+
+
                          //--Carga el nombre en el TextView
-                         nombre.setText(document.getString( getString(R.string.DB_nombre)) );
+                         nombre.setText( adapter_PERFIL_CLIENTE.getNombre() );
 
                          //-Uri foto perfil
-                         fotoPerfilCadena=document.getString( getString(R.string.DB_urlfotoPerfil) );
+                         fotoPerfilCadena=adapter_PERFIL_CLIENTE.getUrlfotoPerfil();
 
                          if(fotoPerfilCadena.equals("default")){
                              fotoPerfil.setImageResource(R.mipmap.ic_user2);
@@ -132,10 +138,16 @@
                              LoadImagePerfil(fotoPerfilCadena);
                          }
 
+                         // Carga el chat
+                         Carga_DbChat();
                      }
 
                  }
              }});
+     }
+     //- Metodo que carga el chat
+     protected void Carga_DbChat() {
+
 
 
          ///////////////////////////////// Carga el nombre del Negocio //////////////////////////////
@@ -235,7 +247,13 @@
 
                              MensajeRecibir m = dc.getDocument().toObject(MensajeRecibir.class);
 
-                             if(dc.getDocument().getDate( getString(R.string.DB_timestamp)) != null){
+                             if(m.getTimestamp() != null){
+                                 // Añade datos del cliente al adapadordel los mensajes
+                                 if(m.getType_mensaje().equals("2")){
+                                     m.setUrlfotoPerfil(adapter_PERFIL_CLIENTE.getUrlfotoPerfil());
+                                     m.setNombre(adapter_PERFIL_CLIENTE.getNombre());
+                                 }
+
                                  // Agrega el mensaje nuevo
                                  adapter.addMensaje(m);
                              }
@@ -248,7 +266,14 @@
 
                              MensajeRecibir m2 = dc.getDocument().toObject(MensajeRecibir.class);
 
-                             if(dc.getDocument().getDate( getString(R.string.DB_timestamp) ) != null){
+                             if(m2.getTimestamp() != null){
+
+                                 // Añade datos del cliente al adapadordel los mensajes
+                                 if(m2.getType_mensaje().equals("2")){
+                                     m2.setUrlfotoPerfil(adapter_PERFIL_CLIENTE.getUrlfotoPerfil());
+                                     m2.setNombre(adapter_PERFIL_CLIENTE.getNombre());
+                                 }
+
                                  // Agrega el mensaje nuevo
                                  adapter.addMensaje(m2);
                              }

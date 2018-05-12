@@ -14,7 +14,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.nav_header.chat.adaptador.HolderMensaje;
 
@@ -31,6 +33,9 @@ public class adapter_recyclerView_Clientes extends RecyclerView.Adapter<adapter_
     private List<adapter_perfil_clientes> List_Client;
     private View.OnClickListener listener;
    private Context context;
+
+
+   private FirebaseFirestore firestore=FirebaseFirestore.getInstance();
 
     public adapter_recyclerView_Clientes(List<adapter_perfil_clientes> business,Context context) {
         this.List_Client = business;
@@ -51,74 +56,95 @@ public class adapter_recyclerView_Clientes extends RecyclerView.Adapter<adapter_
     public void onBindViewHolder(homeViwHolder holder, final int position) {
         final adapter_perfil_clientes ADP= List_Client.get(position);
 
+
         final TextView dato1=holder.dato1;
         final TextView dato2=holder.dato2;
         final CircleImageView dato3=holder.dato3;
         final ImageView dato4=holder.dato4;
-
-        if(ADP.getLocal() == false){
-
-            ////// CLIENTE ONLINE
-
-            List_Client.get(position).setNombre(ADP.getNombre());
-
-            // Nombre
-            dato1.setText(ADP.getNombre());
-
-            // TELEFONO
-            if(  ADP.getTelefono() == null ){ dato2.setVisibility(View.GONE);}
-            else {
-                if(ADP.getTelefono().equals("")){ dato2.setVisibility(View.GONE); }
-                else{ dato2.setText(ADP.getTelefono());}}
-
-            // Imagen
-            if(!ADP.getUrlfotoPerfil().equals("default")){
-                Context context=dato3.getContext();
-                Glide.with(context)
-                        .load(ADP.getUrlfotoPerfil())
-                        .fitCenter()
-                        .centerCrop()
-                        .into(dato3);
-            }else{
-                Glide.clear(dato3);
-
-                dato3.setImageDrawable(null);
-                dato3.setBackgroundResource(R.mipmap.ic_user2);
-            }
+        final DocumentReference documentReference;
 
 
-            //icono mensaje de notificacion de mensaje nuevo
-            if(ADP.getMensaje_nuevo().equals(true)){
-                dato4.setVisibility(View.VISIBLE);
-            }else if(ADP.getMensaje_nuevo().equals(false)){
-                dato4.setVisibility(View.GONE);
-            }
+        documentReference=firestore.collection(context.getResources().getString(R.string.DB_CLIENTES)).document(ADP.getId());
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+
+                        if(documentSnapshot.exists()){
+                            adapter_perfil_clientes perfilClientes=documentSnapshot.toObject(adapter_perfil_clientes.class);
 
 
 
+                            if(perfilClientes.getLocal() == false){
+
+                                ////// CLIENTE ONLINE
+
+                                List_Client.get(position).setNombre(perfilClientes.getNombre());
+
+                                // Nombre
+                                dato1.setText(perfilClientes.getNombre());
+
+                                // TELEFONO
+                                if(  perfilClientes.getTelefono() == null ){ dato2.setVisibility(View.GONE);}
+                                else {
+                                    if(perfilClientes.getTelefono().equals("")){ dato2.setVisibility(View.GONE); }
+                                    else{ dato2.setText(perfilClientes.getTelefono());}}
+
+                                // Imagen
+                                if(!perfilClientes.getUrlfotoPerfil().equals("default")){
+                                    Context context=dato3.getContext();
+                                    Glide.with(context)
+                                            .load(perfilClientes.getUrlfotoPerfil())
+                                            .fitCenter()
+                                            .centerCrop()
+                                            .into(dato3);
+                                }else{
+                                    Glide.clear(dato3);
+
+                                    dato3.setImageDrawable(null);
+                                    dato3.setBackgroundResource(R.mipmap.ic_user2);
+                                }
 
 
-        }else{
+                                //icono mensaje de notificacion de mensaje nuevo
+                                if(perfilClientes.getMensaje_nuevo().equals(true)){
+                                    dato4.setVisibility(View.VISIBLE);
+                                }else if(perfilClientes.getMensaje_nuevo().equals(false)){
+                                    dato4.setVisibility(View.GONE);
+                                }
 
-            //////// CLIENTE LOCAL
 
-            // Nombre
-            dato1.setText(ADP.getNombre());
 
-            // TELEFONO
-            if( ADP.getTelefono() == null){ dato2.setVisibility(View.GONE);}
-            else {dato2.setText(ADP.getTelefono());}
 
-            Glide.clear(dato3);
 
-            dato3.setImageDrawable(null);
-            dato3.setBackgroundResource(R.mipmap.ic_user2);
+                            }else{
 
-            //icono mensaje de notificacion de mensaje nuevo
-            if(ADP.getMensaje_nuevo().equals(true)){  dato4.setVisibility(View.VISIBLE); }
-            else if(ADP.getMensaje_nuevo().equals(false)){  dato4.setVisibility(View.GONE); }
+                                //////// CLIENTE LOCAL
 
-        }
+                                // Nombre
+                                dato1.setText(ADP.getNombre());
+
+                                // TELEFONO
+                                if( ADP.getTelefono() == null){ dato2.setVisibility(View.GONE);}
+                                else {dato2.setText(ADP.getTelefono());}
+
+                                Glide.clear(dato3);
+
+                                dato3.setImageDrawable(null);
+                                dato3.setBackgroundResource(R.mipmap.ic_user2);
+
+                                //icono mensaje de notificacion de mensaje nuevo
+                                if(ADP.getMensaje_nuevo().equals(true)){  dato4.setVisibility(View.VISIBLE); }
+                                else if(ADP.getMensaje_nuevo().equals(false)){  dato4.setVisibility(View.GONE); }
+
+                            }
+
+                        }else{
+                            // Si la referencia de la ID no existe
+                        }
+
+                    }
+                });
+
 
     }
 

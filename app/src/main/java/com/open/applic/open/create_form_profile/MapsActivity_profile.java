@@ -240,7 +240,7 @@ public class MapsActivity_profile extends FragmentActivity implements OnMapReady
                         startActivity(myIntent);
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                     }

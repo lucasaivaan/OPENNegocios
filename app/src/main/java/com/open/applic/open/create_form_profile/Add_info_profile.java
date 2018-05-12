@@ -156,6 +156,10 @@ public class Add_info_profile extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         getSupportActionBar().hide();
 
+        SharePreferencesAPP.setID_USUARIO(null,Add_info_profile.this);
+        SharePreferencesAPP.setID_NEGOCIO(null,Add_info_profile.this);
+        SharePreferencesAPP.setPAIS(null,Add_info_profile.this);
+
 
 
         //---Reference EditText
@@ -386,6 +390,8 @@ public class Add_info_profile extends AppCompatActivity {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {
+
+
 
                         // Geolocalizacion
                         String value=data_Pais+" "+data_provincia+" "+data_ciudad+" "+data_direccion;
@@ -636,6 +642,9 @@ public class Add_info_profile extends AppCompatActivity {
 
                 if(Longitud!=0 && Latitud!=0){
 
+                    // guarda los puntos ganados y muestra la notificacion
+                    PuntosCuenta.SumaPuntos(Add_info_profile.this,5,getString(R.string.ubicacion)+"!");
+
                     // Guarda la cuenta del usuario
                     DocumentReference docREfCuenta=db.collection(getString(R.string.DB_NEGOCIOS)).document(firebaseUser.getUid()).collection(getString(R.string.DB_CUENTAS)).document(firebaseUser.getEmail());
                     docREfCuenta.set(adapterPerfilCuenta, SetOptions.merge());
@@ -647,8 +656,6 @@ public class Add_info_profile extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void v) {
 
-                            // guarda los puntos ganados y muestra la notificacion
-                            PuntosCuenta.SumaPuntos(Add_info_profile.this,5,getString(R.string.ubicacion)+"!");
 
                             //stop Progressbar
                             progressBar.setVisibility(View.GONE);
@@ -674,7 +681,7 @@ public class Add_info_profile extends AppCompatActivity {
                                     finish();
 
                                 }
-                            }, 500);// Tiempo de espera
+                            }, 1500);// Tiempo de espera
 
 
 
@@ -682,13 +689,20 @@ public class Add_info_profile extends AppCompatActivity {
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) { Toast.makeText(Add_info_profile.this,R.string.su_inforomacion_nose_guardo,Toast.LENGTH_LONG).show(); }
+                        public void onFailure(@NonNull Exception e) {
+                            //stop Progressbar
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(Add_info_profile.this,R.string.su_inforomacion_nose_guardo,Toast.LENGTH_LONG).show(); }
                     });
 
 
 
 
                 }else{
+
+                    PuntosCuenta.RestaPuntos(5,Add_info_profile.this);
+                    //stop Progressbar
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(),R.string.error_intente_denuevo, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }

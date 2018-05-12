@@ -1,7 +1,10 @@
 package com.open.applic.open.interface_principal.nav_header.cuentas;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -13,9 +16,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_Clientes;
 import com.open.applic.open.interface_principal.metodos_funciones.Buscardor;
@@ -38,6 +45,8 @@ import com.open.applic.open.interface_principal.metodos_funciones.SharePreferenc
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Cuenta_principal_list extends AppCompatActivity {
@@ -72,6 +81,12 @@ public class Cuenta_principal_list extends AppCompatActivity {
     public RecyclerView recyclerViewClientesAlertDialog;
     public List<adapter_perfil_clientes> adapterClientesNegociosAlerDialog;
     public adapter_recyclerView_Clientes adapterRecyclerViewClientesAlertDialog;
+    /// Buscador
+    public RecyclerView recyclerViewClientesBuscador;
+    public List<adapter_perfil_clientes> adapterClientesNegociosBuscador;
+    public adapter_recyclerView_Clientes adapterRecyclerViewClientesBuscador;
+
+
     public EditText edittext_seachCliente;
     //AlertDialg
     private AlertDialog alertDialogClient;
@@ -121,7 +136,7 @@ public class Cuenta_principal_list extends AppCompatActivity {
         //------------------------------------------------------------------------------------------
     }
     ////////////// AlertView carga los clientes ////////////////////////////////////////////////////
-    public void LoadClientesAlertView(View inflater){
+    public void LoadClientesAlertView(final View inflater){
 
         //////////////////////////////////// AlertDialog Clientes //////////////////////////////////////////////////////
         //---Click en el item seleccionado
@@ -161,10 +176,10 @@ public class Cuenta_principal_list extends AppCompatActivity {
                 if(!edittext_seachCliente.getText().toString().equals("")){
 
                     // Buscador
-                    carga_Clientes(edittext_seachCliente.getText().toString());
+                    BuscardorCliente(inflater,adapterClientesNegociosAlerDialog,edittext_seachCliente.getText().toString());
                 }else {
                     // Buscador
-                    carga_Clientes ("");
+                    LoadClientesAlertView(inflater);
                 }
             }
         });
@@ -211,7 +226,7 @@ public class Cuenta_principal_list extends AppCompatActivity {
         });
 
     }
-    public void carga_Clientes(final String valueSeach) {
+    public void carga_Clientes() {
 
         /////////////////////////////////////  BASE DE DATOS ///////////////////////////////////////
 
@@ -229,15 +244,11 @@ public class Cuenta_principal_list extends AppCompatActivity {
                         adapter_perfil_clientes aCliente = doc.toObject(adapter_perfil_clientes.class);
                         aCliente.setId(doc.getId());
 
-                        if(   valueSeach.equals("")  || Buscardor.Buscar( aCliente.getNombre(),valueSeach)){
-
-                            // ADD
-                            adapterClientesNegociosAlerDialog.add(aCliente);
-                            adapterRecyclerViewClientesAlertDialog.notifyDataSetChanged();
-                            // Clear
-                            aCliente=null;
-                        }
-
+                        // ADD
+                        adapterClientesNegociosAlerDialog.add(aCliente);
+                        adapterRecyclerViewClientesAlertDialog.notifyDataSetChanged();
+                        // Clear
+                        aCliente=null;
                     }
                 }
                 adapterRecyclerViewClientesAlertDialog.notifyDataSetChanged();
@@ -322,7 +333,58 @@ public class Cuenta_principal_list extends AppCompatActivity {
 
 
     }
+    public void BuscardorCliente(View view,List<adapter_perfil_clientes> listCliente,String sBuscar){
 
+        ///////////////////////////////Adaptador Navigation  Clientes //////////////////////////////
+
+        //---Clickn el item seleccionado
+        recyclerViewClientesBuscador = (RecyclerView) view.findViewById(R.id.recyclerView_clientes);
+        recyclerViewClientesBuscador.setLayoutManager(new LinearLayoutManager(this));
+        //--Adaptadores
+        adapterClientesNegociosBuscador = new ArrayList<>();
+        adapterRecyclerViewClientesBuscador = new adapter_recyclerView_Clientes(adapterClientesNegociosBuscador,this);
+
+        adapterRecyclerViewClientesBuscador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view2) {
+
+               idCliente= adapterClientesNegociosBuscador.get(recyclerViewClientesBuscador.getChildAdapterPosition(view2)).getId();
+
+                //---Lanzador de activity Cuentas
+                Intent Lanzador1=new Intent(Cuenta_principal_list.this,Cuenta_launchCliente.class);
+                Lanzador1.putExtra("parametroIdCliente",idCliente);
+                startActivity(Lanzador1);
+                //Cierra AlertDialogClient
+                alertDialogClient.dismiss();
+            }
+        });
+        recyclerViewClientesBuscador.setAdapter(adapterRecyclerViewClientesBuscador);
+
+        if(listCliente != null){
+            if(listCliente.size() !=0){
+
+                adapterClientesNegociosBuscador.removeAll(adapterClientesNegociosBuscador);
+
+                // Recorre la lista de clientes
+                for(adapter_perfil_clientes aPerfil:listCliente){
+
+                    if( Buscardor.Buscar( aPerfil.getNombre(),sBuscar)){
+
+                        // ADD
+                        adapterClientesNegociosBuscador.add(aPerfil);
+                        adapterRecyclerViewClientesBuscador.notifyDataSetChanged();
+                        // Clear
+                        aPerfil=null;
+
+
+                    }
+                }
+                adapterRecyclerViewClientesBuscador.notifyDataSetChanged();
+            }
+        }
+
+
+    }
     /////////////////////////////////  BUTTON  /////////////////////////////////////////////////////
     public void Button_ADD_Cliente(View view){
         LayoutInflater inflater = getLayoutInflater();

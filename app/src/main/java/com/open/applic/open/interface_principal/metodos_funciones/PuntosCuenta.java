@@ -45,21 +45,10 @@ public class PuntosCuenta {
             tPuntos.setText("+"+finalIPuntos);
             dialog.show();
 
-            try {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        dialog.dismiss();
-                    }
-                }, 1500);// Tiempo de espera
-            } catch (Exception e) { }
-
-
 
             // Firestore
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             final DocumentReference docRefNegocio=db.collection( contextView.getString(R.string.DB_NEGOCIOS) ).document(ID_NEGOCIO);
-
             docRefNegocio.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -98,6 +87,15 @@ public class PuntosCuenta {
                     }
                 }
             });
+
+            try {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        dialog.dismiss();
+                    }
+                }, 1500);// Tiempo de espera
+            } catch (Exception e) { }
 
         }catch (Exception ex){}
 

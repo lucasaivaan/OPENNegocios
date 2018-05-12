@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +24,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
-import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_horario;
 import com.open.applic.open.interface_principal.adaptadores.adapter_recyclerView_horario;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
@@ -88,7 +86,7 @@ public class Panel_Horarios extends AppCompatActivity {
 
 
 
-        if(!ID_NEGOCIO.equals("null")){ID=firebaseUser.getUid();}
+        if(ID_NEGOCIO == null){ID=firebaseUser.getUid();}
         else {ID=ID_NEGOCIO;}
     }
 
@@ -133,7 +131,7 @@ public class Panel_Horarios extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-                builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder1.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }

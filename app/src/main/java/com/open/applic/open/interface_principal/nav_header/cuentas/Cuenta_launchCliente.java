@@ -232,7 +232,7 @@ public class Cuenta_launchCliente extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-                builder1.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder1.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {dialog.cancel();}});
                 AlertDialog alert11 = builder1.create();
                 alert11.show();

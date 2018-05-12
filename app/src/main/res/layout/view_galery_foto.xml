@@ -62,7 +62,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/edittextview_style4"
-            android:text="@string/cancel"
+            android:text="@string/cancelar"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
 

@@ -67,7 +67,7 @@
 
     //perfil SORAGE
     <string name="DBS_PERFIL">PERFIL</string>
-    <string name="DBS_fotoperfil">fotoperfil</string>
+    <string name="DBS_imagen_perfil">imagen_perfil</string>
 
 
     <!--__ CATEGORIAS productos __  -->
@@ -190,7 +190,7 @@
     <string name="no_tienes_ningun_cliente">No tienes clientes en tu lista</string>
     <string name="eliminar_oferta">¿Eliminar oferta?</string>
     <string name="si">Si</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancelar">Cancelar</string>
     <string name="eliminar_servicio">¿Eliminar servicio?</string>
     <string name="actualizado">actualizado</string>
     <string name="elije_una_categoaria">Elige una categoría</string>
@@ -368,6 +368,7 @@
     <string name="publicar">Publicar</string>
     <string name="reseñas">Reseñas</string>
     <string name="agrega_un_nuevo_cliente_de_forma_local">Agrega un nuevo cliente de forma local </string>
+    <string name="confirma_eliminacion_cuenta">¿Seguro quieres eliminar tu cuenta?</string>
 
     <string name="no_tienes_resenas">Por el momento no tiene ninguna crítica</string>
     <string name="perfil_info_categoria">Es importante que defina correctamente la categoría de su negocio, por lo que será más fácil para el cliente encontrate</string>

@@ -247,60 +247,62 @@ public class MainActivity_tarjeta_negocio extends AppCompatActivity {
     private void PerfilNegocio() {
 
         final DocumentReference documentReference = db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO);
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                if (documentSnapshot.exists()){
+                if(task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot=task.getResult();
+                    if (documentSnapshot.exists()){
 
-                    // adaptador del perfil
-                    adapterProfileNegocio=documentSnapshot.toObject(adapter_profile_negocio.class);
+                        // adaptador del perfil
+                        adapterProfileNegocio=documentSnapshot.toObject(adapter_profile_negocio.class);
 
-                    iPuntos=(adapterProfileNegocio.getPuntos() + adapterProfileNegocio.getEstrellastotal());
+                        iPuntos=(adapterProfileNegocio.getPuntos() + adapterProfileNegocio.getEstrellastotal());
 
 
-                    //stilo de tarjeta
-                    Context context = layout_Cardstylo.getContext();
-                    if(adapterProfileNegocio.getCardlayout() !=null && adapterProfileNegocio.getCardlayout() != ""){
+                        //stilo de tarjeta
+                        Context context = layout_Cardstylo.getContext();
+                        if(adapterProfileNegocio.getCardlayout() !=null && adapterProfileNegocio.getCardlayout() != ""){
 
-                        if(adapterProfileNegocio.getCardlayout().equals("default")){
+                            if(adapterProfileNegocio.getCardlayout().equals("default")){
+                                layout_Cardstylo.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor()));
+                            }else {
+                                int id = context.getResources().getIdentifier( adapterProfileNegocio.getCardlayout(), "mipmap", context.getPackageName());
+
+                                layout_Cardstylo.setBackgroundResource(id);
+
+                                // nombre color
+                                tNombre.setTextColor(Color.parseColor(adapterProfileNegocio.getColor()));
+                            }
+
+                        }else{
                             layout_Cardstylo.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor()));
-                        }else {
-                            int id = context.getResources().getIdentifier( adapterProfileNegocio.getCardlayout(), "mipmap", context.getPackageName());
-
-                            layout_Cardstylo.setBackgroundResource(id);
-
-                            // nombre color
-                            tNombre.setTextColor(Color.parseColor(adapterProfileNegocio.getColor()));
                         }
 
-                    }else{
-                        layout_Cardstylo.setBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor()));
+
+                        // Color cardView
+                        cardViewNegocio.setCardBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor()));
+
+                        // Icono
+                        int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
+                        imageViewIcon.setBackgroundResource(id);
+
+                        // Nombre
+                        tNombre.setText(adapterProfileNegocio.getNombre_negocio());
+
+                        // Ubicación
+                        tUbicacion.setText(adapterProfileNegocio.getProvincia()+", "+adapterProfileNegocio.getCiudad());
+
+                        //Telefono
+                        if( adapterProfileNegocio.getTelefono() != null && adapterProfileNegocio.getTelefono() != ""){
+                            tTelefono.setText(adapterProfileNegocio.getTelefono());
+                        }else{tTelefono.setText(R.string.sin_telefono);}
+
                     }
-
-
-                    // Color cardView
-                    cardViewNegocio.setCardBackgroundColor(Color.parseColor(adapterProfileNegocio.getColor()));
-
-                    // Icono
-                    int id= icono.getIconLogoCategoria(adapterProfileNegocio.getCategoria(),context);
-                    imageViewIcon.setBackgroundResource(id);
-
-                    // Nombre
-                    tNombre.setText(adapterProfileNegocio.getNombre_negocio());
-
-                    // Ubicación
-                    tUbicacion.setText(adapterProfileNegocio.getProvincia()+", "+adapterProfileNegocio.getCiudad());
-
-                    //Telefono
-                    if( adapterProfileNegocio.getTelefono() != null && adapterProfileNegocio.getTelefono() != ""){
-                        tTelefono.setText(adapterProfileNegocio.getTelefono());
-                    }else{tTelefono.setText(R.string.sin_telefono);}
-
                 }
             }
         });
-
     }
 
 
