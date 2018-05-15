@@ -10,6 +10,9 @@
     <string name="action_settings">Settings</string>
     <string name="reportar_problema">Reportar Problema</string>
 
+    <!--______________________________   SITEMA DE PEDIDIOS   _________________________________  -->
+    <string name="sitema_pedidos">Sistema de pedidos</string>
+
     <!--_____________________________________ BASE DE DATOS ___________________________________  -->
     <string name="DB_APP">APP</string>
     <string name="DB_NEGOCIOS">NEGOCIOS</string>
@@ -17,6 +20,7 @@
     <string name="DB_INFORMACION">INFORMACION</string>
 
     <string name="DB_CLIENTES">CLIENTES</string>
+    <string name="DB_PEDIDOS">PEDIDOS</string>
     <string name="DB_PRODUCTOS">PRODUCTOS</string>
     <string name="DB_CATEGORIA">CATEGORIA</string>
 
@@ -427,6 +431,11 @@
     <string name="name">Name</string>
     <string name="haz_comentario_de_esta_foto">haz un comentario en esta foto</string>
     <string name="sin_fotos">Sin fotos</string>
+    <string name="tipo_entrega">Tipo de entrega</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="estado">estado</string>
+    <string name="cofirmar_pedido">Confirmar pedido</string>
+    <string name="cancelar_pedido">Cancelar pedido</string>
 
 
 </resources>

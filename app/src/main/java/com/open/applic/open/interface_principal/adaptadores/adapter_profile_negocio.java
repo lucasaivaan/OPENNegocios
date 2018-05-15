@@ -28,8 +28,8 @@ public class adapter_profile_negocio {
     private GeoPoint geopoint;
     private Integer puntos=0;
     private Integer estrellastotal=0;
-    private String color="#1976D2";
 
+    private String color="#1976D2";
     private String cardlayout="default";
 
 

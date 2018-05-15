@@ -392,6 +392,8 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                                     || seach(adapterProducto.getInfo1(),categoria)
                                     || seach(adapterProducto.getInfo2(),categoria)
                                     || seach(adapterProducto.getCodigo(),categoria)){
+
+                                // ADD
                                 adapter_productoList.add(adapterProducto);
 
                                 //Visibility

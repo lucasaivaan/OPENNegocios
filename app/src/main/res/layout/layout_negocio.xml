@@ -616,6 +616,17 @@
                 android:text="@string/ver_productos"
                 android:textColor="@color/cardview_light_background" />
 
+            <Button
+                android:id="@+id/buttonSistemaPedido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:background="@drawable/edittextview_style2"
+                android:elevation="3dp"
+                android:onClick="Button_SistemaPedidos"
+                android:text="@string/sitema_pedidos"
+                android:textColor="@color/cardview_light_background" />
+
 
             <android.support.v7.widget.CardView
                 android:id="@+id/muro"

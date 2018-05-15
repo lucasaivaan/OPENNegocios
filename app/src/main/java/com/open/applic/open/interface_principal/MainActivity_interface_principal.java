@@ -79,7 +79,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.open.applic.open.MainActivity_Auth;
 import com.open.applic.open.R;
-import com.open.applic.open.create_form_profile.Add_info_profile;
 import com.open.applic.open.create_form_profile.Configuracion_Horario;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.adaptadores.adapter_horario;
@@ -99,6 +98,7 @@ import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
 import com.open.applic.open.interface_principal.metodos_funciones.OnSwipeTouchListener;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
+import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.MainActivity_pedidos_lista;
 import com.open.applic.open.interface_principal.nav_header.galeria_fotos.adaptadores.adaptador_foto;
 import com.open.applic.open.interface_principal.nav_header.galeria_fotos.galeria_fotos;
 import com.open.applic.open.interface_principal.nav_header.perfil_negocio.MainActivity_tarjeta_negocio;
@@ -2874,6 +2874,12 @@ public class MainActivity_interface_principal extends AppCompatActivity
         //--.lanzadador Activity
         Intent intent = new Intent (MainActivity_interface_principal.this,galeria_fotos.class);
         startActivityForResult(intent, 0);
+    }
+    public void Button_SistemaPedidos(View view){
+
+        //---Lanzador de activity Cuentas
+        Intent intent=new Intent(MainActivity_interface_principal.this,MainActivity_pedidos_lista.class);
+        startActivity(intent);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
