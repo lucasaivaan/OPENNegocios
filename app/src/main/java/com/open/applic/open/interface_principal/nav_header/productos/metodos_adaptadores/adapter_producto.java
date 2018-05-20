@@ -12,8 +12,12 @@ public class adapter_producto {
     private Double precio;
     private String id;
     private String codigo;
+    private Integer cantidad;
+    private Integer tipo;
 
 
+
+    public Integer getCantidad() { return cantidad; }
     public String getCodigo() { return codigo; }
     public void setCodigo(String codigo) { this.codigo = codigo; }
     public void setUrlimagen(String urlimagen) { this.urlimagen = urlimagen; }
@@ -25,9 +29,11 @@ public class adapter_producto {
     public void setPrecio(Double precio) { this.precio = precio; }
     public void setId(String id) { this.id = id; }
 
+    public Integer getTipo() { return tipo; }
+    public void setTipo(Integer tipo) { this.tipo = tipo; }
 
 
-
+    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
     public String getUrlimagen() { return urlimagen; }
     public String getCategoria() { return categoria; }
     public String getSubcategoria() { return subcategoria; }

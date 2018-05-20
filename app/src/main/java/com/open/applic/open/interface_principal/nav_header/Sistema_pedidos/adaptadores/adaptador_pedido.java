@@ -17,7 +17,7 @@ public class adaptador_pedido {
     private String tipo_entrega;
     private String forma_pago;
     private String nota;
-    private Map<String,Object> direccion= new HashMap<String, Object>();
+    private Map<String,String> direccion= new HashMap<String, String>();
     private Date timestamp;
     private Integer estado;
     private Map<String,Object> lista_productos= new HashMap<String, Object>();
@@ -36,7 +36,7 @@ public class adaptador_pedido {
     public String getTipo_entrega() { return tipo_entrega; }
     public String getForma_pago() { return forma_pago; }
     public String getNota() { return nota; }
-    public Map<String,Object> getDireccion() { return direccion; }
+    public Map<String,String> getDireccion() { return direccion; }
     public Integer getEstado() { return estado; }
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
@@ -52,7 +52,7 @@ public class adaptador_pedido {
     public void setTipo_entrega(String tipo_entrega) { this.tipo_entrega = tipo_entrega; }
     public void setForma_pago(String forma_pago) { this.forma_pago = forma_pago; }
     public void setNota(String nota) { this.nota = nota; }
-    public void setDireccion(Map<String,Object> direccion) { this.direccion = direccion; }
+    public void setDireccion(Map<String,String> direccion) { this.direccion = direccion; }
     public void setEstado(Integer estado) { this.estado = estado; }
 
     @ServerTimestamp

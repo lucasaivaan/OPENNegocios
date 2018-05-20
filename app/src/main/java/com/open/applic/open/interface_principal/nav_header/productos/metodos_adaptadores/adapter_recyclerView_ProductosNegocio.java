@@ -39,7 +39,7 @@ public class adapter_recyclerView_ProductosNegocio extends RecyclerView.Adapter<
 
     @Override
     public adapter_recyclerView_ProductosNegocio.homeViwHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.view_producto,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_productos,parent,false);
         view.setOnClickListener(this);
 
         adapter_recyclerView_ProductosNegocio.homeViwHolder holder=new adapter_recyclerView_ProductosNegocio.homeViwHolder(view);

@@ -101,7 +101,7 @@
         <activity android:name=".interface_principal.nav_header.galeria_fotos.galeria_fotos" />
         <activity android:name=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedidos_lista" />
         <activity
-            android:name=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedido"
+            android:name=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedido_productos"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>

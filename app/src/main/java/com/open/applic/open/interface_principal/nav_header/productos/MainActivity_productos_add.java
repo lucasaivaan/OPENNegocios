@@ -100,6 +100,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
     public  EditText editTextCodigo;
     private Button buttonGuardarProduct;
     private  Button buttonEliminar;
+    private LinearLayout layout_producto_venta;
 
     private Spinner spinnerCategoria_1;
     private Spinner spinnerCategoria_2;
@@ -276,6 +277,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                 progressBar_foto.setVisibility(View.GONE);
                 progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar7);
                 progressBar_foto.setVisibility(View.GONE);
+                layout_producto_venta=(LinearLayout) dialog.findViewById(R.id.layout_producto_venta);
 
                 //Set
                 // Carga la imagen de perfil
@@ -289,6 +291,26 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                 editTextMarca.setText(adapterProductoOriginal.getInfo1());
                 editTextInfo.setText(adapterProductoOriginal.getInfo2());
                 editTextCodigo.setText(adapterProductoOriginal.getCodigo());
+
+                // Control de visibilidad de contenido
+                if(adapterProductoOriginal.getTipo() != null){
+                    switch (adapterProductoOriginal.getTipo()){
+                        case 0:
+
+                            break;
+                        case 1:
+
+                            break;
+                        case 2:
+                            layout_producto_venta.setVisibility(View.GONE);
+                            editTextPrecio.setText("0.0");
+                            break;
+                    }
+                }else {
+                    adapterProductoOriginal.setTipo(0);
+                }
+
+
 
 
                 buttonGuardarProduct.setOnClickListener(new View.OnClickListener() {
@@ -304,23 +326,24 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                         double ValorPrecio;
                         if(!editTextPrecio.getText().toString().equals("")){
                             ValorPrecio = Double.parseDouble(editTextPrecio.getText().toString());
-                        }else {ValorPrecio=0;}
+                        }else {ValorPrecio=0.0;}
 
                         if(urlImagen==null){urlImagen="default";}
                         String finalUrlImagen = urlImagen;
 
 
-                        if(ValorPrecio != 0 && !ValorMarcaNombre.equals("") && !ValorInfo.equals("") ){
+                        if(ValorPrecio != 0.0 && !ValorMarcaNombre.equals("") && !ValorInfo.equals("") || ValorPrecio == 0.0 && adapterProductoOriginal.getTipo() == 2){ // 0= venta cantidad litro 2= venta pote helado con opciones de sabor 2= sabores de potes de helado
 
                             // Referencia de la db
                             DocumentReference collectionReference=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_PRODUCTOS)).document(adapterProductoOriginal.getId());
                             adapter_producto adapterProducto = new adapter_producto();
 
                             // por defecto
-                            adapterProducto.setCategoria(adapterProductoOriginal.getCategoria());
-                            adapterProducto.setSubcategoria(adapterProductoOriginal.getSubcategoria());
-                            if(spinnerCategoria_3 != null){ adapterProducto.setSubcategoria_2(adapterProductoOriginal.getSubcategoria_2());}
-                            adapterProducto.setId(adapterProductoOriginal.getId());
+                            adapterProducto.setCategoria( adapterProductoOriginal.getCategoria() );
+                            adapterProducto.setSubcategoria( adapterProductoOriginal.getSubcategoria() );
+                            if(spinnerCategoria_3 != null){ adapterProducto.setSubcategoria_2( adapterProductoOriginal.getSubcategoria_2() );}
+                            adapterProducto.setId( adapterProductoOriginal.getId());
+                            adapterProducto.setTipo(adapterProductoOriginal.getTipo());
                             // set
                             adapterProducto.setCodigo(ValueCode);
                             adapterProducto.setUrlimagen(finalUrlImagen);

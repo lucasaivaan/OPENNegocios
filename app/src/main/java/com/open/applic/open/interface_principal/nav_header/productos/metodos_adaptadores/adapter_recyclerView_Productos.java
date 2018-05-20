@@ -1,7 +1,6 @@
 package com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -53,7 +52,7 @@ public class adapter_recyclerView_Productos extends RecyclerView.Adapter<adapter
 
     @Override
     public adapter_recyclerView_Productos.homeViwHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.view_producto,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_productos,parent,false);
         view.setOnClickListener(this);
 
         adapter_recyclerView_Productos.homeViwHolder holder=new adapter_recyclerView_Productos.homeViwHolder(view);

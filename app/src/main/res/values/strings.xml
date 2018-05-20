@@ -381,7 +381,7 @@
     <string name="perfil_info1_principal_open">Gestiona tú información, ofertas, servicios, cuenta de tus clientes, pedidos, consultas. Ofrece un mejor servicio al cliente y aumenta tus ventas</string>
     <string name="perfil_info2_principal_open"><b>SUMA PUNTOS</b>  \n\nChatea con tus clientes, ofrece servicios, publica ofertas, completa tu informacion y suma puntos, personaliza al máximo tu tarjeta de negocio online y desbloquea insigneas que destaquen tu negocio</string>
     <string name="tipo_cuenta">Tipo de cuenta</string>
-    <string name="nombre">Nombre completo</string>
+    <string name="nombre_completo">Nombre completo</string>
     <string name="correo_electronico">correo electrónico</string>
     <string name="foto_actualizada">Se actualizo su foto de perfil</string>
     <string name="cuenta_administrador">Cuenta administrador</string>
@@ -436,6 +436,19 @@
     <string name="estado">estado</string>
     <string name="cofirmar_pedido">Confirmar pedido</string>
     <string name="cancelar_pedido">Cancelar pedido</string>
+    <string name="precio_total">Precio total</string>
+    <string name="nombre">Nombre</string>
+    <string name="calle">Calle</string>
+    <string name="numero">Número</string>
+    <string name="entre_calle">Entre calles</string>
+    <string name="localidad">Localidad</string>
+    <string name="piso_depto">Piso/Depto</string>
+    <string name="informacion_adicional">Información adicional</string>
+    <string name="cliente_abona_con">El cliente abona con</string>
+    <string name="nota">Nota</string>
+    <string name="pregunta_cancelar_pedido">¿Seguro que quieres cancelar el pedido?</string>
+    <string name="pedido_enviado">Pedido enviado</string>
+    <string name="pedido_listo">Pedido listo</string>
 
 
 </resources>

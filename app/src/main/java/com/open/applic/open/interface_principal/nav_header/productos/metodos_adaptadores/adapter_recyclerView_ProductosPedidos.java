@@ -1,9 +1,8 @@
 package com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,16 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
@@ -41,9 +37,10 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
 
     private  adapter_producto adapterProducto;
     private String ID_NEGOCIO;
-    private final Context context;
+    private Integer iCantidad;
+    private Context context;
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
-    List<adapter_producto> adapter_productoList;
+    private List<adapter_producto> adapter_productoList;
 
 
     private View.OnClickListener listener;
@@ -56,7 +53,7 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
 
     @Override
     public adapter_recyclerView_ProductosPedidos.homeViwHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.view_producto,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_productos_pedido,parent,false);
         view.setOnClickListener(this);
 
         adapter_recyclerView_ProductosPedidos.homeViwHolder holder=new adapter_recyclerView_ProductosPedidos.homeViwHolder(view);
@@ -64,11 +61,12 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
     }
 
     @Override
-    public void onBindViewHolder(final homeViwHolder holder, int position) {
+    public void onBindViewHolder(final homeViwHolder holder, final int position) {
         adapterProducto= adapter_productoList.get(position);
 
-        //Datos APP
+        //Datos
         ID_NEGOCIO = SharePreferencesAPP.getID_NEGOCIO(context);
+        iCantidad=adapterProducto.getCantidad();
 
         // Firestore
         DocumentReference documentReference=db.collection(  context.getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  context.getString(R.string.DB_PRODUCTOS)  ).document(adapterProducto.getId());
@@ -81,28 +79,52 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
 
                     DocumentSnapshot documentProducto=task.getResult();
                     if(documentProducto.exists()){
+
                         // Adaptador
                         adapterProducto=documentProducto.toObject(adapter_producto.class);
 
+                        // SET
+                        adapter_productoList.get(position).setId( adapterProducto.getId() );
+                        adapter_productoList.get(position).setUrlimagen( adapterProducto.getUrlimagen() );
+                        adapter_productoList.get(position).setCategoria( adapterProducto.getCategoria() );
+                        adapter_productoList.get(position).setSubcategoria( adapterProducto.getSubcategoria() );
+                        adapter_productoList.get(position).setSubcategoria_2( adapterProducto.getSubcategoria_2() );
+                        adapter_productoList.get(position).setInfo1( adapterProducto.getInfo1() );
+                        adapter_productoList.get(position).setInfo2( adapterProducto.getInfo2() );
+                        adapter_productoList.get(position).setCodigo( adapterProducto.getCodigo() );
+                        adapter_productoList.get(position).setPrecio( adapterProducto.getPrecio() );
+
+                        adapter_productoList.get(position).setCantidad( iCantidad );
 
                         // SET
-                        if(adapterProducto.getInfo1() != null){
-                            holder.datoMarca.setText(adapterProducto.getInfo1());
-                            holder.datoInfo.setText(adapterProducto.getInfo2());
+                        if(adapter_productoList.get(position).getInfo1() != null){
+                            // Marca
+                            holder.datoMarca.setText(adapter_productoList.get(position).getInfo1());
+                            // Nombre del producto
+                            holder.datoInfo.setText(adapter_productoList.get(position).getInfo2());
 
-                            if(adapterProducto.getPrecio() ==null){
+                            // Cantidad de producto
+                            holder.datoCantidad.setText(String.valueOf( adapter_productoList.get(position).getCantidad() ));
+
+                            // Precio
+                            if(adapter_productoList.get(position).getPrecio() ==null){
                                 holder.datoPrecio.setVisibility(View.GONE);
                             }else {
-                                holder.datoPrecio.setText("$"+String.valueOf(adapterProducto.getPrecio()));
+                                holder.datoPrecio.setText(String.valueOf(  adapter_productoList.get(position).getPrecio()* iCantidad  ));
                             }
 
-                            if(!adapterProducto.getUrlimagen().equals("default")){
-                                Glide.with(context)
-                                        .load(adapterProducto.getUrlimagen())
+                            // Imagen del producto
+                            if(!adapter_productoList.get(position).getUrlimagen().equals("default")){
+
+                                Glide.with(context.getApplicationContext ())
+                                        .load(adapter_productoList.get(position).getUrlimagen())
                                         .fitCenter()
                                         .centerCrop()
                                         .into(holder.ImageProducto);
                             }else { holder.progressBar.setVisibility(View.GONE); }
+
+                            // Actualiza Precio total
+                            notifyDataSetChanged();
                         }
 
                     }
@@ -134,19 +156,20 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
     public  static  class homeViwHolder extends RecyclerView.ViewHolder{
 
         // Campos respectivos de un item
-        TextView datoMarca,datoInfo,datoPrecio;
-        CircleImageView ImageProducto;
-        ImageView imageViewTilde;
-        CardView cardView;
-        ProgressBar progressBar;
+        private TextView datoMarca,datoInfo,datoPrecio,datoCantidad;
+        private CircleImageView ImageProducto;
+        private ImageView imageViewTilde;
+        private CardView cardView;
+        private ProgressBar progressBar;
 
         public homeViwHolder(View itemView) {
             super(itemView);
 
             datoMarca=(TextView) itemView.findViewById(R.id.textView_marca);
             datoInfo=(TextView) itemView.findViewById(R.id.textView_info);
+            datoCantidad=(TextView) itemView.findViewById(R.id.textViewProducto_cantidad);
             datoPrecio=(TextView) itemView.findViewById(R.id.textView_precio);
-            ImageProducto=(CircleImageView) itemView.findViewById(R.id.imageView_producto);
+            ImageProducto=(CircleImageView) itemView.findViewById(R.id.imageView_productoPedidos);
             imageViewTilde=(ImageView) itemView.findViewById(R.id.imageView15_tilde);
             cardView=(CardView) itemView.findViewById(R.id.carview_producto);
 

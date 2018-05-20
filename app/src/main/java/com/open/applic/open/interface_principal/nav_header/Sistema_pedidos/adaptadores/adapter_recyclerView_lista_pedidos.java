@@ -78,13 +78,25 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
                     holder.tEstado.setBackgroundResource(R.color.md_deep_orange_400);
                     break;
                 case 1:
-                    holder.tEstado.setText("Confirmado");
+                    holder.tEstado.setText("En proceso");
+                    holder.tEstado.setBackgroundResource(R.color.md_teal_300);
+                    break;
+                case 2:
+                    holder.tEstado.setText("Enviado");
+                    holder.tEstado.setBackgroundResource(R.color.md_light_green_400);
+                    break;
+                case 3:
+                    holder.tEstado.setText("Listo para retire");
                     holder.tEstado.setBackgroundResource(R.color.md_light_green_400);
                     break;
 
-                case 2:
+                case 4:
                     holder.tEstado.setText("Cancelado");
                     holder.tEstado.setBackgroundResource(R.color.md_red_400);
+                    break;
+                case 5:
+                    holder.tEstado.setText("Recibido");
+                    holder.tEstado.setBackgroundResource(R.color.md_light_green_500);
                     break;
 
             }

@@ -127,89 +127,96 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_producto_venta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textView40"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="6"
-                        android:text="$"
-                        android:textSize="30sp" />
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
 
                         <TextView
-                            android:id="@+id/textView53df"
+                            android:id="@+id/textView40"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/precio"
-                            android:textAlignment="center" />
+                            android:layout_weight="6"
+                            android:text="$"
+                            android:textSize="30sp" />
 
-                        <EditText
-                            android:id="@+id/editText_Precio"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:fontFamily="@font/aldrich"
-                            android:hint="00.00"
-                            android:inputType="numberDecimal"
-                            android:textColor="@color/cardview_dark_background"
-                            android:textColorHint="@color/textColorPrimario"
-                            android:textSize="24sp" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView53df"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/precio"
+                                android:textAlignment="center" />
+
+                            <EditText
+                                android:id="@+id/editText_Precio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:fontFamily="@font/aldrich"
+                                android:hint="00.00"
+                                android:inputType="numberDecimal"
+                                android:textColor="@color/cardview_dark_background"
+                                android:textColorHint="@color/textColorPrimario"
+                                android:textSize="24sp" />
+                        </LinearLayout>
+
                     </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
 
-                        <TextView
-                            android:id="@+id/textView453"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/codigo"
-                            android:textAlignment="center" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <EditText
-                            android:id="@+id/editText_codigo"
+                            <TextView
+                                android:id="@+id/textView453"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/codigo"
+                                android:textAlignment="center" />
+
+                            <EditText
+                                android:id="@+id/editText_codigo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="@string/codigo"
+                                android:inputType="textPersonName"
+                                android:textColor="@color/cardview_dark_background"
+                                android:textColorHint="@color/textColorPrimario" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/button19"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="@string/codigo"
-                            android:inputType="textPersonName"
-                            android:textColor="@color/cardview_dark_background"
-                            android:textColorHint="@color/textColorPrimario" />
+                            android:layout_weight="2"
+                            android:background="@color/cardview_shadow_start_color"
+                            android:onClick="Button_Scanner"
+                            android:text="@string/escanear_codigo"
+                            android:textColor="@color/cardview_light_background" />
+
                     </LinearLayout>
-
-                    <Button
-                        android:id="@+id/button19"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:background="@color/cardview_shadow_start_color"
-                        android:onClick="Button_Scanner"
-                        android:text="@string/escanear_codigo"
-                        android:textColor="@color/cardview_light_background" />
-
                 </LinearLayout>
 
                 <Button

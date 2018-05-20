@@ -1,17 +1,13 @@
 package com.open.applic.open.interface_principal.nav_header.Sistema_pedidos;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -21,13 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
-import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adaptador_pedido;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adapter_recyclerView_lista_pedidos;
-import com.open.applic.open.interface_principal.nav_header.chat.Chat_view;
-import com.open.applic.open.interface_principal.nav_header.productos.MainActivity_productos;
-import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_recyclerView_ProductosNegocio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +82,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
                 final adaptador_pedido adapterProductoOriginal=adapter_PedidosList.get(recyclerViewPedidos.getChildAdapterPosition(view));
 
                 //---Lanzador de activity Cuentas
-                Intent intent=new Intent(MainActivity_pedidos_lista.this,MainActivity_pedido.class);
+                Intent intent=new Intent(MainActivity_pedidos_lista.this,MainActivity_pedido_productos.class);
                 intent.putExtra("ID_PEDIDO",adapterProductoOriginal.getId());
                 startActivity(intent);
 

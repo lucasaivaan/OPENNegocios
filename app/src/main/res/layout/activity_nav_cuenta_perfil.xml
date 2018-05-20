@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@android:color/transparent"
-                    android:hint="@string/nombre"
+                    android:hint="@string/nombre_completo"
                     android:textColor="@color/cardview_dark_background"></EditText>
             </android.support.design.widget.TextInputLayout>
 

@@ -212,13 +212,6 @@
         <item>otros</item>
     </string-array>
     <!--__ spinner_SubCategoria HELADERIA __  -->
-    <string-array name="spinner_31">
-        <item>@string/elije_una_categoaria</item>
-        <item>1 Kilo</item>
-        <item>1/2 Kilo</item>
-        <item>1/4 Kilo</item>
-        <item>otros</item>
-    </string-array>
 
     <string-array name="spinner_33">
         <item>@string/elije_una_categoaria</item>
