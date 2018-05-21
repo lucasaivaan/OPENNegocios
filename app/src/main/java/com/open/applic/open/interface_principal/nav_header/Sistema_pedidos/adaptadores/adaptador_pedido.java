@@ -21,7 +21,7 @@ public class adaptador_pedido {
     private Date timestamp;
     private Integer estado;
     private Map<String,Object> lista_productos= new HashMap<String, Object>();
-    private String cantidad_pago;
+    private String cantidad_pago="0";
 
 
 

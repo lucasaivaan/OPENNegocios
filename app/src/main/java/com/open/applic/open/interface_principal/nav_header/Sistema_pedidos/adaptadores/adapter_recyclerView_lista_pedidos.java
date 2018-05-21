@@ -82,11 +82,11 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
                     holder.tEstado.setBackgroundResource(R.color.md_teal_300);
                     break;
                 case 2:
-                    holder.tEstado.setText("Enviado");
+                    holder.tEstado.setText("Pedido Enviado");
                     holder.tEstado.setBackgroundResource(R.color.md_light_green_400);
                     break;
                 case 3:
-                    holder.tEstado.setText("Listo para retire");
+                    holder.tEstado.setText("Listo para retirar");
                     holder.tEstado.setBackgroundResource(R.color.md_light_green_400);
                     break;
 

@@ -1,5 +1,8 @@
 package com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class adapter_producto {
 
 
@@ -12,12 +15,14 @@ public class adapter_producto {
     private Double precio;
     private String id;
     private String codigo;
-    private Integer cantidad;
     private Integer tipo;
+    private Map<String,Object> infopedido= new HashMap<String, Object>();
 
 
 
-    public Integer getCantidad() { return cantidad; }
+    public Map<String, Object> getInfopedido() { return infopedido; }
+    public void setInfopedido(Map<String, Object> infopedido) { this.infopedido = infopedido; }
+
     public String getCodigo() { return codigo; }
     public void setCodigo(String codigo) { this.codigo = codigo; }
     public void setUrlimagen(String urlimagen) { this.urlimagen = urlimagen; }
@@ -33,7 +38,7 @@ public class adapter_producto {
     public void setTipo(Integer tipo) { this.tipo = tipo; }
 
 
-    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+
     public String getUrlimagen() { return urlimagen; }
     public String getCategoria() { return categoria; }
     public String getSubcategoria() { return subcategoria; }
@@ -42,7 +47,6 @@ public class adapter_producto {
     public String getInfo2() { return info2; }
     public Double getPrecio() { return precio; }
     public String getId() { return id; }
-
 
 
 }

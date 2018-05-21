@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adaptador_pedido;
+import com.open.applic.open.interface_principal.nav_header.productos.MainActivity_productos;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_producto;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_recyclerView_ProductosPedidos;
 
@@ -189,6 +193,8 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                 // FIRESTORE CLIENTE
                 DocumentReference documentReferenceCliente=firestore.collection( getResources().getString(R.string.DB_CLIENTES) ).document(  ID_CLIENTE  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
                 documentReferenceCliente.set(mapESTADO, SetOptions.merge());
+
+                button_pedidoEnviado.setVisibility(View.GONE);
 
             }
         });
@@ -396,7 +402,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                                 // Imagen
                                 if(!adapterPerfilClientes.getUrlfotoPerfil().equals("default")) {
 
-                                    Glide.with(imgFotoPerfil.getContext()).load(adapterPerfilClientes.getUrlfotoPerfil()).fitCenter().centerCrop().into(imgFotoPerfil);
+                                    Glide.with( MainActivity_pedido_productos.this.getApplicationContext () ).load(adapterPerfilClientes.getUrlfotoPerfil()).fitCenter().centerCrop().into(imgFotoPerfil);
                                 }
 
                                 // Nombre
@@ -431,6 +437,38 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                //Extrae la id de la reseña
+                final adapter_producto adapterProductoOriginal=adapter_productoList.get(recyclerViewProducto.getChildAdapterPosition(view));
+
+
+                if(adapterProductoOriginal.getTipo() == 1){
+
+                    List<String> ListaSabores = new ArrayList<String>();
+
+                    Map <String, Object> mapGustos = (Map <String, Object>) adapterProductoOriginal.getInfopedido().get("gustos");
+                    for (Map.Entry<String, Object> mapProductoInfoPedido : mapGustos.entrySet()) {
+                        ListaSabores.add(mapProductoInfoPedido.getValue().toString());
+                    }
+
+                    //Create sequence of items
+                    final CharSequence[] Animals = ListaSabores.toArray(new String[ListaSabores.size()]);
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity_pedido_productos.this);
+                    dialogBuilder.setTitle( getResources().getString(R.string.sabores));
+                    dialogBuilder.setItems(Animals, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int item) {
+
+                        }
+                    });
+                    //Create alert dialog object via builder
+                    AlertDialog alertDialogObject = dialogBuilder.create();
+                    //Show the dialog
+                    alertDialogObject.show();
+
+                }
+
+
+
+
             }
         });
         // Eventos de Recyclerviews
@@ -445,13 +483,18 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                     // Recorre el ArrayList de los productos seleccionados
                     for(adapter_producto adapterProducto: adapter_productoList){
 
-                        if( adapterProducto.getPrecio() != null && adapterProducto.getCantidad() != null)
+                        try {
+                            Integer iCantidad= (int) adapterProducto.getInfopedido().get("cantidad");
 
-                        // Multiplica el precio del prodcuto  por la cantidad
-                        dTotalPrecio+=adapterProducto.getPrecio()*adapterProducto.getCantidad();
+                            if( adapterProducto.getPrecio() != null && iCantidad != null)
 
-                        // set
-                        textView_PrecioTotal.setText( String.valueOf(Double.toString(dTotalPrecio)) );
+                                // Multiplica el precio del prodcuto  por la cantidad
+                                dTotalPrecio+=adapterProducto.getPrecio() * iCantidad ;
+
+                            // set
+                            textView_PrecioTotal.setText( String.valueOf(Double.toString(dTotalPrecio)) );
+                        }catch (Exception ec){}
+
                     }
                 }else{
 
@@ -463,16 +506,18 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
 
 
         // Recorre la lista de productos
-        for (Map.Entry<String, Object> entry : mapListProductos.entrySet()) {
+        for (Map.Entry<String, Object> mapProductoInfoPedido : mapListProductos.entrySet()) {
 
-            String key = entry.getKey();
-            Object value = entry.getValue();
+            String key = mapProductoInfoPedido.getKey().toString();
+            Object mapInfoPedido = mapProductoInfoPedido.getValue();
 
 
             // Adaptador
             adapter_producto adapterProducto=new adapter_producto();
-            adapterProducto.setId(key);
-            adapterProducto.setCantidad( value.hashCode() );
+            adapterProducto.setId(key);// CantidAd
+
+
+            adapterProducto.setInfopedido((Map<String, Object>) mapInfoPedido);
 
             adapter_productoList.add(adapterProducto);
 

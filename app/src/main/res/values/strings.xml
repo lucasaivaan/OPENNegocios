@@ -449,6 +449,7 @@
     <string name="pregunta_cancelar_pedido">¿Seguro que quieres cancelar el pedido?</string>
     <string name="pedido_enviado">Pedido enviado</string>
     <string name="pedido_listo">Pedido listo</string>
+    <string name="sabores">Sabores</string>
 
 
 </resources>

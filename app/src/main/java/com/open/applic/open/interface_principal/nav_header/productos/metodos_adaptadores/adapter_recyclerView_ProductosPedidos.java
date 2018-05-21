@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,7 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,7 +41,6 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
 
     private  adapter_producto adapterProducto;
     private String ID_NEGOCIO;
-    private Integer iCantidad;
     private Context context;
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     private List<adapter_producto> adapter_productoList;
@@ -66,7 +69,6 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
 
         //Datos
         ID_NEGOCIO = SharePreferencesAPP.getID_NEGOCIO(context);
-        iCantidad=adapterProducto.getCantidad();
 
         // Firestore
         DocumentReference documentReference=db.collection(  context.getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  context.getString(R.string.DB_PRODUCTOS)  ).document(adapterProducto.getId());
@@ -93,8 +95,11 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
                         adapter_productoList.get(position).setInfo2( adapterProducto.getInfo2() );
                         adapter_productoList.get(position).setCodigo( adapterProducto.getCodigo() );
                         adapter_productoList.get(position).setPrecio( adapterProducto.getPrecio() );
+                        adapter_productoList.get(position).setTipo(adapterProducto.getTipo());
 
-                        adapter_productoList.get(position).setCantidad( iCantidad );
+                        // info Pedido
+                        adapter_productoList.get(position).setInfopedido(adapter_productoList.get(position).getInfopedido());
+
 
                         // SET
                         if(adapter_productoList.get(position).getInfo1() != null){
@@ -104,13 +109,13 @@ public class adapter_recyclerView_ProductosPedidos extends RecyclerView.Adapter<
                             holder.datoInfo.setText(adapter_productoList.get(position).getInfo2());
 
                             // Cantidad de producto
-                            holder.datoCantidad.setText(String.valueOf( adapter_productoList.get(position).getCantidad() ));
+                            holder.datoCantidad.setText( String.valueOf( adapter_productoList.get(position).getInfopedido().get("cantidad").hashCode() ) );
 
                             // Precio
                             if(adapter_productoList.get(position).getPrecio() ==null){
                                 holder.datoPrecio.setVisibility(View.GONE);
                             }else {
-                                holder.datoPrecio.setText(String.valueOf(  adapter_productoList.get(position).getPrecio()* iCantidad  ));
+                                holder.datoPrecio.setText(String.valueOf(  adapter_productoList.get(position).getPrecio() * adapter_productoList.get(position).getInfopedido().get("cantidad").hashCode()  ));
                             }
 
                             // Imagen del producto
