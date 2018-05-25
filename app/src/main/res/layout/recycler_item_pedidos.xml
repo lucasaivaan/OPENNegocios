@@ -12,7 +12,7 @@
         android:elevation="3dp"
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardCornerRadius="5dp"
-        app:cardElevation="3dp">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,46 +24,135 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:elevation="3dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/profile_image"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="5dp"
-                    android:src="@mipmap/logo_maxikiosco"
-                    app:civ_border_color="#ffffff"
-                    app:civ_border_width="2dp" />
+                <LinearLayout
+                    android:layout_width="85dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_margin="5dp"
+                        android:src="@mipmap/logo_maxikiosco"
+                        app:civ_border_color="#ffffff"
+                        app:civ_border_width="2dp" />
+
+                    <TextView
+                        android:id="@+id/textView52_nombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="@string/nombre"
+                        android:textAlignment="center"
+                        android:textColor="@color/textColorSecundario"
+                        android:textSize="10sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textView39"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/tipo_entrega" />
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textView42"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/cantidad" />
+                        <TextView
+                            android:id="@+id/textView39"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/tipo_entrega"
+                            android:textAllCaps="true" />
 
-                    <TextView
-                        android:id="@+id/textView41"
+                        <TextView
+                            android:id="@+id/textView41"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/horarios"
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/textColorSecundario"
+                            android:textSize="10sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/horarios"
-                        android:textAlignment="textEnd"
-                        android:textSize="10sp" />
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView43"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/productos"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textColorSecundario"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textView50"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=":"
+                            android:textColor="@color/textColorSecundario" />
+
+                        <TextView
+                            android:id="@+id/textView42"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textColor="@color/textColorSecundario"
+                            android:textSize="14sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView_dato"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ubicacion"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textColorSecundario"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textView54"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" : "
+                            android:textColor="@color/textColorSecundario" />
+
+                        <TextView
+                            android:id="@+id/textView43_ubicacion_Hora"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/ubicacion"
+                            android:textAllCaps="true"
+                            android:textColor="@color/textColorSecundario"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -76,10 +165,13 @@
                 android:layout_weight="1"
                 android:background="@color/md_deep_orange_400"
                 android:elevation="0dp"
+                android:padding="5dp"
                 android:text="@string/estado"
                 android:textAlignment="center"
                 android:textAllCaps="true"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="@color/cardview_shadow_start_color"
+                android:textSize="15sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

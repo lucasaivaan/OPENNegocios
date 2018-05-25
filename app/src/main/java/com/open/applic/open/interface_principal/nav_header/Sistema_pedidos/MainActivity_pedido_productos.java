@@ -1,6 +1,8 @@
 package com.open.applic.open.interface_principal.nav_header.Sistema_pedidos;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -8,14 +10,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +30,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adaptador_pedido;
-import com.open.applic.open.interface_principal.nav_header.productos.MainActivity_productos;
+import com.open.applic.open.interface_principal.nav_header.chat.Chat_view;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_producto;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_recyclerView_ProductosPedidos;
 
@@ -55,6 +56,8 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
     // ToolBar
     private CircleImageView imgFotoPerfil;
     private TextView tvNombre;
+    private ImageButton button_Telefono;
+    private ImageButton button_Chat;
 
     // Button
     private Button button_ConfirmarPedido;
@@ -73,7 +76,8 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
     private TextView textView_piso_depto;
     private TextView textView_abono;
     private TextView textView_nota;
-    private TextView textView83_estado;
+    private TextView textView_TipoPedido;
+    private TextView textView_horario_de_retiro;
 
     // LAYOUT
     private LinearLayout layout_ubicacion;
@@ -118,6 +122,9 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
         // Reference
         imgFotoPerfil=(CircleImageView) findViewById(R.id.fotoPerfil);
         tvNombre=(TextView) findViewById(R.id.tv_nombre);
+        button_Telefono=(ImageButton) findViewById(R.id.imageButton4);
+        button_Chat=(ImageButton) findViewById(R.id.imageButton5);
+
         button_ConfirmarPedido=(Button) findViewById(R.id.button_confirmar_pedido);
         button_ConfirmarPedido.setVisibility(View.GONE);
         button_CancelarPedido=(Button) findViewById(R.id.button_cancelar_pedido);
@@ -137,7 +144,8 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
         layout_ubicacion=(LinearLayout) findViewById(R.id.layout_ubicacion);
         textView_abono=(TextView) findViewById(R.id.textView75_abono);
         textView_nota=(TextView) findViewById(R.id.textView78_nota);
-        textView83_estado=(TextView) findViewById(R.id.textView83_estado);
+        textView_TipoPedido =(TextView) findViewById(R.id.textView83_tipo_de_pedido);
+        textView_horario_de_retiro =(TextView) findViewById(R.id.textView_horario_de_retiro);
 
 
 
@@ -322,46 +330,38 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                 if(documentSnapshot.exists()){
                     // Adaptador del pedido
-                    adaptador_pedido adapterProducto=documentSnapshot.toObject(adaptador_pedido.class);
+                    final adaptador_pedido adapterProducto=documentSnapshot.toObject(adaptador_pedido.class);
 
 
                     // Set datos pedido
                     textView_Nombre.setText(  adapterProducto.getContacto()  );
-                    textView_telefono.setText(  adapterProducto.getTelefono()  );
-                    textView_abono.setText(  adapterProducto.getCantidad_pago()  );
-                    textView_nota.setText(  adapterProducto.getNota()  );
+
+                    // Telefono
+                    if( !adapterProducto.getTelefono().equals("")){
+                        textView_telefono.setText(  adapterProducto.getTelefono()  );
+                    }else { textView_telefono.setText(  getResources().getString(R.string.sin_especificar)  ); }
 
 
-                    textView83_estado.setText(  adapterProducto.getTipo_entrega()  );
+                    // Abono
+                    if(!adapterProducto.getCantidad_pago().equals("")){
+                        textView_abono.setText(  adapterProducto.getCantidad_pago()  );
+                    }else{ textView_abono.setText( getResources().getString(R.string.sin_especificar) );}
 
-                    // Direccion
-                    if(adapterProducto.getDireccion() != null){
-                        Map <String,String> mapDireccion =adapterProducto.getDireccion();
-                        // SET
-                        textView_calle.setText(  mapDireccion.get("calle")  );
-                        textView_numero.setText( mapDireccion.get("numero") );
-                        textView_entreCalles.setText(  mapDireccion.get("entre_calles")  );
-                        textView_ubicacion.setText(  mapDireccion.get("localidad")+","+mapDireccion.get("ciudad")  );
-                        textView_piso_depto.setText(  mapDireccion.get("piso_depto")  );
+                    // nota
+                    if(!adapterProducto.getNota().equals("")){
+                        textView_nota.setText(  adapterProducto.getNota()  );
+                    }else { textView_nota.setVisibility(View.GONE); }
 
-                        // Control de visibilidad
-                        layout_ubicacion.setVisibility(View.VISIBLE);
 
-                        switch (adapterProducto.getEstado()){
-                            case 0:
-                                // Control de visibilidad
-                                button_ConfirmarPedido.setVisibility(View.VISIBLE);
+                    // Tipo de pedido
+                    if( adapterProducto.getTipo_entrega() == 1){
+                        // Titulo : Retira en el local
+                        textView_TipoPedido.setText( getResources().getString(R.string.retira_en_el_local) );
 
-                                break;
-                            case 1:
-                                // Control de visibilidad
-                                button_pedidoEnviado.setVisibility(View.VISIBLE);
-                                button_pedidoListo.setVisibility(View.GONE);
-                                button_ConfirmarPedido.setVisibility(View.GONE);
+                        // Horario de retiro
+                        String sTexto = getResources().getString(R.string.retiro);
+                        textView_horario_de_retiro.setText( sTexto +": "+ adapterProducto.getHora() );
 
-                                break;
-                        }
-                    }else{
                         // Control de visibilidad
                         layout_ubicacion.setVisibility(View.GONE);
 
@@ -379,7 +379,80 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
 
                                 break;
                         }
+
+                    }else if( adapterProducto.getTipo_entrega() == 2){
+
+                        // Delivery
+                        textView_TipoPedido.setText( getResources().getString(R.string.delivery)  );
+
+                        // Direccion
+                        if(adapterProducto.getDireccion() != null){
+                            Map <String,String> mapDireccion =adapterProducto.getDireccion();
+                            // SET
+                            textView_calle.setText(  mapDireccion.get("calle")  );
+                            textView_numero.setText( mapDireccion.get("numero") );
+
+                            // Entre calles
+                            if( !mapDireccion.get("entre_calles").equals("")){
+                                textView_entreCalles.setText(  mapDireccion.get("entre_calles")  );
+                            }else { textView_entreCalles.setText(  getResources().getString(R.string.sin_especificar)  ); }
+
+                            // Localidad
+                            textView_ubicacion.setText(  mapDireccion.get("localidad")+","+mapDireccion.get("ciudad")  );
+
+                            // Piso/Depto
+                            if( !mapDireccion.get("piso_depto").equals("")){
+                                textView_piso_depto.setText(  mapDireccion.get("piso_depto")  );
+                            }else { textView_piso_depto.setText(  getResources().getString(R.string.sin_especificar)  ); }
+
+
+                            // Control de visibilidad
+                            layout_ubicacion.setVisibility(View.VISIBLE);
+
+                            switch (adapterProducto.getEstado()){
+                                case 0:
+                                    // Control de visibilidad
+                                    button_ConfirmarPedido.setVisibility(View.VISIBLE);
+
+                                    break;
+                                case 1:
+                                    // Control de visibilidad
+                                    button_pedidoEnviado.setVisibility(View.VISIBLE);
+                                    button_pedidoListo.setVisibility(View.GONE);
+                                    button_ConfirmarPedido.setVisibility(View.GONE);
+
+                                    break;
+                            }
+
+
+                            //  Control de visivilidad
+                            textView_horario_de_retiro.setVisibility(View.GONE);
+                        }
+
                     }
+
+                    //---- Button
+                    button_Telefono.setOnClickListener(new View.OnClickListener() {
+
+                        // Cliente
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(Intent.ACTION_DIAL);
+                            i.setData(Uri.parse("tel:" + adapterProducto.getTelefono()));
+                            startActivity(i);
+                        }});
+
+                    button_Chat.setOnClickListener(new View.OnClickListener() {
+
+                        // Cliente
+                        @Override
+                        public void onClick(View view) {
+                            //--.lanzadador Activity
+                            Intent intent2 = new Intent (MainActivity_pedido_productos.this,Chat_view.class);
+                            intent2.putExtra("parametroIdClient",adapterProducto.getId_cliente());
+                            startActivityForResult(intent2, 0);
+                        }});
+
 
 
                     // Carga los productos
@@ -471,11 +544,12 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
 
             }
         });
-        // Eventos de Recyclerviews
+        // Eventos de Recyclerviews     (problema de recursividad)
         adapter_recyclerView_productos.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
+
                 // Precio toltal
                 dTotalPrecio=0.0;
 
@@ -484,24 +558,23 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                     for(adapter_producto adapterProducto: adapter_productoList){
 
                         try {
-                            Integer iCantidad= (int) adapterProducto.getInfopedido().get("cantidad");
+                            // Cantidad de producto
+                            Integer iCantidad= adapterProducto.getInfopedido().get("cantidad").hashCode();
 
-                            if( adapterProducto.getPrecio() != null && iCantidad != null)
-
-                                // Multiplica el precio del prodcuto  por la cantidad
+                            if( adapterProducto.getPrecio() != null && iCantidad != null){
+                                // Multiplica el precio del producto  por la cantidad
                                 dTotalPrecio+=adapterProducto.getPrecio() * iCantidad ;
-
-                            // set
+                            }
+                            // set precio total
                             textView_PrecioTotal.setText( String.valueOf(Double.toString(dTotalPrecio)) );
-                        }catch (Exception ec){}
+
+                        }catch (Exception ex){  Toast.makeText(MainActivity_pedido_productos.this,"Error; "+ex.getMessage(),Toast.LENGTH_SHORT).show();
+                         }
 
                     }
-                }else{
+                }else{ }
 
-                    // VAcio
                 }
-
-            }
         });
 
 
@@ -524,6 +597,9 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
 
         }
         adapter_recyclerView_productos.notifyDataSetChanged();
+
+
+
 
 
 

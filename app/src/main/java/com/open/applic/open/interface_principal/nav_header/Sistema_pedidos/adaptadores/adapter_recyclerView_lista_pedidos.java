@@ -66,8 +66,36 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
 
         ListPedidos.get(position).setEstado(ADP.getEstado());
 
-        // Tipo de entrega
-        holder.tTipoEntrega.setText(ADP.getTipo_entrega());
+        // Nombre
+        holder.tNombre.setText( ADP.getContacto() );
+
+
+        // Tipo de entrega  1=retira_en_el_local   2=delivery
+        if( ADP.getTipo_entrega() == 1){
+
+            // set Tipo de pedido
+            holder.tTipoEntrega.setText(  context.getResources().getString(R.string.retira_en_el_local) );
+            holder.tDatoUbicacionRetira.setText( context.getResources().getString(R.string.retiro) );
+
+            // set
+            holder.tUbicacionHora.setText( ADP.getHora()  );
+            
+        }else if( ADP.getTipo_entrega() == 2 ){
+
+            // set Tipo de pedido
+            holder.tTipoEntrega.setText(  context.getResources().getString(R.string.delivery)  );
+            holder.tDatoUbicacionRetira.setText( context.getResources().getString(R.string.ubicacion) );
+
+            // Direccion
+            String sCalle=ADP.getDireccion().get("calle");
+            String sNumero=ADP.getDireccion().get("numero");
+            String sLocaclidad=ADP.getDireccion().get("localidad");
+            String sCiudad=ADP.getDireccion().get("ciudad");
+            // set
+            holder.tUbicacionHora.setText( sCalle+" "+sNumero+", "+sLocaclidad+", "+sCiudad  );
+
+        }
+
 
         // Estado del pedido
         if(ADP.getEstado() != null ){
@@ -105,7 +133,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
 
         // Cantidad del producto
         Map<String, Object> map = ADP.getLista_productos();
-        holder.tCantidadProducto.setText( context.getResources().getString(R.string.productos) +" "+ String.valueOf(map.size()) );
+        holder.tCantidadProducto.setText( String.valueOf(map.size()) );
 
 
         // hora
@@ -128,11 +156,8 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
 
                         // Imagen de perfil del negocio
                         if(adapterProfileClientes.getUrlfotoPerfil().equals("default")){
-
                             // Default
-
                         }else{
-
                             Glide.clear(holder.profile_image);
                             Context context=holder.profile_image.getContext();
                             //-Carga la imagen de perfil
@@ -181,7 +206,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
     public  static  class homeViwHolder extends RecyclerView.ViewHolder{
 
         CircleImageView profile_image;
-        TextView tTipoEntrega,tCantidadProducto,tHora,tEstado;
+        TextView tTipoEntrega,tCantidadProducto,tHora,tEstado,tUbicacionHora,tNombre,tDatoUbicacionRetira;
 
         public homeViwHolder(View itemView) {
             super(itemView);
@@ -190,6 +215,9 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
             tCantidadProducto=(TextView) itemView.findViewById(R.id.textView42);
             tHora=(TextView) itemView.findViewById(R.id.textView41);
             tEstado=(TextView) itemView.findViewById(R.id.textView_estado);
+            tUbicacionHora=(TextView) itemView.findViewById(R.id.textView43_ubicacion_Hora);
+            tNombre=(TextView) itemView.findViewById(R.id.textView52_nombre);
+            tDatoUbicacionRetira=(TextView) itemView.findViewById(R.id.textView_dato);
 
 
             profile_image=(CircleImageView) itemView.findViewById(R.id.profile_image);

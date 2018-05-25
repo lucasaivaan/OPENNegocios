@@ -417,6 +417,8 @@
     <string name="imagen_de_perfil">Imagen de perfil</string>
     <string name="actualizar_foto">Actualizar foto</string>
     <string name="delivery">Delivery</string>
+    <string name="retira_en_el_local">Retira en el local</string>
+    <string name="retiro">Retiro</string>
     <string name="reintenter">Reintentar</string>
     <string name="title_activity_a_main__interface__principal">aMainActivity_Interface_Principal
     </string>
@@ -450,6 +452,8 @@
     <string name="pedido_enviado">Pedido enviado</string>
     <string name="pedido_listo">Pedido listo</string>
     <string name="sabores">Sabores</string>
+    <string name="sin_especificar">Sin especificar</string>
+
 
 
 </resources>
