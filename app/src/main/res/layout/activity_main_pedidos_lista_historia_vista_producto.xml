@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedido_productos">
+    tools:context=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedidos_lista_historia_vista_producto">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -48,9 +48,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_weight="1"
-                        android:text="user"
+                        android:text="@string/user"
                         android:textAllCaps="true"
                         android:textColor="@color/cardview_light_background"
                         android:textSize="14sp" />
@@ -68,7 +68,8 @@
                         android:layout_height="35dp"
                         android:layout_margin="5dp"
                         android:background="@mipmap/ic_message"
-                        android:backgroundTint="@color/cardview_light_background" />
+                        android:backgroundTint="@color/cardview_light_background"
+                        android:contentDescription="TODO" />
 
                     <ImageButton
                         android:id="@+id/imageButton4"
@@ -363,7 +364,7 @@
 
                         <TextView
                             android:id="@+id/textView58_EntreCalles"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="1dp"
                             android:layout_weight="1"
@@ -569,64 +570,13 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-    <LinearLayout
-        android:id="@+id/linearLayout20"
+    <Button
+        android:id="@+id/button31_Eliminar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-
-        <Button
-            android:id="@+id/button31_hecho"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_green_400"
-            android:text="@string/hecho"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/button_confirmar_pedido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_light_green_300"
-            android:text="@string/cofirmar_pedido"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button31_pedidoEnviado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_green_300"
-            android:drawableLeft="@drawable/ic_done"
-            android:padding="5dp"
-            android:text="@string/pedido_enviado"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/textview_pedidoListo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_green_300"
-            android:drawableLeft="@drawable/ic_done"
-            android:padding="5dp"
-            android:text="@string/pedido_listo"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="18sp" />
-
-        <Button
-            android:id="@+id/button_cancelar_pedido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_red_300"
-            android:text="@string/cancelar_pedido"
-            android:textColor="@color/cardview_light_background"
-            android:textSize="18sp" />
-    </LinearLayout>
+        android:background="@color/md_red_300"
+        android:text="@string/eliminar"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="24sp" />
 
 </LinearLayout>

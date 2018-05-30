@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:clickable="false"
+        android:elevation="0dp"
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardElevation="2dp">
 

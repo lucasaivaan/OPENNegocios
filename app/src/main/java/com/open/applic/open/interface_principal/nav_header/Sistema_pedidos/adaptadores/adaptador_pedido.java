@@ -14,12 +14,12 @@ public class adaptador_pedido {
     private String id;
     private String contacto;
     private String telefono;
-    private Integer tipo_entrega;
+    private Integer tipo_entrega;  // Tipo de entrega  1=retira_en_el_local   2=delivery
     private String forma_pago;
     private String nota;
     private Map<String,String> direccion= new HashMap<String, String>();
     private Date timestamp;
-    private Integer estado;
+    private Integer estado;  // 0= PENDIENTE  1=EN PROCESO  2=PEDIDO ENVIADO  3=LISTO PARA RETIRAR  4= CANCELADO  5=RECIBIDO
     private Map<String,Object> lista_productos= new HashMap<String, Object>();
     private String cantidad_pago="0";
     private String hora;

@@ -18,19 +18,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
-import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adaptador_pedido;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adapter_recyclerView_lista_pedidos;
-import com.open.applic.open.interface_principal.nav_header.productos.MainActivity_productos;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity_pedidos_lista extends AppCompatActivity {
+public class MainActivity_pedidos_lista_historia extends AppCompatActivity {
+
 
     private BottomNavigationView bottomNavigationView;
 
@@ -55,7 +53,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_pedidos);
-        setTitle(getResources().getString(R.string.sitema_pedidos));
+        setTitle(getResources().getString(R.string.historial));
 
         // habilita botón físico de atrás en la Action Bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,24 +87,12 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
         // Cargar DAtos
         CargarPedidos_Delivery();
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sistema_pedidos, menu);
-        return true;
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: //hago un case por si en un futuro agrego mas opciones
                 finish();
-                return true;
-            case R.id.action_historial:
-
-                //---Lanzador de activity
-                Intent intent=new Intent(MainActivity_pedidos_lista.this,MainActivity_pedidos_lista_historia.class);
-                startActivity(intent);
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -121,7 +107,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
         recyclerViewPedidos_RetiroDomicilio.setLayoutManager(new LinearLayoutManager(this));
         //--Adaptadores
         adapter_PedidosList_RetiroDomicilio =new ArrayList<>();
-        adapter_recyclerView_pedidos_RetiroDomicilio =new adapter_recyclerView_lista_pedidos(adapter_PedidosList_RetiroDomicilio,MainActivity_pedidos_lista.this);
+        adapter_recyclerView_pedidos_RetiroDomicilio =new adapter_recyclerView_lista_pedidos(adapter_PedidosList_RetiroDomicilio,MainActivity_pedidos_lista_historia.this);
 
         adapter_recyclerView_pedidos_RetiroDomicilio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +117,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
                 final adaptador_pedido adapterProductoOriginal=adapter_PedidosList_RetiroDomicilio.get(recyclerViewPedidos_RetiroDomicilio.getChildAdapterPosition(view));
 
                 //---Lanzador de activity Cuentas
-                Intent intent=new Intent(MainActivity_pedidos_lista.this,MainActivity_pedido_productos.class);
+                Intent intent=new Intent(MainActivity_pedidos_lista_historia.this,MainActivity_pedidos_lista_historia_vista_producto.class);
                 intent.putExtra("ID_PEDIDO",adapterProductoOriginal.getId());
                 startActivity(intent);
 
@@ -146,7 +132,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
         recyclerViewPedidos.setLayoutManager(new LinearLayoutManager(this));
         //--Adaptadores
         adapter_PedidosList =new ArrayList<>();
-        adapter_recyclerView_pedidos =new adapter_recyclerView_lista_pedidos(adapter_PedidosList,MainActivity_pedidos_lista.this);
+        adapter_recyclerView_pedidos =new adapter_recyclerView_lista_pedidos(adapter_PedidosList,MainActivity_pedidos_lista_historia.this);
 
         adapter_recyclerView_pedidos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +142,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
                 final adaptador_pedido adapterProductoOriginal=adapter_PedidosList.get(recyclerViewPedidos.getChildAdapterPosition(view));
 
                 //---Lanzador de activity Cuentas
-                Intent intent=new Intent(MainActivity_pedidos_lista.this,MainActivity_pedido_productos.class);
+                Intent intent=new Intent(MainActivity_pedidos_lista_historia.this,MainActivity_pedidos_lista_historia_vista_producto.class);
                 intent.putExtra("ID_PEDIDO",adapterProductoOriginal.getId());
                 startActivity(intent);
 
@@ -168,7 +154,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
 
 
         // Firesote
-        CollectionReference collectionReference=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS)  );
+        CollectionReference collectionReference=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS_HISTORIAL)  );
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot task, @Nullable FirebaseFirestoreException e) {
@@ -181,6 +167,7 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
 
                         // Adaptadores
                         adaptador_pedido adapterProducto=doc.toObject(adaptador_pedido.class);
+                        adapterProducto.setId(doc.getId());
 
 
                         if( adapterProducto.getTipo_entrega() == 1 ){

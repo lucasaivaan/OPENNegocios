@@ -12,7 +12,7 @@
 
     <!--______________________________   SITEMA DE PEDIDIOS   _________________________________  -->
     <string name="sitema_pedidos">Sistema de pedidos</string>
-
+    <string name="historial">Historial</string>
     <!--_____________________________________ BASE DE DATOS ___________________________________  -->
     <string name="DB_APP">APP</string>
     <string name="DB_NEGOCIOS">NEGOCIOS</string>
@@ -21,6 +21,7 @@
 
     <string name="DB_CLIENTES">CLIENTES</string>
     <string name="DB_PEDIDOS">PEDIDOS</string>
+    <string name="DB_PEDIDOS_HISTORIAL">PEDIDOS_HISTORIAL</string>
     <string name="DB_PRODUCTOS">PRODUCTOS</string>
     <string name="DB_CATEGORIA">CATEGORIA</string>
 
@@ -233,6 +234,7 @@
     <string name="escriba_un_mensaje">Escriba algo</string>
     <string name="enviar">Enviar</string>
     <string name="chat">Chat</string>
+    <string name="historia">Historial</string>
     <string name="vaciar_chat">Vacias chat</string>
     <string name="chat_clientes">Chat clientes</string>
     <string name="mi_tarjeta_de_negocio">Mi tarjeta de negocio</string>
@@ -453,7 +455,8 @@
     <string name="pedido_listo">Pedido listo</string>
     <string name="sabores">Sabores</string>
     <string name="sin_especificar">Sin especificar</string>
-
+    <string name="hecho">Hecho</string>
+    <string name="user">user</string>
 
 
 </resources>

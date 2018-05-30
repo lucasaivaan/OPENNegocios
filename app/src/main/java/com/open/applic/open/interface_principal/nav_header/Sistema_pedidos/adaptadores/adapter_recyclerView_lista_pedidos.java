@@ -100,6 +100,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
         // Estado del pedido
         if(ADP.getEstado() != null ){
 
+            // 0= PENDIENTE  1=EN PROCESO  2=PEDIDO ENVIADO  3=LISTO PARA RETIRAR  4= CANCELADO  5=RECIBIDO
             switch (ADP.getEstado()){
                 case 0:
                     holder.tEstado.setText("Pendiente");
@@ -159,7 +160,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
                             // Default
                         }else{
                             Glide.clear(holder.profile_image);
-                            Context context=holder.profile_image.getContext();
+                            Context context=holder.profile_image.getContext().getApplicationContext();
                             //-Carga la imagen de perfil
                             Glide.with(context).load( adapterProfileClientes.getUrlfotoPerfil() ).into( holder.profile_image );
 

@@ -133,8 +133,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         editText_Toolbar_Seach=(EditText) findViewById(R.id.editText2_seach);
 
 
-        // Carga los productos
-        Recycler_Producto("");
+
 
 
         editText_Toolbar_Seach.addTextChangedListener(new TextWatcher() {
@@ -159,6 +158,67 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
             }
         });
+
+
+        //  BASE DE DATOS
+        CollectionReference collectionReference2=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_PRODUCTOS));
+        collectionReference2.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+
+                listCatSpinner.removeAll(listCatSpinner);
+
+                for (DocumentSnapshot doc:documentSnapshots){
+                    if(doc.exists()) {
+                        adapter_producto adapterProducto = doc.toObject(adapter_producto.class);
+
+                        // inflar el Spinner de categorias
+                        Boolean estadoRepeticion=false;
+
+                        // Recoore el arrayList
+                        if(listCatSpinner.size()==0){listCatSpinner.add(getString(R.string.elije_una_categoaria));}
+                        for(int x=0;x<listCatSpinner.size();x++) {
+                            if(listCatSpinner.get(x).equals(adapterProducto.getSubcategoria()) || listCatSpinner.get(x).equals(adapterProducto.getSubcategoria_2()) )
+                            { estadoRepeticion=true; }
+                        }
+                        // agrega la categoria al arrayList
+                        if(estadoRepeticion == false){
+                            if( adapterProducto.getSubcategoria_2() == null){
+
+                                listCatSpinner.add(adapterProducto.getSubcategoria());
+                                spinnerCategoria.setVisibility(View.VISIBLE);
+
+                            }else {
+
+                                if(adapterProducto.getSubcategoria_2().equals("") ){
+                                    listCatSpinner.add(adapterProducto.getSubcategoria());
+                                    spinnerCategoria.setVisibility(View.VISIBLE);
+                                }else {
+                                    listCatSpinner.add(adapterProducto.getSubcategoria_2());
+                                    spinnerCategoria.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            //Visibility
+                            imageViewFondo.setVisibility(View.GONE);
+                        }
+                    }
+                }
+                if(listCatSpinner.size()==0){spinnerCategoria.setVisibility(View.GONE);}
+
+                spinnerCategoria.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,listCatSpinner));
+                spinnerCategoria.setOnItemSelectedListener(MainActivity_productos.this);
+
+            }
+
+        });
+
+
+
+        // Carga los productos
+        Recycler_Producto("");
+
+
     }
     //---Algoritmo de busqueda
     private boolean seach(String value,String valueSeach){
@@ -331,6 +391,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
         recyclerViewProducto.setAdapter(adapter_recyclerView_productos);
 
 
+
         //  BASE DE DATOS
         CollectionReference collectionReference=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_PRODUCTOS));
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -338,7 +399,6 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
                 adapter_productoList.removeAll(adapter_productoList);
-                listCatSpinner.removeAll(listCatSpinner);
 
                 //Visibility
                 imageViewFondo.setVisibility(View.VISIBLE);
@@ -346,39 +406,6 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 for (DocumentSnapshot doc:documentSnapshots){
                     if(doc.exists()){
                         adapter_producto adapterProducto=doc.toObject(adapter_producto.class);
-
-
-
-                        Boolean estadoRepeticion=false;
-
-                        // Recoore el arrayList
-                        if(listCatSpinner.size()==0){listCatSpinner.add(getString(R.string.elije_una_categoaria));}
-                        for(int x=0;x<listCatSpinner.size();x++) {
-                            if(listCatSpinner.get(x).equals(adapterProducto.getSubcategoria()) || listCatSpinner.get(x).equals(adapterProducto.getSubcategoria_2()) )
-                            { estadoRepeticion=true; }
-                        }
-                        // agrega la categoria al arrayList
-                        if(estadoRepeticion == false){
-                            if( adapterProducto.getSubcategoria_2() == null){
-
-                                listCatSpinner.add(adapterProducto.getSubcategoria());
-                                spinnerCategoria.setVisibility(View.VISIBLE);
-
-                            }else {
-
-                                if(adapterProducto.getSubcategoria_2().equals("") ){
-                                    listCatSpinner.add(adapterProducto.getSubcategoria());
-                                    spinnerCategoria.setVisibility(View.VISIBLE);
-                                }else {
-                                    listCatSpinner.add(adapterProducto.getSubcategoria_2());
-                                    spinnerCategoria.setVisibility(View.VISIBLE);
-                                }
-                            }
-
-                            //Visibility
-                            imageViewFondo.setVisibility(View.GONE);
-                        }
-
 
                         adapterProducto.setId(doc.getId());
 
@@ -405,9 +432,6 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 }
 
                 if(adapter_productoList.size()==0){ imageViewFondo.setVisibility(View.VISIBLE);}
-                if(listCatSpinner.size()==0){spinnerCategoria.setVisibility(View.GONE);}
-                spinnerCategoria.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item,listCatSpinner));
-                spinnerCategoria.setOnItemSelectedListener(MainActivity_productos.this);
 
                 adapter_recyclerView_productos.notifyDataSetChanged();
 
@@ -624,9 +648,9 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
         switch (parent.getId()) {
             case R.id.spinner_categorias:
-                if(!spinnerCategoria.getSelectedItem().toString().equals(getString(R.string.elije_una_categoaria))){
+                if(  spinnerCategoria.getSelectedItemPosition() !=0  ){
                     Recycler_Producto(spinnerCategoria.getSelectedItem().toString());
-                }
+                }else{Recycler_Producto("");}
         }
 
     }

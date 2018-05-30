@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +31,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.SetOptions;
 import com.open.applic.open.R;
-import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adaptador_pedido;
@@ -47,7 +45,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity_pedido_productos extends AppCompatActivity {
+public class MainActivity_pedidos_lista_historia_vista_producto extends AppCompatActivity {
 
     // String Datos
     private String ID_NEGOCIO;
@@ -62,11 +60,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
     private ImageButton button_Chat;
 
     // Button
-    private Button button_ConfirmarPedido;
-    private Button button_CancelarPedido;
-    private Button button_pedidoEnviado;
-    private Button button_pedidoListo;
-    private Button button31_hecho;
+    private Button button31_Eliminar;
 
     // Informacion
     private TextView textView_PrecioTotal;
@@ -106,11 +100,11 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
     private FirebaseFirestore firestore=FirebaseFirestore.getInstance();
     private FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_pedido);
-        //setTitle(getResources().getString(R.string.sitema_pedidos));
+        setContentView(R.layout.activity_main_pedidos_lista_historia_vista_producto);
 
         //-------------------------------- Toolbar -------------------------------------------------
         // (Barra de herramientas)
@@ -130,17 +124,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
         button_Telefono=(ImageButton) findViewById(R.id.imageButton4);
         button_Chat=(ImageButton) findViewById(R.id.imageButton5);
 
-        button_ConfirmarPedido=(Button) findViewById(R.id.button_confirmar_pedido);
-        button_ConfirmarPedido.setVisibility(View.GONE);
-        button_CancelarPedido=(Button) findViewById(R.id.button_cancelar_pedido);
         textView_PrecioTotal=(TextView) findViewById(R.id.textView43_precioTotal);
-        button_pedidoEnviado =(Button) findViewById(R.id.button31_pedidoEnviado);
-        button_pedidoListo =(Button) findViewById(R.id.textview_pedidoListo);
-        button31_hecho=(Button) findViewById(R.id.button31_hecho);
-        button31_hecho.setVisibility(View.GONE);
-        button_pedidoEnviado.setVisibility(View.GONE);
-        button_pedidoListo.setVisibility(View.GONE);
-
         textView_Nombre=(TextView) findViewById(R.id.textView50_nombre);
         textView_telefono=(TextView) findViewById(R.id.textView62_telefono);
         textView_calle=(TextView) findViewById(R.id.textView52_calle);
@@ -154,189 +138,30 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
         textView_TipoPedido =(TextView) findViewById(R.id.textView83_tipo_de_pedido);
         textView_horario_de_retiro =(TextView) findViewById(R.id.textView_horario_de_retiro);
         layout_nota=(LinearLayout) findViewById(R.id.layout_nota);
-
+        button31_Eliminar=(Button) findViewById(R.id.button31_Eliminar);
 
 
         // Control de visibilidad
         layout_ubicacion.setVisibility(View.GONE);
 
+
         // OnClick
-        button_ConfirmarPedido.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Firesote
-                DocumentReference collectionReference=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS)  ).document( ID_PEDIDO );
-
-                // MAP DATOS ESTADO
-                Map <String,Integer> mapESTADO =new HashMap<String, Integer>();
-                mapESTADO.put("estado",1);  //0=(pendiente) 1= (confirmado) 2 =(eliminado)
-                collectionReference.set(mapESTADO, SetOptions.merge());
-
-                // FIRESTORE CLIENTE
-                DocumentReference documentReferenceCliente=firestore.collection( getResources().getString(R.string.DB_CLIENTES) ).document(  ID_CLIENTE  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                documentReferenceCliente.set(mapESTADO, SetOptions.merge());
-
-            }
-        });
-        button_pedidoListo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Firesote
-                DocumentReference collectionReference=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS)  ).document( ID_PEDIDO );
-
-                // MAP DATOS ESTADO
-                Map <String,Integer> mapESTADO =new HashMap<String, Integer>();
-                mapESTADO.put("estado",3); //0=(pendiente) 1= (En proceso) 2 =(Enviado) 3=( Listo) 4= (cancelado) 5 =(recibido)
-                collectionReference.set(mapESTADO, SetOptions.merge());
-
-                // FIRESTORE CLIENTE
-                DocumentReference documentReferenceCliente=firestore.collection( getResources().getString(R.string.DB_CLIENTES) ).document(  ID_CLIENTE  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                documentReferenceCliente.set(mapESTADO, SetOptions.merge());
-
-            }
-        });
-        button_pedidoEnviado.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Firesote
-                DocumentReference collectionReference=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS)  ).document( ID_PEDIDO );
-
-                // MAP DATOS ESTADO
-                Map <String,Integer> mapESTADO =new HashMap<String, Integer>();
-                mapESTADO.put("estado",2); //0=(pendiente) 1= (En proceso) 2 =(Enviado) 3=( Listo) 4= (cancelado) 5 =(recibido)
-                collectionReference.set(mapESTADO, SetOptions.merge());
-
-                // FIRESTORE CLIENTE
-                DocumentReference documentReferenceCliente=firestore.collection( getResources().getString(R.string.DB_CLIENTES) ).document(  ID_CLIENTE  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                documentReferenceCliente.set(mapESTADO, SetOptions.merge());
-
-                button_pedidoEnviado.setVisibility(View.GONE);
-
-            }
-        });
-        button_CancelarPedido.setOnClickListener(new View.OnClickListener() {
+        button31_Eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(ID_CLIENTE != null){
-                    AlertDialog.Builder dialogo1 = new AlertDialog.Builder(MainActivity_pedido_productos.this);
-                    dialogo1.setMessage(R.string.pregunta_cancelar_pedido);
-                    dialogo1.setCancelable(false);
-                    dialogo1.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialogo1, int id) {
+                if(adapterProducto.getId() != null){
 
-                            AlertDialog.Builder alertbox = new AlertDialog.Builder(MainActivity_pedido_productos.this);
+                    // Firesote
+                    DocumentReference docRef=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS_HISTORIAL)  ).document( ID_PEDIDO );
+                    docRef.delete();
 
-                            LinearLayout ll_alert_layout = new LinearLayout(MainActivity_pedido_productos.this);
-                            ll_alert_layout.setOrientation(LinearLayout.VERTICAL);
-                            final EditText ed_input = new EditText(MainActivity_pedido_productos.this);
-                            ll_alert_layout.addView(ed_input);
+                    // Finaliza la actividad
+                    finish();
 
-                            alertbox.setTitle("Mensaje (Motivo de la cancelación)");
-                            alertbox.setMessage("");
-
-                            //setting linear layout to alert dialog
-
-                            alertbox.setView(ll_alert_layout);
-
-                            alertbox.setNegativeButton("Omitir",
-                                    new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface arg0, int arg1) {
-
-                                            // Envia el pedido al historial
-                                            CollectionReference docRef_HistorialPedidos=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS_HISTORIAL)  );
-                                            adapterProducto.setEstado(4);
-                                            docRef_HistorialPedidos.document( adapterProducto.getId() ).set( adapterProducto );
-
-                                            // MAP DATOS ESTADO
-                                            Map <String,Object> mapESTADO =new HashMap<String, Object>();
-                                            mapESTADO.put("estado",4);   //0=(pendiente) 1= (En proceso) 2 =(Enviado) 3=( Listo) 4= (cancelado) 5 =(recibido)
-                                            mapESTADO.put("mensaje","");
-                                            // FIRESTORE CLIENTE
-                                            DocumentReference documentReferenceCliente=firestore.collection( getResources().getString(R.string.DB_CLIENTES) ).document(  ID_CLIENTE  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                                            documentReferenceCliente.set(mapESTADO, SetOptions.merge());
-
-                                            // FIRESTORE NEGOCIO
-                                            DocumentReference documentReferenceNegocio=firestore.collection( getResources().getString(R.string.DB_NEGOCIOS) ).document( ID_NEGOCIO ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                                            documentReferenceNegocio.delete();
-
-                                            // Finaliza la activity
-                                            finish();
-                                        }
-                                    });
-
-
-                            alertbox.setPositiveButton("Enviar mensaje",
-                                    new DialogInterface.OnClickListener() {
-
-                                        public void onClick(DialogInterface arg0, int arg1) {
-
-                                            String input_text = ed_input.getText().toString();
-
-                                            // MAP DATOS ESTADO
-                                            Map <String,Object> mapESTADO =new HashMap<String, Object>();
-                                            mapESTADO.put("estado",4);  //0=(pendiente) 1= (En proceso) 2 =(Enviado) 3=( Listo) 4= (cancelado) 5 =(recibido)
-                                            mapESTADO.put("mensaje",input_text);
-
-                                            // FIRESTORE CLIENTE
-                                            DocumentReference documentReferenceCliente=firestore.collection( getResources().getString(R.string.DB_CLIENTES) ).document(  ID_CLIENTE  ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                                            documentReferenceCliente.set(mapESTADO, SetOptions.merge());
-
-                                            // FIRESTORE NEGOCIO
-                                            DocumentReference documentReferenceNegocio=firestore.collection( getResources().getString(R.string.DB_NEGOCIOS) ).document( ID_NEGOCIO ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                                            documentReferenceNegocio.delete();
-
-                                            // Finaliza la activity
-                                            finish();
-
-                                        }
-                                    });
-                            alertbox.show();
-
-
-
-
-                        }
-                    });
-                    dialogo1.setNegativeButton(R.string.cancelar, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialogo1, int id) {
-                            // User cancelled the dialog
-                        }
-                    });
-                    dialogo1.show();
-                }else{
-                    Toast.makeText(MainActivity_pedido_productos.this,R.string.error_field_required,Toast.LENGTH_LONG).show();
                 }
-
-
-
-
             }
         });
-
-        button31_hecho.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Envia el pedido al historial
-                CollectionReference docRef_HistorialPedidos=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS_HISTORIAL)  );
-                docRef_HistorialPedidos.document( adapterProducto.getId() ).set( adapterProducto );
-
-
-                // FIRESTORE NEGOCIO
-                DocumentReference documentReferenceNegocio=firestore.collection( getResources().getString(R.string.DB_NEGOCIOS) ).document( ID_NEGOCIO ).collection(  getResources().getString(R.string.DB_PEDIDOS)  ).document(  ID_PEDIDO  );
-                documentReferenceNegocio.delete();
-
-                // Finaliza la activity
-                finish();
-
-
-
-            }
-        });
-
-
 
         // CARGAR DATOS
         CargarDatosPedido();
@@ -359,7 +184,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
 
 
         // Firesote
-        DocumentReference collectionReference=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS)  ).document( ID_PEDIDO );
+        DocumentReference collectionReference=firestore.collection(  getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  getString(R.string.DB_PEDIDOS_HISTORIAL)  ).document( ID_PEDIDO );
         collectionReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
@@ -403,26 +228,6 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                         // Control de visibilidad
                         layout_ubicacion.setVisibility(View.GONE);
 
-                        switch (adapterProducto.getEstado()){
-                            case 0:
-                                // Control de visibilidad
-                                button_ConfirmarPedido.setVisibility(View.VISIBLE);
-
-                                break;
-                            case 1:
-                                // Control de visibilidad
-                                button_pedidoEnviado.setVisibility(View.GONE);
-                                button_pedidoListo.setVisibility(View.VISIBLE);
-                                button_ConfirmarPedido.setVisibility(View.GONE);
-
-                                break;
-
-                            case 5:
-                                // Control de visibilidad
-                                button31_hecho.setVisibility(View.VISIBLE);
-                                break;
-                        }
-
                     }else if( adapterProducto.getTipo_entrega() == 2){
 
                         // Delivery
@@ -452,25 +257,6 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                             // Control de visibilidad
                             layout_ubicacion.setVisibility(View.VISIBLE);
 
-                            switch (adapterProducto.getEstado()){
-                                case 0:
-                                    // Control de visibilidad
-                                    button_ConfirmarPedido.setVisibility(View.VISIBLE);
-
-                                    break;
-                                case 1:
-                                    // Control de visibilidad
-                                    button_pedidoEnviado.setVisibility(View.VISIBLE);
-                                    button_pedidoListo.setVisibility(View.GONE);
-                                    button_ConfirmarPedido.setVisibility(View.GONE);
-
-                                    break;
-                                case 5:
-                                    // Control de visibilidad
-                                    button31_hecho.setVisibility(View.VISIBLE);
-                                    break;
-                            }
-
 
                             //  Control de visivilidad
                             textView_horario_de_retiro.setVisibility(View.GONE);
@@ -495,7 +281,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             //--.lanzadador Activity
-                            Intent intent2 = new Intent (MainActivity_pedido_productos.this,Chat_view.class);
+                            Intent intent2 = new Intent (MainActivity_pedidos_lista_historia_vista_producto.this,Chat_view.class);
                             intent2.putExtra("parametroIdClient",adapterProducto.getId_cliente());
                             startActivityForResult(intent2, 0);
                         }});
@@ -522,7 +308,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                                 // Imagen
                                 if(!adapterPerfilClientes.getUrlfotoPerfil().equals("default")) {
 
-                                    Glide.with( MainActivity_pedido_productos.this.getApplicationContext () ).load(adapterPerfilClientes.getUrlfotoPerfil()).fitCenter().centerCrop().into(imgFotoPerfil);
+                                    Glide.with( MainActivity_pedidos_lista_historia_vista_producto.this.getApplicationContext () ).load(adapterPerfilClientes.getUrlfotoPerfil()).fitCenter().centerCrop().into(imgFotoPerfil);
                                 }
 
                                 // Nombre
@@ -543,11 +329,11 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
         recyclerViewProducto.setHasFixedSize(true);
 
         // Usar un administrador para LinearLayout
-        recyclerViewProducto.setLayoutManager(new GridLayoutManager(MainActivity_pedido_productos.this,3));
+        recyclerViewProducto.setLayoutManager(new GridLayoutManager(MainActivity_pedidos_lista_historia_vista_producto.this,3));
 
         // Crear un nuevo adaptador
         adapter_productoList =new ArrayList<>();
-        adapter_recyclerView_productos =new adapter_recyclerView_ProductosPedidos(adapter_productoList,MainActivity_pedido_productos.this);
+        adapter_recyclerView_productos =new adapter_recyclerView_ProductosPedidos(adapter_productoList,MainActivity_pedidos_lista_historia_vista_producto.this);
 
         //--Adaptadores
         recyclerViewProducto.setAdapter(adapter_recyclerView_productos);
@@ -572,7 +358,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
 
                     //Create sequence of items
                     final CharSequence[] Animals = ListaSabores.toArray(new String[ListaSabores.size()]);
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity_pedido_productos.this);
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity_pedidos_lista_historia_vista_producto.this);
                     dialogBuilder.setTitle( getResources().getString(R.string.sabores));
                     dialogBuilder.setItems(Animals, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int item) {
@@ -615,13 +401,13 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
                             // set precio total
                             textView_PrecioTotal.setText( String.valueOf(Double.toString(dTotalPrecio)) );
 
-                        }catch (Exception ex){  Toast.makeText(MainActivity_pedido_productos.this,"Error; "+ex.getMessage(),Toast.LENGTH_SHORT).show();
-                         }
+                        }catch (Exception ex){  Toast.makeText(MainActivity_pedidos_lista_historia_vista_producto.this,"Error; "+ex.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 }else{ }
 
-                }
+            }
         });
 
 

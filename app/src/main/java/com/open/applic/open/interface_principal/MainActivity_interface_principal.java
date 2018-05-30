@@ -375,6 +375,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
         include_ofertas = (View) findViewById(R.id.include_ofertas);
         include_servicios = (View) findViewById(R.id.include_servicios);
         include_clientes = (View) findViewById(R.id.include_clientes);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         fragmentManager = getSupportFragmentManager();
 
