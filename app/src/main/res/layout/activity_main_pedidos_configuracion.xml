@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".interface_principal.nav_header.Sistema_pedidos.menu.MainActivity_pedidos_configuracion">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/button31"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Switch
+            android:id="@+id/swich_delivery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/delivery"
+            android:textAllCaps="false"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="18sp" />
+
+        <Switch
+            android:id="@+id/swich_RetiroLocal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/retira_en_el_local"
+            android:textAllCaps="false"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button31"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_green_300"
+        android:onClick="Button_Guardar"
+        android:text="@string/guardar"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

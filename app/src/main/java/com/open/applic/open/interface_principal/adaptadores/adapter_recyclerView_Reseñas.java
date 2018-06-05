@@ -1,6 +1,7 @@
 package com.open.applic.open.interface_principal.adaptadores;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
 
@@ -31,12 +36,16 @@ public class adapter_recyclerView_Reseñas extends RecyclerView.Adapter<adapter_
 
     List<adapter_reseña> adapter_reseñas;
     protected adapter_reseña adapterReseña;
+    private  Context context;
+    // Firesbase
+    private FirebaseFirestore firestore=FirebaseFirestore.getInstance();
 
 
     private View.OnClickListener listener;
 
-    public adapter_recyclerView_Reseñas(List<adapter_reseña> List_business) {
+    public adapter_recyclerView_Reseñas(List<adapter_reseña> List_business, Context context) {
         this.adapter_reseñas = List_business;
+        this.context = context;
     }
 
 
@@ -51,14 +60,13 @@ public class adapter_recyclerView_Reseñas extends RecyclerView.Adapter<adapter_
     }
 
     @Override
-    public void onBindViewHolder(adapter_recyclerView_Reseñas.homeViwHolder holder, int position) {
+    public void onBindViewHolder(final adapter_recyclerView_Reseñas.homeViwHolder holder, int position) {
         adapterReseña= adapter_reseñas.get(position);
 
         try{
 
             Glide.clear(holder.circleImageView);
 
-            holder.dato1.setText(adapterReseña.getNombre());
             holder.dato2.setText(adapterReseña.getReseña());
 
             //fecha
@@ -67,37 +75,42 @@ public class adapter_recyclerView_Reseñas extends RecyclerView.Adapter<adapter_
 
             // hora
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");//a pm o am
-
             holder.dato3.setText(sdf.format(adapterReseñaTimestamp.getTime())+" "+format1.format(adapterReseñaTimestamp.getTime()));
 
             // foto perfil
-            if(adapterReseña.getFotoPerfil() != null){
+            if(adapterReseña.getFotoPerfil() != null) {
 
                 //Asignacion de icono de la categoria
                 Context context = holder.circleImageView.getContext();
-                int id= icono.getIconLogoCategoria(adapterReseña.getFotoPerfil(),context);
+                int id = icono.getIconLogoCategoria(adapterReseña.getFotoPerfil(), context);
 
                 holder.circleImageView.setBackgroundResource(id);
 
-            }else{
-
-                if(!adapterReseña.getUrlfotoPerfil().equals("default")){
-
-                    // Descarga la imagen de internet
-                    try {
-                        Context context = holder.circleImageView.getContext();
-                        Glide.with(context).load(adapterReseña.getUrlfotoPerfil())
-                                .fitCenter()
-                                .centerCrop()
-                                .into( holder.circleImageView);
-                    }catch (Exception ex){ holder.circleImageView.setBackgroundResource(R.mipmap.ic_user2);}
-
-                }else {
-                    // Asigna una imagen por defecto
-                    holder.circleImageView.setBackgroundResource(R.mipmap.ic_user2);
-                }
-
             }
+
+            // Firebase
+            firestore.collection( context.getResources().getString(R.string.DB_CLIENTES)).document( adapterReseña.getId())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DocumentSnapshot doc_PerfilCliente=task.getResult();
+                        if(doc_PerfilCliente.exists()){
+                            adapter_perfil_clientes adapterPerfilClientes=doc_PerfilCliente.toObject(adapter_perfil_clientes.class);
+
+
+                            holder.dato1.setText(adapterPerfilClientes.getNombre());
+
+                            Context context = holder.circleImageView.getContext();
+                            Glide.with(context).load(adapterPerfilClientes.getUrlfotoPerfil())
+                                    .fitCenter()
+                                    .centerCrop()
+                                    .into( holder.circleImageView);
+                        }
+                    }
+
+                }
+            });
 
 
             // Reseña positiva o negativa

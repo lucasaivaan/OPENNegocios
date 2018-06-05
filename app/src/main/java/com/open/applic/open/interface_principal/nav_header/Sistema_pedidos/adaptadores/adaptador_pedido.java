@@ -23,10 +23,13 @@ public class adaptador_pedido {
     private Map<String,Object> lista_productos= new HashMap<String, Object>();
     private String cantidad_pago="0";
     private String hora;
+    private Double preciototal=00.00;
 
 
 
 
+    public Double getPreciototal() { return preciototal; }
+    public void setPreciototal(Double preciototal) { this.preciototal = preciototal; }
 
     public String getHora() { return hora; }
     public void setHora(String hora) { this.hora = hora; }

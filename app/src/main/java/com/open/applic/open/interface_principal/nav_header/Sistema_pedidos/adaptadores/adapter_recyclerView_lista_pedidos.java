@@ -14,16 +14,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
-import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
-import com.open.applic.open.interface_principal.metodos_funciones.icono;
+import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
+import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_producto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +40,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
 
     List<adaptador_pedido> ListPedidos;
     private Context context;
+    private String ID_NEGOCIO;
 
     private View.OnClickListener listener;
 
@@ -63,6 +63,8 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
     public void onBindViewHolder(final homeViwHolder holder, final int position) {
         final adaptador_pedido ADP= ListPedidos.get(position);
 
+        // DATOS APP
+        ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(context);
 
         ListPedidos.get(position).setEstado(ADP.getEstado());
 
@@ -134,7 +136,48 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
 
         // Cantidad del producto
         Map<String, Object> map = ADP.getLista_productos();
-        holder.tCantidadProducto.setText( String.valueOf(map.size()) );
+        final int nCantidadProductos=map.size();
+        holder.tCantidadProducto.setText( String.valueOf( nCantidadProductos ) );
+
+        // Precio total
+        for (Map.Entry<String, Object> mapProductoInfoPedido : map.entrySet()) {
+
+            String ID_Producto = mapProductoInfoPedido.getKey().toString();
+
+            Map<String, Object> infopedido = (Map<String, Object>) mapProductoInfoPedido.getValue();
+
+            final int nCantidad= infopedido.get("cantidad").hashCode();
+
+            // firebase
+            DocumentReference docRef_InfoProducto=firestore.collection(  context.getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection(  context.getString(R.string.DB_PRODUCTOS)  ).document( ID_Producto );
+            docRef_InfoProducto.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if(task.isSuccessful()){
+                        DocumentSnapshot docProducto=task.getResult();
+
+                        if(docProducto.exists()) {
+                            // Adaptador del pedido
+                            adapter_producto adapterProducto = docProducto.toObject(adapter_producto.class);
+
+                            Double dPrecioTotal= adapterProducto.getPrecio()* nCantidad ; // Calculos
+
+                            holder.tTotalPrecio.setText( String.valueOf(dPrecioTotal) );  // textView precio total
+
+                            ListPedidos.get(position).setPreciototal( dPrecioTotal ); // set Precio total
+
+
+
+
+                        }
+
+                    }
+
+                }
+            });
+
+        }
 
 
         // hora
@@ -143,7 +186,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
         holder.tHora.setText(sdf.format(codigoHora.getTime()));
 
 
-
+        // Firebase
         DocumentReference documentReference=firestore.collection( context.getString(R.string.DB_CLIENTES) ).document(ADP.getId_cliente());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -163,6 +206,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
                             Context context=holder.profile_image.getContext().getApplicationContext();
                             //-Carga la imagen de perfil
                             Glide.with(context).load( adapterProfileClientes.getUrlfotoPerfil() ).into( holder.profile_image );
+
 
                         }
 
@@ -207,7 +251,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
     public  static  class homeViwHolder extends RecyclerView.ViewHolder{
 
         CircleImageView profile_image;
-        TextView tTipoEntrega,tCantidadProducto,tHora,tEstado,tUbicacionHora,tNombre,tDatoUbicacionRetira;
+        TextView tTipoEntrega,tCantidadProducto,tHora,tEstado,tUbicacionHora,tNombre,tDatoUbicacionRetira, tTotalPrecio;
 
         public homeViwHolder(View itemView) {
             super(itemView);
@@ -219,7 +263,7 @@ public class adapter_recyclerView_lista_pedidos extends RecyclerView.Adapter<ada
             tUbicacionHora=(TextView) itemView.findViewById(R.id.textView43_ubicacion_Hora);
             tNombre=(TextView) itemView.findViewById(R.id.textView52_nombre);
             tDatoUbicacionRetira=(TextView) itemView.findViewById(R.id.textView_dato);
-
+            tTotalPrecio=(TextView) itemView.findViewById(R.id.textView56_tatalPrecio);
 
             profile_image=(CircleImageView) itemView.findViewById(R.id.profile_image);
 

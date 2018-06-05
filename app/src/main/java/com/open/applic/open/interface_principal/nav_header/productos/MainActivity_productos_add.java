@@ -313,6 +313,9 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
 
 
 
+
+
+
                 buttonGuardarProduct.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -511,6 +514,16 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
         final ProgressBar progressBar=(ProgressBar) dialog.findViewById(R.id.progressBar7);
         progressBar.setVisibility(View.GONE);
 
+        LinearLayout layout_precio=(LinearLayout) dialog.findViewById(R.id.layout_precio);
+        LinearLayout layout_codigo=(LinearLayout) dialog.findViewById(R.id.layout_codigo);
+
+        // Control de visibilidad
+        if(spinnerCategoria_1.getSelectedItemPosition() ==  3  &&  spinnerCategoria_2.getSelectedItemPosition() == 2){
+            layout_precio.setVisibility(View.GONE);
+            layout_codigo.setVisibility(View.GONE);
+
+        }
+
         buttonGuardarProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -535,7 +548,10 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                 }
 
 
-                if(ValorPrecio != 0 && !ValorMarcaNombre.equals("") && !ValorInfo.equals("") ){
+                if(ValorPrecio != 0 && !ValorMarcaNombre.equals("") && !ValorInfo.equals("") || !ValorMarcaNombre.equals("") && spinnerCategoria_1.getSelectedItemPosition() ==  3  &&  spinnerCategoria_2.getSelectedItemPosition() == 2){
+
+                    if(ValorInfo == null){ValorInfo="";}
+
 
                     // Genera ID unico para el item
                     if(idUnicoProducto == null){
@@ -548,7 +564,12 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                     final adapter_producto adapterProducto = new adapter_producto();
 
 
+                    // Opcion gusto de helados
+                    if(spinnerCategoria_1.getSelectedItemPosition() ==  3  &&  spinnerCategoria_2.getSelectedItemPosition() == 2){
+                        adapterProducto.setTipo(2);
+                    }
 
+                    // Desicion
                     if(bytesMapImagen != null){
                         progressBar.setVisibility(View.VISIBLE);
 

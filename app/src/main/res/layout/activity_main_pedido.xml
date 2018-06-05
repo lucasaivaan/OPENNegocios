@@ -96,6 +96,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:orientation="vertical">
 
             <LinearLayout
@@ -130,7 +131,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cardview_light_background"
+                android:layout_margin="5dp"
                 android:orientation="vertical">
 
 
@@ -564,8 +565,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_productos_pedidos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/cardview_light_background" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -574,22 +574,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        >
+        android:visibility="visible">
 
         <Button
             android:id="@+id/button31_hecho"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_green_400"
+            android:elevation="5dp"
             android:text="@string/hecho"
             android:textColor="@color/cardview_light_background"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/button_confirmar_pedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_light_green_300"
+            android:elevation="5dp"
             android:text="@string/cofirmar_pedido"
             android:textColor="@color/cardview_light_background"
             android:textSize="24sp"
@@ -602,28 +604,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_green_300"
-            android:drawableLeft="@drawable/ic_done"
+            android:elevation="5dp"
             android:padding="5dp"
             android:text="@string/pedido_enviado"
             android:textColor="@color/cardview_light_background"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/textview_pedidoListo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_green_300"
-            android:drawableLeft="@drawable/ic_done"
+            android:elevation="5dp"
             android:padding="5dp"
             android:text="@string/pedido_listo"
             android:textColor="@color/cardview_light_background"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/button_cancelar_pedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_red_300"
+            android:elevation="0dp"
             android:text="@string/cancelar_pedido"
             android:textColor="@color/cardview_light_background"
             android:textSize="18sp" />

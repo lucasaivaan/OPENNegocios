@@ -69,6 +69,10 @@ public class adapter_recyclerView_ProductosNegocio extends RecyclerView.Adapter<
                         .into(holder.ImageProducto);
             }else { holder.progressBar.setVisibility(View.GONE);}
 
+            if(adapterProducto.getTipo() ==2){
+                holder.datoPrecio.setVisibility(View.GONE);
+            }
+
         }
 
 

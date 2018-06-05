@@ -1,6 +1,7 @@
 package com.open.applic.open.interface_principal.nav_header.Sistema_pedidos;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -11,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,15 +38,29 @@ public class MainActivity_pedidos_lista_historia extends AppCompatActivity {
     // String Datos
     private String ID_NEGOCIO;
 
+    // estado Delivery
+    private TextView textView_cantidadPeidos_delivery;
+    private ImageView imageView_delivery;
+
+    // estado Pedido en el negocio
+    private TextView textView_cantidadPeidos_Local;
+    private ImageView imageView_ReitorPorNegocio;
+
+
+
     ////////////////////////////  Delivery
     public RecyclerView recyclerViewPedidos;
     public List<adaptador_pedido> adapter_PedidosList;
     public adapter_recyclerView_lista_pedidos adapter_recyclerView_pedidos;
+    private Integer iCantidad_PedidosDelivery=0;
+
 
     ////////////////////////////  Retiro en el domicilio
     public RecyclerView recyclerViewPedidos_RetiroDomicilio;
     public List<adaptador_pedido> adapter_PedidosList_RetiroDomicilio;
     public adapter_recyclerView_lista_pedidos adapter_recyclerView_pedidos_RetiroDomicilio;
+    private Integer iCantidad_PedidosEnRetiroLocal=0;
+
 
     // FIRESTORE
     private FirebaseFirestore firestore=FirebaseFirestore.getInstance();
@@ -61,7 +78,23 @@ public class MainActivity_pedidos_lista_historia extends AppCompatActivity {
         //Datos APP
         ID_NEGOCIO= SharePreferencesAPP.getID_NEGOCIO(this);
 
+        // REference
+        textView_cantidadPeidos_delivery =(TextView) findViewById(R.id.textView_cantidadPeidos_delivery);
+        textView_cantidadPeidos_Local =(TextView) findViewById(R.id.textView_cantidadPeidos_Local);
+        imageView_delivery=(ImageView) findViewById(R.id.imageView19);
+        imageView_ReitorPorNegocio=(ImageView) findViewById(R.id.imageView21);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_sistema_pedidos);
+
+        // color
+        final int newColor = getResources().getColor(R.color.colorPrimary);
+        // Set Color
+        textView_cantidadPeidos_delivery.setTextColor( newColor );
+        imageView_delivery.setColorFilter( newColor , PorterDuff.Mode.SRC_ATOP);
+        // Set Color
+        textView_cantidadPeidos_delivery.setTextColor( newColor );
+        imageView_delivery.setColorFilter( newColor , PorterDuff.Mode.SRC_ATOP);
+
+
         //Bottom bar navigation OnClick
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -183,6 +216,18 @@ public class MainActivity_pedidos_lista_historia extends AppCompatActivity {
                         }
 
                     }
+
+                    // Cantidad de pedidos de Retiros en el local
+                    iCantidad_PedidosEnRetiroLocal=adapter_PedidosList_RetiroDomicilio.size();
+
+                    // Set Cantidad de productos
+                    textView_cantidadPeidos_Local.setText( String.valueOf( iCantidad_PedidosEnRetiroLocal ) );
+
+                    // Cantidad de pedidos de Delivery
+                    iCantidad_PedidosDelivery=adapter_PedidosList.size();
+
+                    // Set Cantidad de productos
+                    textView_cantidadPeidos_delivery.setText( String.valueOf( iCantidad_PedidosDelivery ) );
 
                 }
                 adapter_recyclerView_pedidos.notifyDataSetChanged();

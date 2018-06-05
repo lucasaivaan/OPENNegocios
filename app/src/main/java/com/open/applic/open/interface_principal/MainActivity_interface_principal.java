@@ -2044,7 +2044,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
         recyclerViewReseñas.setLayoutManager(new LinearLayoutManager(this));
         //--Adaptadores
         adapter_reseñas =new ArrayList<>();
-        adapter_recyclerView_reseñas =new adapter_recyclerView_Reseñas(adapter_reseñas);
+        adapter_recyclerView_reseñas =new adapter_recyclerView_Reseñas(adapter_reseñas,MainActivity_interface_principal.this);
         recyclerViewReseñas.setAdapter(adapter_recyclerView_reseñas);
 
         //OnClick
@@ -2153,34 +2153,6 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 adapter_recyclerView_reseñas.notifyDataSetChanged();
             }
         });
-
-    }
-    public void ButtonPublicarReseña(View view){
-        EditText editTextReseña=(EditText) findViewById(R.id.editText_reseña);
-
-        if(!editTextReseña.getText().toString().equals("")){
-
-            // pone la primera inicial en mayuscula
-            String ValueReseña=editTextReseña.getText().toString();
-            ValueReseña=Character.toUpperCase(ValueReseña.charAt(0)) + ValueReseña.substring(1,ValueReseña.length());
-
-
-            // informacion de la reseña
-            Map<String , Object> reseñas=new HashMap<>();
-            reseñas.put("nombre",adaptert_Profile.getNombre_negocio());
-            reseñas.put("fotoPerfil",adaptert_Profile.getCategoria());
-            reseñas.put("reseña",ValueReseña);
-            reseñas.put("timestamp", FieldValue.serverTimestamp());
-            reseñas.put("id",ID_NEGOCIO);
-
-            // Firestore
-            CollectionReference AddReseñaNegocio=db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO).collection(  getString(R.string.DB_RESEÑAS)  );
-            AddReseñaNegocio.document().set(reseñas).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) { }
-            });
-            editTextReseña.setText("");
-        }
 
     }
     public void ViewCardCliete(final String idCliente){

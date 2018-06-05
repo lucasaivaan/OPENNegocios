@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,15 +29,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.open.applic.open.R;
-import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
 import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adaptador_pedido;
 import com.open.applic.open.interface_principal.nav_header.chat.Chat_view;
 import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_producto;
-import com.open.applic.open.interface_principal.nav_header.productos.metodos_adaptadores.adapter_recyclerView_ProductosPedidos;
+import com.open.applic.open.interface_principal.nav_header.Sistema_pedidos.adaptadores.adapter_recyclerView_ProductosPedidos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -536,7 +535,7 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
             }
         });
     }
-    public void CargarProductos(Map <String,Object> mapListProductos){
+    public void CargarProductos(final Map <String,Object> mapListProductos){
 
         // Obtener el Recycler
         recyclerViewProducto = (RecyclerView) findViewById(R.id.recyclerview_productos_pedidos);
@@ -591,59 +590,51 @@ public class MainActivity_pedido_productos extends AppCompatActivity {
 
             }
         });
-        // Eventos de Recyclerviews     (problema de recursividad)
-        adapter_recyclerView_productos.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
+
+
+
+        // Firebase
+        CollectionReference referenceProductos=firestore.collection( getString(R.string.DB_NEGOCIOS)  ).document( ID_NEGOCIO ).collection( getString(R.string.DB_PRODUCTOS));
+        referenceProductos.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onChanged() {
-                super.onChanged();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
 
-                // Precio toltal
-                dTotalPrecio=0.0;
+                    // Precio toltal
+                    dTotalPrecio=0.0;
 
-                if(adapter_productoList.size() != 0){
-                    // Recorre el ArrayList de los productos seleccionados
-                    for(adapter_producto adapterProducto: adapter_productoList){
+                    for(DocumentSnapshot docProducto : task.getResult()){
+                        // Adaptador
+                        adapter_producto adapterProducto=docProducto.toObject(adapter_producto.class);
 
-                        try {
-                            // Cantidad de producto
-                            Integer iCantidad= adapterProducto.getInfopedido().get("cantidad").hashCode();
+                        // Recorre la lista de productos
+                        for (Map.Entry<String, Object> mapProductoInfoPedido : mapListProductos.entrySet()) {
+                            final String key = mapProductoInfoPedido.getKey().toString();
+                            final Object mapInfoPedido = mapProductoInfoPedido.getValue();
 
-                            if( adapterProducto.getPrecio() != null && iCantidad != null){
-                                // Multiplica el precio del producto  por la cantidad
-                                dTotalPrecio+=adapterProducto.getPrecio() * iCantidad ;
+                            if(adapterProducto.getId().equals( key)){
+
+                                adapterProducto.setInfopedido((Map<String, Object>) mapInfoPedido);
+                                adapter_productoList.add(adapterProducto);  // agrega el producto al recyclerview
+
+                                //-- Cantidad de producto
+                                Integer iCantidad= adapterProducto.getInfopedido().get("cantidad").hashCode();
+                                if( adapterProducto.getPrecio() != null && iCantidad != null){
+                                    // Multiplica el precio del producto  por la cantidad
+                                    dTotalPrecio+=adapterProducto.getPrecio() * iCantidad ;
+                                }
+                                textView_PrecioTotal.setText( String.valueOf(Double.toString(dTotalPrecio)) );   // set precio total
+
+                                adapter_recyclerView_productos.notifyDataSetChanged(); // Actualiza la lista del  recyclerview
                             }
-                            // set precio total
-                            textView_PrecioTotal.setText( String.valueOf(Double.toString(dTotalPrecio)) );
-
-                        }catch (Exception ex){  Toast.makeText(MainActivity_pedido_productos.this,"Error; "+ex.getMessage(),Toast.LENGTH_SHORT).show();
-                         }
-
-                    }
-                }else{ }
-
+                            }
+                        }
                 }
+            }
         });
 
 
-        // Recorre la lista de productos
-        for (Map.Entry<String, Object> mapProductoInfoPedido : mapListProductos.entrySet()) {
-
-            String key = mapProductoInfoPedido.getKey().toString();
-            Object mapInfoPedido = mapProductoInfoPedido.getValue();
-
-
-            // Adaptador
-            adapter_producto adapterProducto=new adapter_producto();
-            adapterProducto.setId(key);// CantidAd
-
-
-            adapterProducto.setInfopedido((Map<String, Object>) mapInfoPedido);
-
-            adapter_productoList.add(adapterProducto);
-
-
-        }
-        adapter_recyclerView_productos.notifyDataSetChanged();
 
 
 

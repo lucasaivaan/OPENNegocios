@@ -37,7 +37,7 @@
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_margin="5dp"
-                        android:src="@mipmap/logo_maxikiosco"
+                        android:src="@mipmap/ic_user2"
                         app:civ_border_color="#ffffff"
                         app:civ_border_width="2dp" />
 
@@ -110,13 +110,28 @@
 
                         <TextView
                             android:id="@+id/textView42"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
                             android:layout_weight="1"
                             android:text="0"
                             android:textColor="@color/textColorSecundario"
-                            android:textSize="14sp" />
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textView52"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="$"
+                            android:textAlignment="viewEnd" />
+
+                        <TextView
+                            android:id="@+id/textView56_tatalPrecio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="100" />
 
 
                     </LinearLayout>
@@ -145,13 +160,13 @@
 
                         <TextView
                             android:id="@+id/textView43_ubicacion_Hora"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/ubicacion"
                             android:textAllCaps="true"
                             android:textColor="@color/textColorSecundario"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                 </LinearLayout>

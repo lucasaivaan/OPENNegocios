@@ -24,6 +24,7 @@
     <string name="DB_PEDIDOS_HISTORIAL">PEDIDOS_HISTORIAL</string>
     <string name="DB_PRODUCTOS">PRODUCTOS</string>
     <string name="DB_CATEGORIA">CATEGORIA</string>
+    <string name="DB_CONFIGURACION">CONFIGURACION</string>
 
     <string name="DB_CUENTAS">CUENTAS</string>
     <string name="DB_GALERIA_FOTOS">GALERIA_FOTOS</string>
@@ -36,10 +37,12 @@
 
     <string name="DB_CUENTA">CUENTA</string>
 
-    //Chat
+    //DOCUMENT
     <string name="DB_mensaje_nuevo">mensaje_nuevo</string>
     <string name="DB_ultimo_mensaje">ultimo_mensaje</string>
-
+    <string name="DB_sistema_pedido">sistema_pedidos</string>
+    <string name="DB_retiro_negocio">retiro_local</string>
+    <string name="DB_delivery">delivery</string>
 
     //MENSAJE
     <string name="DB_mensaje">mensaje</string>
@@ -206,6 +209,7 @@
     <string name="Informacion_del_negocio">Información del negocio</string>
 
     <string name="ubicacion">Ubicación</string>
+    <string name="configuracion">Configuración</string>
     <string name="pregunta_es_correcta_esta_ubicacion">¿Esta ubicación es correcta?</string>
     <string name="configurar_horario">Configurar horario</string>
     <string name="agrear_nueno_horario">Agregar nuevo horario</string>
@@ -280,6 +284,8 @@
     <string name="config_ubicacion">Configuración de ubicación</string>
     <string name="ver_horarios">Ver horarios</string>
     <string name="ver_foto">Ver foto</string>
+    <string name="activado">Activado</string>
+    <string name="desactivado">Desactivado</string>
     //______________________________________________________________________________________________
     <!-- ________________________________  Service ic____________________________________________ -->
 
@@ -457,6 +463,7 @@
     <string name="sin_especificar">Sin especificar</string>
     <string name="hecho">Hecho</string>
     <string name="user">user</string>
+    <string name="pedidos">Pedidos</string>
 
 
 </resources>

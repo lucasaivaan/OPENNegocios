@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -292,6 +293,13 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 progressBar_foto.setVisibility(View.GONE);
                 final ProgressBar progressBar=(ProgressBar) dialog.findViewById(R.id.progressBar7);
                 progressBar.setVisibility(View.GONE);
+                LinearLayout layout_precio=(LinearLayout) dialog.findViewById(R.id.layout_precio);
+                LinearLayout layout_codigo=(LinearLayout) dialog.findViewById(R.id.layout_codigo);
+
+                if(adapterProductoOriginal.getTipo() == 2){
+                    layout_precio.setVisibility(View.GONE);
+                    layout_codigo.setVisibility(View.GONE);
+                }
 
                 //Set
                 // Carga la imagen de perfil
@@ -353,8 +361,8 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
 
 
-                        if(!ValorInfo_1.equals("") && !ValorInfo_2.equals("") ){
-                            if(ValorPrecio != 0 ){
+                        if(!ValorInfo_1.equals("") && !ValorInfo_2.equals("") || !ValorInfo_1.equals("") && adapterProductoOriginal.getTipo() == 2){
+                            if(ValorPrecio != 0 ||  adapterProductoOriginal.getTipo() == 2 ){
 
                                 // Referencia de la db
                                 DocumentReference collectionReference=db.collection(getString(R.string.DB_NEGOCIOS)).document(ID_NEGOCIO).collection(getString(R.string.DB_PRODUCTOS)).document(adapterProductoOriginal.getId());
@@ -365,6 +373,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                                 adapterProducto.setSubcategoria(adapterProductoOriginal.getSubcategoria());
                                 adapterProducto.setSubcategoria_2(adapterProductoOriginal.getSubcategoria_2());
                                 adapterProducto.setId(adapterProductoOriginal.getId());
+                                adapterProducto.setTipo( adapterProductoOriginal.getTipo() );
 
                                 // Set value
                                 adapterProducto.setCodigo(Codigo);

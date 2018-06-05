@@ -106,8 +106,8 @@
         <activity android:name=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedidos_lista_historia" />
         <activity
             android:name=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedidos_lista_historia_vista_producto"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".interface_principal.nav_header.Sistema_pedidos.menu.MainActivity_pedidos_configuracion"></activity>
     </application>
 
 </manifest>

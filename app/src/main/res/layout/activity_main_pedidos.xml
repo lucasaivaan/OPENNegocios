@@ -1,34 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".interface_principal.nav_header.Sistema_pedidos.MainActivity_pedidos_lista">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blanco_gris"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/textView58"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pedidos"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView19"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            app:srcCompat="@mipmap/ic_delivery" />
+
+        <TextView
+            android:id="@+id/textView_cantidadPeidos_delivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="0"
+            android:textAlignment="textStart"
+            android:textColor="@color/cardview_shadow_start_color"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView21"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            app:srcCompat="@mipmap/ic_nav_business" />
+
+        <TextView
+            android:id="@+id/textView_cantidadPeidos_Local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="@color/cardview_shadow_start_color"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_pedidosLista"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/blanco_gris"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/navigation_sistema_pedidos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="0dp">
+        tools:layout_editor_absoluteY="546dp">
 
     </android.support.v7.widget.RecyclerView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView2_retiro_local"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/blanco_gris"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/navigation_sistema_pedidos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="411dp"
+        tools:layout_editor_absoluteY="546dp" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation_sistema_pedidos"
@@ -36,9 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/cardview_light_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/navigation_sistema_pediddos" />
+        app:menu="@menu/navigation_sistema_pediddos"
+        tools:layout_editor_absoluteY="546dp" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

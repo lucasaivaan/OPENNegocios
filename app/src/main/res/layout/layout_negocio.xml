@@ -599,33 +599,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
-                android:background="@drawable/edittextview_style2"
+                android:background="@color/colorPrimary"
                 android:elevation="3dp"
                 android:onClick="ButtonHorarios"
                 android:text="@string/ver_horarios"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="@color/cardview_light_background"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/button21"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
-                android:background="@drawable/edittextview_style2"
+                android:background="@color/colorPrimary"
                 android:elevation="3dp"
                 android:onClick="ButtonProductos"
                 android:text="@string/ver_productos"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="@color/cardview_light_background"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/buttonSistemaPedido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
-                android:background="@drawable/edittextview_style2"
+                android:background="@color/colorPrimary"
                 android:elevation="3dp"
                 android:onClick="Button_SistemaPedidos"
                 android:text="@string/sitema_pedidos"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="@color/cardview_light_background"
+                android:textSize="18sp" />
 
 
             <android.support.v7.widget.CardView
@@ -652,43 +655,6 @@
                         android:textAllCaps="true"
                         android:textColor="@color/cardview_dark_background"
                         android:textSize="14sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/editText_reseña"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:layout_weight="3"
-                            android:background="@drawable/edittextview_style1"
-                            android:elevation="2dp"
-                            android:hint="@string/escriba_un_mensaje"
-                            android:padding="10dp"
-                            android:textColor="@color/textColorSecundario"
-                            android:textColorHint="@color/textColorSecundario"
-                            android:textSize="18sp" />
-
-                        <Button
-                            android:id="@+id/btnEnviar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/edittextview_style2"
-                            android:elevation="6dp"
-                            android:onClick="ButtonPublicarReseña"
-                            android:padding="5dp"
-                            android:text="@string/publicar"
-                            android:textAllCaps="true"
-                            android:textColor="@color/cardview_light_background"
-                            android:textSize="18sp" />
-                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/textView_not_reseña"
