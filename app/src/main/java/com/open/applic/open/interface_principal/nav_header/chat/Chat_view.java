@@ -191,6 +191,7 @@
                  if(!txtMensaje.getText().toString().equals("")){
                      //Guarda informacion del mensaje
                      Map<String , Object> dataClient=new HashMap<>();
+                     dataClient.put("id",profile_negocio.getId());
                      dataClient.put( getString(R.string.DB_mensaje) ,txtMensaje.getText().toString());
                      dataClient.put( getString(R.string.DB_timestamp) , FieldValue.serverTimestamp());
                      dataClient.put( getString(R.string.DB_type_mensaje) ,"1");

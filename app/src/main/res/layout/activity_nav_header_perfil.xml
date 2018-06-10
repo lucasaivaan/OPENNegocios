@@ -190,7 +190,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <TextView
                                 android:id="@+id/textView6"
@@ -200,14 +200,17 @@
                                 android:text="@string/categoria"
                                 android:textSize="12sp" />
 
-                            <Spinner
-                                android:id="@+id/spinner_categoria"
+                            <Button
+                                android:id="@+id/button_categoria1"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:drawSelectorOnTop="true"
-                                android:entries="@array/categorias"
-                                android:spinnerMode="dialog"
-                                android:visibility="visible" />
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/md_deep_purple_300"
+                                android:onClick="Button_SelectCategoria"
+                                android:text="@string/categoria"
+                                android:textColor="@color/cardview_light_background"
+                                android:textSize="18sp" />
 
                         </LinearLayout>
 

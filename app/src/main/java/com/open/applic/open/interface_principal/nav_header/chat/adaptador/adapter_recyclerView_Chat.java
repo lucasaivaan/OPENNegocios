@@ -1,6 +1,7 @@
 package com.open.applic.open.interface_principal.nav_header.chat.adaptador;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.open.applic.open.R;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 
@@ -24,7 +30,8 @@ public class adapter_recyclerView_Chat extends RecyclerView.Adapter<adapter_recy
         implements View.OnClickListener{
 
     private final Context context;
-    List<adapter_perfil_clientes> pases;
+    private List<adapter_perfil_clientes> pases;
+    private FirebaseFirestore firestore=FirebaseFirestore.getInstance();
 
     private View.OnClickListener listener;
 
@@ -44,35 +51,49 @@ public class adapter_recyclerView_Chat extends RecyclerView.Adapter<adapter_recy
     }
 
     @Override
-    public void onBindViewHolder(homeViwHolder holder, int position) {
-        adapter_perfil_clientes ADP= pases.get(position);
+    public void onBindViewHolder(final homeViwHolder holder, int position) {
+        final adapter_perfil_clientes ADP= pases.get(position);
 
-        try{
-            holder.dato1.setText(ADP.getNombre());
-            holder.dato2.setText(ADP.getTelefono());
+        // Firebase DB
+        firestore.collection( context.getResources().getString(R.string.DB_CLIENTES)).document(ADP.getId())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot doc_perfilCiente=task.getResult();
+                    if(doc_perfilCiente.exists()){
+                        adapter_perfil_clientes adapterPerfilClientes=doc_perfilCiente.toObject(adapter_perfil_clientes.class);
 
-            if(ADP.getUrlfotoPerfil() !=null && !ADP.getUrlfotoPerfil().equals("default")){
-                Glide.with(context)
-                        .load(ADP.getUrlfotoPerfil())
-                        .fitCenter()
-                        .centerCrop()
-                        .into(holder.dato3);
-            }else{
-                holder.dato3.setImageResource(R.mipmap.ic_user2);}
+                        // Nombre
+                        holder.dato1.setText(adapterPerfilClientes.getNombre());
 
-            //icono mensaje de notificacion de mensaje nuevo
-            if(ADP.getMensaje_nuevo()==true){
-                holder.dato4.setVisibility(View.VISIBLE);
-            }else if(ADP.getMensaje_nuevo()==false){
-                holder.dato4.setVisibility(View.GONE);
+
+                        // Imagen de perfil
+                        if(adapterPerfilClientes.getUrlfotoPerfil() !=null && !adapterPerfilClientes.getUrlfotoPerfil().equals("default")){
+                            Glide.with(context)
+                                    .load(adapterPerfilClientes.getUrlfotoPerfil())
+                                    .fitCenter()
+                                    .centerCrop()
+                                    .into(holder.dato3);
+                        }else{
+                            holder.dato3.setImageResource(R.mipmap.ic_user2);}
+
+                    }
+                }
             }
+        });
+
+        // ultimo mensaje
+        holder.dato2.setText(ADP.getTelefono());
 
 
-
-
-
-        }catch (Exception ex){
+        //icono mensaje de notificacion de mensaje nuevo
+        if(ADP.getMensaje_nuevo()==true){
+            holder.dato4.setVisibility(View.VISIBLE);
+        }else if(ADP.getMensaje_nuevo()==false){
+            holder.dato4.setVisibility(View.GONE);
         }
+
     }
 
     @Override

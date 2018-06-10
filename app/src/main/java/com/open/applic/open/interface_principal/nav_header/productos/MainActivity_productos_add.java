@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -253,15 +255,12 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                 //Extrae la id de la reseña
                 final adapter_producto adapterProductoOriginal=adapter_productoList.get(recyclerViewProducto.getChildAdapterPosition(view));
 
-
-
                 //////////////////////////////// Cuadro de Dialog //////////////////////////////////
-                final Dialog dialog=new Dialog(MainActivity_productos_add.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setContentView(R.layout.view_crear_producto);
-                dialog.show();
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialog = inflater.inflate(R.layout.view_crear_producto, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_productos_add.this);
+                builder.setView(dialog);
+                final AlertDialog alertDialogHors=builder.show();
 
                 // Reference
                 circleImageViewProducto=(CircleImageView) dialog.findViewById(R.id.imageView_producto);
@@ -273,8 +272,6 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                 buttonGuardarProduct.setText(R.string.guardar_producto);
                 buttonEliminar=(Button) dialog.findViewById(R.id.button19_eliminar);
                 buttonEliminar.setVisibility(View.GONE);
-                progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar2);
-                progressBar_foto.setVisibility(View.GONE);
                 progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar7);
                 progressBar_foto.setVisibility(View.GONE);
                 layout_producto_venta=(LinearLayout) dialog.findViewById(R.id.layout_producto_venta);
@@ -366,7 +363,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                             // Reset
                             idUnicoProducto=null;
                             urlDescargarFoto=null;
-                            dialog.dismiss();
+                            alertDialogHors.dismiss();
 
                         }else { Toast.makeText(MainActivity_productos_add.this,R.string.uno_o_mas_campos_estan_vacios,Toast.LENGTH_LONG).show(); }
 
@@ -492,12 +489,11 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
     public void Button_CrearPRoducto(View view){
 
         //////////////////////////////// Cuadro de Dialog //////////////////////////////////
-        final Dialog dialog=new Dialog(MainActivity_productos_add.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.setContentView(R.layout.view_crear_producto);
-        dialog.show();
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialog = inflater.inflate(R.layout.view_crear_producto, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_productos_add.this);
+        builder.setView(dialog);
+        final AlertDialog alertDialogHors=builder.show();
 
         // Reference
         circleImageViewProducto=(CircleImageView) dialog.findViewById(R.id.imageView_producto);
@@ -509,8 +505,6 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
         buttonGuardarProduct.setText(R.string.guardar_producto);
         buttonEliminar=(Button) dialog.findViewById(R.id.button19_eliminar);
         buttonEliminar.setVisibility(View.GONE);
-        progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar2);
-        progressBar_foto.setVisibility(View.GONE);
         final ProgressBar progressBar=(ProgressBar) dialog.findViewById(R.id.progressBar7);
         progressBar.setVisibility(View.GONE);
 
@@ -614,7 +608,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                                 idUnicoProducto=null;
                                 urlDescargarFoto=null;
                                 bytesMapImagen=null;
-                                dialog.dismiss();
+                                alertDialogHors.dismiss();
                             }
                         });
 
@@ -644,7 +638,7 @@ public class MainActivity_productos_add extends AppCompatActivity   implements A
                         idUnicoProducto=null;
                         urlDescargarFoto=null;
                         bytesMapImagen=null;
-                        dialog.dismiss();
+                        alertDialogHors.dismiss();
                     }
 
 

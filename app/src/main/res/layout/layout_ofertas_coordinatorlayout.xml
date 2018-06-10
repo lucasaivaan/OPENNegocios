@@ -21,9 +21,9 @@
             android:layout_margin="10dp"
             android:text="@string/info_ofertas"
             android:textAlignment="center"
-            android:textColor="@color/md_green_500_75"
+            android:textColor="@color/md_red_300"
             android:textSize="24sp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_anchor="@+id/imageView_oferta"
             app:layout_anchorGravity="top|center" />
 

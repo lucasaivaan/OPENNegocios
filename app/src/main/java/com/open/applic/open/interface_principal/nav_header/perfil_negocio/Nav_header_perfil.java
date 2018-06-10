@@ -16,7 +16,10 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,20 +36,28 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.open.applic.open.MainActivity_Auth;
 import com.open.applic.open.R;
+import com.open.applic.open.create_form_profile.Add_info_profile;
 import com.open.applic.open.create_form_profile.HttpDataHalder;
 import com.open.applic.open.create_form_profile.MapsActivity_profile;
 import com.open.applic.open.create_form_profile.Panel_Horarios;
+import com.open.applic.open.create_form_profile.adaptadores.adapter_categoriaNegocio;
+import com.open.applic.open.create_form_profile.adaptadores.adapter_recyclerView_CategoriasNegocios;
 import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
 import com.open.applic.open.interface_principal.metodos_funciones.EliminarDatosCuenta;
@@ -75,11 +86,12 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
 
     private LinearLayout LinealLayout_categoria;
     private String ID_NEGOCIO;
+    private String ID_categoria;
 
 
     //---Spinner
-    public Spinner spinnerCategoria;
     private adapter_profile_negocio AdapterPerfilNegocio;
+    private  adapter_categoriaNegocio categoriaNegocio;
 
     private LinearLayout layoutSpinnerPais;
     private LinearLayout layoutSpinnerProvincia;
@@ -127,7 +139,14 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
     //---Button
     private Button buttonEdit;
     private Button buttonUpdate;
+    private Button button_categoria1;
     private LinearLayout buttonHors;
+
+    ////////////////////////////////////// Views Categorias Negocios ///////////////////////////////////////////////
+    public RecyclerView recyclerViewNegocios_categorias;
+    public List<adapter_categoriaNegocio> adapter_categorias_negocios;
+    public adapter_recyclerView_CategoriasNegocios adapterRecyclerView_categorias_negocios;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +193,8 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
         eProfile_sitio_web=(EditText) findViewById(R.id.eProfile_sitio_web);
         geteProfile_descripcion=(EditText) findViewById(R.id.eProfile_descripcion);
         CircleImageView_Title =(CircleImageView) findViewById(R.id.nav_imagen_perfil);
+        button_categoria1=(Button) findViewById(R.id.button_categoria1);
+        button_categoria1.setVisibility(View.GONE);
 
         layoutSpinnerPais=(LinearLayout) findViewById(R.id.spinner_pais);
         layoutSpinnerProvincia=(LinearLayout) findViewById(R.id.spinner_provincia);
@@ -211,6 +232,10 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
                 AdapterPerfilNegocio = documentSnapshot.toObject(adapter_profile_negocio.class);
 
                 if(AdapterPerfilNegocio !=null){
+
+                    // ID CATEGORIA
+                    ID_categoria=AdapterPerfilNegocio.getCategoria();
+
                     eProfile_name.setText(AdapterPerfilNegocio.getNombre_negocio());
                     geteProfile_descripcion.setText(AdapterPerfilNegocio.getDescripcion());
                     eProfile_Pais.setText(AdapterPerfilNegocio.getPais());
@@ -219,7 +244,7 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
                     eProfile_provincia.setText(AdapterPerfilNegocio.getProvincia());
                     eProfile_ciudad.setText(AdapterPerfilNegocio.getCiudad());
                     eProfile_telefono.setText(AdapterPerfilNegocio.getTelefono());
-                    eProfile_categoria.setText(AdapterPerfilNegocio.getCategoria());
+
                     eProfile_sitio_web.setText(AdapterPerfilNegocio.getSitio_web());
 
                     // Imagen de perfil
@@ -265,6 +290,28 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
                         }
                     });
 
+                    //Asignacion de icono de la categoria
+                    // Firebase DB categorias
+                    FirebaseFirestore firebaseFirestore=FirebaseFirestore.getInstance();
+                    firebaseFirestore.collection( getString(R.string.DB_APP) ).document( AdapterPerfilNegocio.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( AdapterPerfilNegocio.getCategoria() )
+                            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot documentSnapshot=task.getResult();
+                                if( documentSnapshot.exists() ){
+
+                                    // adapter
+                                    categoriaNegocio=documentSnapshot.toObject(adapter_categoriaNegocio.class);
+
+                                    // TextView nombre de la categoria actual
+                                    eProfile_categoria.setText( categoriaNegocio.getNombre() );
+                                    button_categoria1.setText( categoriaNegocio.getNombre() );
+                                }
+                            }
+                        }
+                    });
+
                     // Condición
                     if(!AdapterPerfilNegocio.getImagen_perfil().equals("default")){
 
@@ -279,11 +326,33 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
                                 .into(CircleImageView_Title);
 
                     }else{
+
                         //Asignacion de icono de la categoria
-                        Context context = CircleImageView_Title.getContext();
-                        int id= icono.getIconLogoCategoria(AdapterPerfilNegocio.getCategoria(),context);
-                        CircleImageView_Title.setImageResource(id);
-                        CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
+                        // Firebase DB categorias
+                        FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                        firestore_categoria.collection( getString(R.string.DB_APP) ).document( AdapterPerfilNegocio.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( AdapterPerfilNegocio.getCategoria() )
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot documentSnapshot=task.getResult();
+                                    if( documentSnapshot.exists() ){
+
+                                        // adapter
+                                        categoriaNegocio=documentSnapshot.toObject(adapter_categoriaNegocio.class);
+
+                                        // Glide Descarga de imagen
+                                        Glide.with(getBaseContext())
+                                                .load(categoriaNegocio.getLogo())
+                                                .fitCenter()
+                                                .centerCrop()
+                                                .into(CircleImageView_Title);
+
+                                        eProfile_categoria.setText(categoriaNegocio.getNombre());
+                                    }
+                                }
+                            }
+                        });
 
 
                     }
@@ -297,8 +366,6 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
 
 
         LinealLayout_categoria=(LinearLayout) findViewById(R.id.LinealLayout_categoria);
-        spinnerCategoria=(Spinner) findViewById(R.id.spinner_categoria);
-
 
     }
 
@@ -307,6 +374,87 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
         //--.lanzadador Activity
         Intent intent2 = new Intent (Nav_header_perfil.this, Panel_Horarios.class);
         startActivityForResult(intent2, 0);
+    }
+    public void Button_SelectCategoria(View v){
+
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialoglayout = inflater.inflate(R.layout.view_categoria, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Nav_header_perfil.this);
+        builder.setView(dialoglayout);
+        final AlertDialog alertDialogClient=builder.show();
+        alertDialogClient.setCancelable(false);
+
+        //Reference
+
+
+
+        recyclerViewNegocios_categorias = (RecyclerView) dialoglayout.findViewById(R.id.recyclerview_categorias);
+        recyclerViewNegocios_categorias.setLayoutManager(new LinearLayoutManager(this));
+        //--Adaptadores
+        adapter_categorias_negocios = new ArrayList<>();
+        adapterRecyclerView_categorias_negocios = new adapter_recyclerView_CategoriasNegocios(adapter_categorias_negocios,this);
+        adapterRecyclerView_categorias_negocios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view2) {
+
+                //Extrae la id de la reseña
+                final adapter_categoriaNegocio adapterCategoriaNegocio=adapter_categorias_negocios.get(recyclerViewNegocios_categorias.getChildAdapterPosition(view2));
+
+
+                // ID CATEGORIA
+                ID_categoria=adapterCategoriaNegocio.getId();
+
+                //Imagen
+                Glide.with(getApplicationContext())
+                        .load(adapterCategoriaNegocio.getLogo())
+                        .fitCenter()
+                        .centerCrop()
+                        .into(CircleImageView_Title);
+
+                //Textviw
+                button_categoria1.setText( adapterCategoriaNegocio.getNombre() );
+
+                alertDialogClient.dismiss();
+            }
+        });
+
+        recyclerViewNegocios_categorias.setAdapter(adapterRecyclerView_categorias_negocios);
+
+        // Firebase
+        CloudFirestoreDB.collection(  getString(R.string.DB_APP)  ).document( AdapterPerfilNegocio.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                adapter_categorias_negocios.removeAll(adapter_categorias_negocios);
+
+
+                for(DocumentSnapshot doc:documentSnapshots){
+                    if(doc.exists()){
+                        //--Adaptador del cliente
+                        adapter_categoriaNegocio categoria = doc.toObject(adapter_categoriaNegocio.class);
+
+                        if(categoria.getNombre() != null){
+                            if(!categoria.getNombre().equals("")){
+
+                                // ADD
+                                adapter_categorias_negocios.add(categoria);
+                                adapterRecyclerView_categorias_negocios.notifyDataSetChanged();
+                            }
+                        }
+
+                    }
+                }
+                adapterRecyclerView_categorias_negocios.notifyDataSetChanged();
+
+
+            }
+        });
+
+
+
+
+
+
     }
 
 
@@ -319,15 +467,8 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
         buttonHors.setVisibility(View.VISIBLE);
         layoutSpinnerPais.setVisibility(View.VISIBLE);
         layoutSpinnerProvincia.setVisibility(View.VISIBLE);
+        button_categoria1.setVisibility(View.VISIBLE);
 
-
-        // Categoria
-        String[] stringArrayCategoria = getResources().getStringArray(R.array.categorias);
-        for(int x=0;x < stringArrayCategoria.length; x++){
-            if(eProfile_categoria.getText().toString().toUpperCase().equals(stringArrayCategoria[x].toUpperCase())){
-                spinnerCategoria.setSelection(x);
-            }
-        }
 
         // Pais
         String[] stringArrayPaises = getResources().getStringArray(R.array.paises);
@@ -377,7 +518,7 @@ public class Nav_header_perfil extends AppCompatActivity implements GoogleApiCli
         String data_provincia=eProfile_provincia.getText().toString();
         String data_ciudad=eProfile_ciudad.getText().toString();
         String data_telefono=eProfile_telefono.getText().toString();
-        final String data_categoria=spinnerCategoria.getSelectedItem().toString();
+        final String data_categoria=ID_categoria;
         String data_sitio_web=eProfile_sitio_web.getText().toString();
 
 

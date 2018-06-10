@@ -1,11 +1,14 @@
 package com.open.applic.open.create_form_profile;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -14,9 +17,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,12 +38,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.open.applic.open.R;
+import com.open.applic.open.create_form_profile.adaptadores.adapter_categoriaNegocio;
+import com.open.applic.open.create_form_profile.adaptadores.adapter_recyclerView_CategoriasNegocios;
 import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_cuenta;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
@@ -50,7 +62,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -147,6 +161,13 @@ public class Add_info_profile extends AppCompatActivity {
 
     //---
     private String ID_NEGOCIO;
+    private String sPAIS;
+
+
+    ////////////////////////////////////// Views Categorias Negocios ///////////////////////////////////////////////
+    public RecyclerView recyclerViewNegocios_categorias;
+    public List<adapter_categoriaNegocio> adapter_categorias_negocios;
+    public adapter_recyclerView_CategoriasNegocios adapterRecyclerView_categorias_negocios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,7 +254,11 @@ public class Add_info_profile extends AppCompatActivity {
 
         // Email
         editTextEmail.setText(user.getEmail());
-        //--------------------------------------
+        //--------------------------------------}
+
+        // Seleccionar pais
+        Select_pais();
+
 
     }
 
@@ -251,7 +276,6 @@ public class Add_info_profile extends AppCompatActivity {
         linearLayoutDescripcion.setVisibility(View.GONE);
         linearLayoutUbicacion.setVisibility(View.GONE);
     }
-
     public void  Layout_0(View view){
 
 
@@ -300,9 +324,6 @@ public class Add_info_profile extends AppCompatActivity {
         String data_categoria=textview_nombre_categoria.getText().toString();
 
         if(!data_categoria.equals(getResources().getString(R.string.debes_elegir_una_categoría)) && !data_categoria.equals("")){
-
-            datos_PerfilNegocio.setCategoria(data_categoria.toUpperCase());
-            datos_PerfilNegocio.setColor(getColorCategoria(data_categoria));
 
             //---Guardar los datos en la database de firebase
             linearLayoutCategoria.setVisibility(View.GONE);
@@ -426,157 +447,83 @@ public class Add_info_profile extends AppCompatActivity {
 
 
     public void ViewSelectCategoria(View v){
+
+
         LayoutInflater inflater = getLayoutInflater();
         View dialoglayout = inflater.inflate(R.layout.view_categoria, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(Add_info_profile.this);
         builder.setView(dialoglayout);
         alertDialogClient=builder.show();
+        alertDialogClient.setCancelable(false);
 
         //Reference
-        buttonCatMaxiKiosco=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_maxikiosco);
-        buttonCatKiosco=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_kiosco);
-        buttonCatAlmacen=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_almacen);
-        buttonCatMercado=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_mercado);
-        buttonCatPizzeria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_pizzeria);
-        buttonCatCarniceria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_carniceria);
-        buttonCatVerduleria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_verduleria);
-        buttonCatPanaderia=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_panaderia);
-        buttonCatPescaderia=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_pescaderia);
-        buttonCatFerreteria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_ferreteria);
-        buttonCatHeladeria=(LinearLayout)  dialoglayout.findViewById(R.id.buttonCat_heladeria);
 
-        buttonCatMaxiKiosco.setOnClickListener(new View.OnClickListener() {
+
+
+        recyclerViewNegocios_categorias = (RecyclerView) dialoglayout.findViewById(R.id.recyclerview_categorias);
+        recyclerViewNegocios_categorias.setLayoutManager(new LinearLayoutManager(this));
+        //--Adaptadores
+        adapter_categorias_negocios = new ArrayList<>();
+        adapterRecyclerView_categorias_negocios = new adapter_recyclerView_CategoriasNegocios(adapter_categorias_negocios,this);
+        adapterRecyclerView_categorias_negocios.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View view2) {
+
+                //Extrae la id de la reseña
+                final adapter_categoriaNegocio adapterCategoriaNegocio=adapter_categorias_negocios.get(recyclerViewNegocios_categorias.getChildAdapterPosition(view2));
+
                 //Imagen
                 Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_maxikiosco", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
+                Glide.with(context)
+                        .load(adapterCategoriaNegocio.getLogo())
+                        .fitCenter()
+                        .centerCrop()
+                        .into(imageView_Categoria);
+
                 //Textviw
-                textview_nombre_categoria.setText(R.string.cat_maxikiosco);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_maxikiosco));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatKiosco.setOnClickListener(new View.OnClickListener() {
+                textview_nombre_categoria.setText( adapterCategoriaNegocio.getNombre() );
+
+                // Set Categoria
+                datos_PerfilNegocio.setCategoria( adapterCategoriaNegocio.getId() );
+
+
+                alertDialogClient.dismiss();
+            }
+        });
+
+        recyclerViewNegocios_categorias.setAdapter(adapterRecyclerView_categorias_negocios);
+
+        if(sPAIS== null){Select_pais();}
+
+        // Firebase
+        db.collection(  getString(R.string.DB_APP)  ).document( sPAIS ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_kiosco", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_kiosco);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_kiosco));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatAlmacen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_almacen", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_almacen);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_almacen));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatMercado.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_mercado", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_mercado);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_mercado));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatPizzeria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_pizzeria", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_pizzeria);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_pizzeria));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatCarniceria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_carniceria", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_carniceria);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_carniceria));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatVerduleria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_verduleria", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_verduleria);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_verduleria));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatPanaderia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_panaderia", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_panaderia);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_panaderia));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatPescaderia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_pescaderia", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_pescaderia);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_pescaderia));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatFerreteria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_ferreteria", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_ferreteria);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_ferreteria));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
-        buttonCatHeladeria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Imagen
-                Context context = imageView_Categoria.getContext();
-                int id = context.getResources().getIdentifier("logo_heladeria", "mipmap", context.getPackageName());
-                imageView_Categoria.setImageResource(id);
-                //Textviw
-                textview_nombre_categoria.setText(R.string.cat_heladeria);
-                textview_nombre_categoria.setTextColor(getResources().getColor(R.color.color_heladeria));
-                alertDialogClient.dismiss();//finaliza el alertDialog
-            }});
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                adapter_categorias_negocios.removeAll(adapter_categorias_negocios);
+
+
+                for(DocumentSnapshot doc:documentSnapshots){
+                    if(doc.exists()){
+                        //--Adaptador del cliente
+                        adapter_categoriaNegocio categoria = doc.toObject(adapter_categoriaNegocio.class);
+
+                        if(categoria.getNombre() != null){
+                            if(!categoria.getNombre().equals("")){
+
+                                // ADD
+                                adapter_categorias_negocios.add(categoria);
+                                adapterRecyclerView_categorias_negocios.notifyDataSetChanged();
+                            }
+                        }
+
+                    }
+                }
+                adapterRecyclerView_categorias_negocios.notifyDataSetChanged();
+
+
+            }
+        });
+
 
 
 
@@ -729,6 +676,39 @@ public class Add_info_profile extends AppCompatActivity {
                     .centerCrop()
                     .into(circleImageViewPerfil);
         }catch (Exception ex){;}
+    }
+
+    public void Select_pais(){
+        //////////////////////////////// Cuadro de Dialog //////////////////////////////////
+        final Dialog dialogPais=new Dialog(Add_info_profile.this);
+        dialogPais.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogPais.setCancelable(true);
+        dialogPais.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogPais.setContentView(R.layout.view_seleccion_paises);
+        dialogPais.show();
+        dialogPais.setCancelable(false);
+
+        final Spinner spinner=(Spinner) dialogPais.findViewById(R.id.spinner_paises);
+        Button button=(Button) dialogPais.findViewById(R.id.button4_aceptar);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!spinner.getSelectedItem().toString() .equals(getString(R.string.selecciona_tipo_cuenta))){
+                    sPAIS =spinner.getSelectedItem().toString().toUpperCase();
+
+
+                    SharePreferencesAPP.setPAIS(sPAIS,Add_info_profile.this);
+
+                    dialogPais.dismiss();
+
+                }else {
+                    Toast.makeText(Add_info_profile.this,R.string.selecciona_tipo_cuenta,Toast.LENGTH_LONG).show();}
+
+            }
+        });
+
     }
 
     public void onBackPressed() {

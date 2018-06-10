@@ -18,6 +18,7 @@
     <string name="DB_NEGOCIOS">NEGOCIOS</string>
     <string name="DB_NEGOCIO">NEGOCIO</string>
     <string name="DB_INFORMACION">INFORMACION</string>
+    <string name="DB_CATEGORIAS_NEGOCIOS">CATEGORIAS_NEGOCIOS</string>
 
     <string name="DB_CLIENTES">CLIENTES</string>
     <string name="DB_PEDIDOS">PEDIDOS</string>

@@ -175,6 +175,7 @@ public class galeria_fotos extends AppCompatActivity {
         ImageView imageView_Cerrar=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
         ImageView imageView_Foto=(ImageView) dialoglayout.findViewById(R.id.imageView_foto);
         final EditText editText_Comentario=(EditText) dialoglayout.findViewById(R.id.editText_comentario);
+        editText_Comentario.setFocusableInTouchMode(false);
         final ProgressBar progressBar=(ProgressBar) dialoglayout.findViewById(R.id.progressBar9);
         final Button button_Agregar=(Button) dialoglayout.findViewById(R.id.button_agregarFoto);
         button_Agregar.setVisibility(View.GONE);
@@ -220,6 +221,7 @@ public class galeria_fotos extends AppCompatActivity {
                 button_Actualizar.setVisibility(View.VISIBLE);
                 button_Eliminar.setVisibility(View.VISIBLE);
                 editText_Comentario.setVisibility(View.VISIBLE);
+                editText_Comentario.setFocusableInTouchMode(true);
 
             }
         });

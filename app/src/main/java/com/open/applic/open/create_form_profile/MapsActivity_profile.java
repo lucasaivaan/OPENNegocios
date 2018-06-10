@@ -6,9 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -18,6 +21,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,7 +34,9 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,6 +45,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.SetOptions;
 import com.open.applic.open.R;
+import com.open.applic.open.create_form_profile.adaptadores.adapter_categoriaNegocio;
 import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
 import com.open.applic.open.interface_principal.metodos_funciones.icono;
@@ -44,6 +53,7 @@ import com.open.applic.open.interface_principal.nav_header.perfil_negocio.Nav_he
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class MapsActivity_profile extends FragmentActivity implements OnMapReadyCallback  {
 
@@ -212,17 +222,51 @@ public class MapsActivity_profile extends FragmentActivity implements OnMapReady
                     if(ContructorItemRecycleview.getCategoria() != null){
 
                         ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
-                        String valueIdBusiness = ContructorItemRecycleview.getCategoria().toLowerCase();
 
-                        int id = icono.getIconLocationCategoria(valueIdBusiness,MapsActivity_profile.this);
-                        BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id);
+                        // Firebase DB categorias
+                        FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                        firestore_categoria.collection( getString(R.string.DB_APP) ).document( ContructorItemRecycleview.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( ContructorItemRecycleview.getCategoria() )
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot documentSnapshot=task.getResult();
+                                    if( documentSnapshot.exists() ){
 
-                        //---Crea los Makers
-                        mMap.addMarker(new MarkerOptions().position(new LatLng( Lat,Long ))).setIcon(icon);
+                                        // adapter
+                                        adapter_categoriaNegocio categoriaNegocio=documentSnapshot.toObject(adapter_categoriaNegocio.class);
 
-                        //Posiciona la camara en la ubicacion del negocio
-                        LatLng sydney = new LatLng(Lat, Long);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                                        // Glide Descarga de imagen
+                                        Glide.with(getBaseContext())
+                                                .load(categoriaNegocio.getIcon_location())
+                                                .asBitmap()
+                                                .fitCenter()
+                                                .override(70,70)
+                                                .into(new SimpleTarget<Bitmap>(70,70) {
+                                                    @Override
+                                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                                                        //---Crea los Makers
+                                                        mMap.addMarker(new MarkerOptions().position(new LatLng( Lat,Long ))).setIcon(BitmapDescriptorFactory.fromBitmap( resource ));
+
+                                                        //Posiciona la camara en la ubicacion del negocio
+                                                        LatLng sydney = new LatLng(Lat, Long);
+                                                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                                                    }
+
+                                                    @Override
+                                                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                                        super.onLoadFailed(e, errorDrawable);
+                                                        Toast.makeText(MapsActivity_profile.this,"Error al carga imagen",Toast.LENGTH_SHORT).show();
+                                                    }}
+                                                );
+
+
+                                    }
+                                }
+                            }
+                        });
+
                     }
                 }
             });

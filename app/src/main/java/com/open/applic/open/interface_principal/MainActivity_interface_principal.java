@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -43,6 +44,8 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -80,6 +83,8 @@ import com.google.firebase.storage.UploadTask;
 import com.open.applic.open.MainActivity_Auth;
 import com.open.applic.open.R;
 import com.open.applic.open.create_form_profile.Configuracion_Horario;
+import com.open.applic.open.create_form_profile.MapsActivity_profile;
+import com.open.applic.open.create_form_profile.adaptadores.adapter_categoriaNegocio;
 import com.open.applic.open.interface_principal.adaptadores.adapter_perfil_clientes;
 import com.open.applic.open.interface_principal.adaptadores.adapter_horario;
 import com.open.applic.open.interface_principal.adaptadores.adapter_ofertas_negocio;
@@ -124,6 +129,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -555,7 +561,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                     perfilCuenta=documentSnapshot.toObject(adapter_perfil_cuenta.class);
 
 
-                    if(perfilCuenta.getTipocuenta().equals(getString(R.string.administrador))){
+                    if(perfilCuenta.getTipocuenta().equals( getString(R.string.administrador)) ){
 
                         // infla el navigation menu
                         navigationView = (NavigationView) findViewById(R.id.nav_view_administrador);
@@ -668,12 +674,33 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                         .into(CircleImageView_nav_imagen);
 
                             }else{
-                              //Asignacion de icono de la categoria
-                                Context context = CircleImageView_nav_imagen.getContext();
-                                int id=icono.getIconLogoCategoria(adaptert_Profile.getCategoria(),MainActivity_interface_principal.this);
-                                CircleImageView_nav_imagen.setImageResource(id);
-                                CircleImageView_nav_imagen.setBorderColor( Color.parseColor("#FFFFFFFF") );
 
+                                //Asignacion de icono de la categoria
+                                // Firebase DB categorias
+                                FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                                firestore_categoria.collection( getString(R.string.DB_APP) ).document( adaptert_Profile.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( adaptert_Profile.getCategoria() )
+                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if(task.isSuccessful()){
+                                            DocumentSnapshot documentSnapshot=task.getResult();
+                                            if( documentSnapshot.exists() ){
+
+                                                // adapter
+                                                adapter_categoriaNegocio categoriaNegocio=documentSnapshot.toObject(adapter_categoriaNegocio.class);
+
+                                                // Glide Descarga de imagen
+                                                Glide.with(getBaseContext())
+                                                        .load(categoriaNegocio.getLogo())
+                                                        .fitCenter()
+                                                        .centerCrop()
+                                                        .into(CircleImageView_nav_imagen);
+
+
+                                            }
+                                        }
+                                    }
+                                });
 
                             }
 
@@ -959,14 +986,33 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                     .into(CircleImageView_Title);
 
                         }else{
+
                             //Asignacion de icono de la categoria
-                            try{
+                            // Firebase DB categorias
+                            FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                            firestore_categoria.collection( getString(R.string.DB_APP) ).document( adapterNegocioPerfil.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( adapterNegocioPerfil.getCategoria() )
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        DocumentSnapshot documentSnapshot=task.getResult();
+                                        if( documentSnapshot.exists() ){
 
-                                int id=icono.getIconLogoCategoria(adapterNegocioPerfil.getCategoria(),MainActivity_interface_principal.this);
-                                CircleImageView_Title.setImageResource(id);
-                                CircleImageView_Title.setBorderColor( Color.parseColor("#FFFFFFFF") );
+                                            // adapter
+                                            adapter_categoriaNegocio categoriaNegocio=documentSnapshot.toObject(adapter_categoriaNegocio.class);
 
-                            }catch (Exception ex){  }
+                                            // Glide Descarga de imagen
+                                            Glide.with(getBaseContext())
+                                                    .load(categoriaNegocio.getLogo())
+                                                    .fitCenter()
+                                                    .centerCrop()
+                                                    .into(CircleImageView_Title);
+
+
+                                        }
+                                    }
+                                }
+                            });
                         }
 
                         CircleImageView_Title.setOnClickListener(new View.OnClickListener() {
@@ -1000,7 +1046,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                                 ID_Intent_Result_ImagenPerfil =3;
                                                 startActivityForResult(intent, ID_Intent_Result_ImagenPerfil);
                                                 break;
+
                                             case 1:
+
                                                 //Crear AlertDialog Hors
                                                 LayoutInflater inflater = getLayoutInflater();
                                                 View dialoglayout = inflater.inflate(R.layout.view_galery_foto, null);
@@ -1020,7 +1068,9 @@ public class MainActivity_interface_principal extends AppCompatActivity
                                                         .centerCrop()
                                                         .into(imageViewFoto);
                                                 break;
+
                                             case 2:
+
                                                 break;
                                         }
                                     }
@@ -1823,6 +1873,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
         ImageView imageView_Cerrar=(ImageButton) dialoglayout.findViewById(R.id.imageButton_close);
         ImageView imageView_Foto=(ImageView) dialoglayout.findViewById(R.id.imageView_foto);
         final EditText editText_Comentario=(EditText) dialoglayout.findViewById(R.id.editText_comentario);
+        editText_Comentario.setFocusableInTouchMode(false);
         final ProgressBar progressBar=(ProgressBar) dialoglayout.findViewById(R.id.progressBar9);
         final Button button_Agregar=(Button) dialoglayout.findViewById(R.id.button_agregarFoto);
         button_Agregar.setVisibility(View.GONE);
@@ -1868,7 +1919,7 @@ public class MainActivity_interface_principal extends AppCompatActivity
                 button_Actualizar.setVisibility(View.VISIBLE);
                 button_Eliminar.setVisibility(View.VISIBLE);
                 editText_Comentario.setVisibility(View.VISIBLE);
-
+                editText_Comentario.setFocusableInTouchMode(true);
             }
         });
 
@@ -3000,9 +3051,11 @@ public class MainActivity_interface_principal extends AppCompatActivity
         // Add a marker in Sydney and move the camera
        //mMap.addMarker(new MarkerOptions().position(sydney));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         LoadBusinessMakerMaps();
     }
     public void LoadBusinessMakerMaps(){
+
 
 
         DocumentReference documentReference =db.collection(  getString(R.string.DB_NEGOCIOS)  ).document(ID_NEGOCIO);
@@ -3012,22 +3065,60 @@ public class MainActivity_interface_principal extends AppCompatActivity
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
                 if(documentSnapshot.exists()){
-                    adapter_profile_negocio ContructorItemRecycleview = documentSnapshot.toObject(adapter_profile_negocio.class);
+                    final adapter_profile_negocio ContructorItemRecycleview = documentSnapshot.toObject(adapter_profile_negocio.class);
                     if(mMap!=null){mMap.clear();}
 
                     if(ContructorItemRecycleview.getNombre_negocio()!=null){
-                        ////////////////// Asigna el icono ssegun la categoria del negocio /////////////
-                        String valueIdBusiness=ContructorItemRecycleview.getCategoria().toLowerCase();
-                        int id=icono.getIconLocationCategoria(valueIdBusiness,MainActivity_interface_principal.this);
-                        BitmapDescriptor icon= BitmapDescriptorFactory.fromResource(id);
 
-                       //---Crea los Makers
-                        mMap.addMarker(new MarkerOptions().position(  new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(),ContructorItemRecycleview.getGeopoint().getLongitude()))  ).setIcon(icon);
+                        // Firebase
+                        FirebaseFirestore firestore_categoria=FirebaseFirestore.getInstance();
+                        firestore_categoria.collection( getString(R.string.DB_APP) ).document( ContructorItemRecycleview.getPais().toUpperCase() ).collection( getString(R.string.DB_CATEGORIAS_NEGOCIOS) ).document( ContructorItemRecycleview.getCategoria() )
+                                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    DocumentSnapshot documentSnapshot=task.getResult();
+                                    if( documentSnapshot.exists() ){
 
-                        //Posiciona la camara en la ubicacion del negocio
-                        LatLng sydney = new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude());
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                                        // adapter
+                                        adapter_categoriaNegocio categoriaNegocio=documentSnapshot.toObject(adapter_categoriaNegocio.class);
+
+
+                                        // Glide Descarga de iamgen
+                                        Glide.with(getBaseContext())
+                                                .load(categoriaNegocio.getIcon_location())
+                                                .asBitmap()
+                                                .fitCenter()
+                                                .override(70,70)
+                                                .into(new SimpleTarget<Bitmap>(70,70) {
+                                                    @Override
+                                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+                                                        //---Crea los Makers
+                                                        mMap.addMarker(new MarkerOptions().position(  new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(),ContructorItemRecycleview.getGeopoint().getLongitude()))  ).setIcon( BitmapDescriptorFactory.fromBitmap( resource ) );
+
+                                                        //Posiciona la camara en la ubicacion del negocio
+                                                        LatLng sydney = new LatLng(ContructorItemRecycleview.getGeopoint().getLatitude(), ContructorItemRecycleview.getGeopoint().getLongitude());
+                                                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+                                                    }
+
+                                                    @Override
+                                                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                                                        super.onLoadFailed(e, errorDrawable);
+                                                        Toast.makeText(MainActivity_interface_principal.this,"Error al carga imagen",Toast.LENGTH_SHORT).show();
+                                                    }}
+                                                );
+
+                                    }
+                                }
+                            }
+                        });
+
                     }
+
+
+
                 }
 
 

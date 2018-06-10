@@ -6,244 +6,222 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:elevation="8dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
-        app:cardCornerRadius="15dp">
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <ProgressBar
+            android:id="@+id/progressBar7"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="212dp"
+            android:layout_height="258dp"
+            android:layout_marginTop="8dp"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout15"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/progressBar7"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="212dp"
-                android:layout_height="258dp"
-                android:layout_marginTop="8dp"
-                android:elevation="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                android:padding="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageView_producto"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_below="@+id/progressBar2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:elevation="2dp"
+                    android:onClick="ButtonADDFotho"
+                    android:src="@mipmap/ic_product_default"
+                    app:civ_border_color="#f5f5f5"
+                    app:civ_border_width="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.487" />
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout15"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView53kj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/marca_nombre"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/editText_marca"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/marca_nombre"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textColorHint="@color/textColorPrimario" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView53"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/informacion"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/editText_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/informacion_producto"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textColorHint="@color/textColorPrimario" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_producto_venta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@color/colorPrimary"
-                    android:padding="10dp">
-
-                    <ProgressBar
-                        android:id="@+id/progressBar2"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_margin="10dp"
-                        android:elevation="4dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imageView_producto"
-                        android:layout_width="125dp"
-                        android:layout_height="125dp"
-                        android:layout_below="@+id/progressBar2"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:elevation="2dp"
-                        android:onClick="ButtonADDFotho"
-                        android:src="@mipmap/ic_product_default"
-                        app:civ_border_color="#f5f5f5"
-                        app:civ_border_width="2dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.498"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.487" />
-                </android.support.constraint.ConstraintLayout>
-
                 <LinearLayout
+                    android:id="@+id/layout_precio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/textView53kj"
+                        android:id="@+id/textView40"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/marca_nombre"
-                        android:textAlignment="center" />
-
-                    <EditText
-                        android:id="@+id/editText_marca"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/marca_nombre"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/cardview_dark_background"
-                        android:textColorHint="@color/textColorPrimario" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/textView53"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/informacion"
-                        android:textAlignment="center" />
-
-                    <EditText
-                        android:id="@+id/editText_info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="@string/informacion_producto"
-                        android:inputType="textPersonName"
-                        android:textColor="@color/cardview_dark_background"
-                        android:textColorHint="@color/textColorPrimario" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_producto_venta"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                        android:layout_weight="6"
+                        android:text="$"
+                        android:textSize="30sp" />
 
                     <LinearLayout
-                        android:id="@+id/layout_precio"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView40"
+                            android:id="@+id/textView53df"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:text="$"
-                            android:textSize="30sp" />
+                            android:text="@string/precio"
+                            android:textAlignment="center" />
 
-                        <LinearLayout
+                        <EditText
+                            android:id="@+id/editText_Precio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView53df"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/precio"
-                                android:textAlignment="center" />
-
-                            <EditText
-                                android:id="@+id/editText_Precio"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ems="10"
-                                android:fontFamily="@font/aldrich"
-                                android:hint="00.00"
-                                android:inputType="numberDecimal"
-                                android:textColor="@color/cardview_dark_background"
-                                android:textColorHint="@color/textColorPrimario"
-                                android:textSize="24sp" />
-                        </LinearLayout>
-
+                            android:ems="10"
+                            android:fontFamily="@font/aldrich"
+                            android:hint="00.00"
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/cardview_dark_background"
+                            android:textColorHint="@color/textColorPrimario"
+                            android:textSize="24sp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/layout_codigo"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView453"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/codigo"
-                                android:textAlignment="center" />
-
-                            <EditText
-                                android:id="@+id/editText_codigo"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ems="10"
-                                android:hint="@string/codigo"
-                                android:inputType="textPersonName"
-                                android:textColor="@color/cardview_dark_background"
-                                android:textColorHint="@color/textColorPrimario" />
-                        </LinearLayout>
-
-                        <Button
-                            android:id="@+id/button19"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:background="@color/cardview_shadow_start_color"
-                            android:onClick="Button_Scanner"
-                            android:text="@string/escanear_codigo"
-                            android:textColor="@color/cardview_light_background" />
-
-                    </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/button18"
+                <LinearLayout
+                    android:id="@+id/layout_codigo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/md_green_400"
-                    android:elevation="2dp"
-                    android:text="@string/guardar"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="24sp" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-                <Button
-                    android:id="@+id/button19_eliminar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/md_deep_orange_300"
-                    android:elevation="1dp"
-                    android:text="@string/eliminar"
-                    android:textColor="@color/cardview_light_background"
-                    android:textSize="18sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView453"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/codigo"
+                            android:textAlignment="center" />
+
+                        <EditText
+                            android:id="@+id/editText_codigo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/codigo"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/cardview_dark_background"
+                            android:textColorHint="@color/textColorPrimario" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/button19"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@color/cardview_shadow_start_color"
+                        android:onClick="Button_Scanner"
+                        android:text="@string/escanear_codigo"
+                        android:textColor="@color/cardview_light_background" />
+
+                </LinearLayout>
             </LinearLayout>
-        </android.support.constraint.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
+            <Button
+                android:id="@+id/button18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/md_green_400"
+                android:elevation="2dp"
+                android:text="@string/guardar"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/button19_eliminar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_deep_orange_300"
+                android:elevation="1dp"
+                android:text="@string/eliminar"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

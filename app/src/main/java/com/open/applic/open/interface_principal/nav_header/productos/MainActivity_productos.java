@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -44,6 +46,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.open.applic.open.R;
+import com.open.applic.open.interface_principal.MainActivity_interface_principal;
 import com.open.applic.open.interface_principal.adaptadores.adapter_profile_negocio;
 import com.open.applic.open.interface_principal.metodos_funciones.PuntosCuenta;
 import com.open.applic.open.interface_principal.metodos_funciones.SharePreferencesAPP;
@@ -273,12 +276,11 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
 
 
                 //////////////////////////////// Cuadro de Dialog //////////////////////////////////
-                final Dialog dialog=new Dialog(MainActivity_productos.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(true);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setContentView(R.layout.view_crear_producto);
-                dialog.show();
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialog = inflater.inflate(R.layout.view_crear_producto, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity_productos.this);
+                builder.setView(dialog);
+                final AlertDialog alertDialogHors=builder.show();
 
                 // Reference
                 circleImageViewProducto=(CircleImageView) dialog.findViewById(R.id.imageView_producto);
@@ -289,8 +291,6 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                 editTextPrecio=(EditText) dialog.findViewById(R.id.editText_Precio);
                 buttonGuardarProduct=(Button) dialog.findViewById(R.id.button18);
                 buttonEliminar=(Button) dialog.findViewById(R.id.button19_eliminar);
-                progressBar_foto =(ProgressBar) dialog.findViewById(R.id.progressBar2);
-                progressBar_foto.setVisibility(View.GONE);
                 final ProgressBar progressBar=(ProgressBar) dialog.findViewById(R.id.progressBar7);
                 progressBar.setVisibility(View.GONE);
                 LinearLayout layout_precio=(LinearLayout) dialog.findViewById(R.id.layout_precio);
@@ -338,7 +338,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                         // Reset
                         idUnicoProducto=null;
                         urlDescargarFoto=null;
-                        dialog.dismiss();
+                        alertDialogHors.dismiss();
 
 
 
@@ -387,7 +387,7 @@ public class MainActivity_productos extends AppCompatActivity implements Adapter
                                 // Reset
                                 idUnicoProducto=null;
                                 urlDescargarFoto=null;
-                                dialog.dismiss();
+                                alertDialogHors.dismiss();
 
                             }else { Toast.makeText(MainActivity_productos.this,R.string.escriba_un_precio,Toast.LENGTH_LONG).show(); }
                         }else { Toast.makeText(MainActivity_productos.this,R.string.uno_o_mas_campos_estan_vacios,Toast.LENGTH_LONG).show(); }

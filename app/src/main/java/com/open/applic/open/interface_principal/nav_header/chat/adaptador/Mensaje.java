@@ -10,29 +10,29 @@ public class Mensaje {
 
 
     private String mensaje;
-
-
     private String urlfotoPerfil;
     private String nombre;
     private String fotoPerfil;
     private String type_mensaje;
     private Date timestamp;
     private String categoria;
+    private String id;
 
 
 
     public Mensaje() { }
 
-    public Mensaje(String mensaje, String nombre, String fotoPerfil, String type_mensaje,Date timestamp,String categoria) {
+    public Mensaje(String mensaje, String nombre, String fotoPerfil, String type_mensaje,Date timestamp,String categoria,String id) {
         this.mensaje = mensaje;
         this.nombre = nombre;
         this.fotoPerfil = fotoPerfil;
         this.type_mensaje = type_mensaje;
         this.timestamp=timestamp;
         this.categoria=categoria;
+        this.id=id;
     }
 
-    public Mensaje(String mensaje, String urlfotoPerfil, String nombre, String fotoPerfil, String type_mensaje, Date timestamp,String categoria) {
+    public Mensaje(String mensaje, String urlfotoPerfil, String nombre, String fotoPerfil, String type_mensaje, Date timestamp,String categoria,String id) {
         this.mensaje = mensaje;
         this.urlfotoPerfil = urlfotoPerfil;
         this.nombre = nombre;
@@ -40,45 +40,35 @@ public class Mensaje {
         this.type_mensaje = type_mensaje;
         this.timestamp=timestamp;
         this.categoria=categoria;
+        this.id=id;
     }
+
     public Date getTimestamp() {return timestamp;}
     public void setTimestamp(Date timestamp) {this.timestamp = timestamp;}
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
+    public String getMensaje() { return mensaje; }
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
-
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-
-    public String getNombre() {
-        return nombre;
-    }
-
+    public String getNombre() { return nombre; }
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public String getFotoPerfil() {
         return fotoPerfil;
     }
-
     public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
-
     public String getType_mensaje() {
         return type_mensaje;
     }
-
     public void setType_mensaje(String type_mensaje) {
         this.type_mensaje = type_mensaje;
     }
-
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public String getUrlfotoPerfil() {
         return urlfotoPerfil;
     }

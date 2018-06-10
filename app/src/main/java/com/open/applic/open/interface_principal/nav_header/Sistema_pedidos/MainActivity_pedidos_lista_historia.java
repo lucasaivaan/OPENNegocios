@@ -91,8 +91,8 @@ public class MainActivity_pedidos_lista_historia extends AppCompatActivity {
         textView_cantidadPeidos_delivery.setTextColor( newColor );
         imageView_delivery.setColorFilter( newColor , PorterDuff.Mode.SRC_ATOP);
         // Set Color
-        textView_cantidadPeidos_delivery.setTextColor( newColor );
-        imageView_delivery.setColorFilter( newColor , PorterDuff.Mode.SRC_ATOP);
+        textView_cantidadPeidos_Local.setTextColor( newColor );
+        imageView_ReitorPorNegocio.setColorFilter( newColor , PorterDuff.Mode.SRC_ATOP);
 
 
         //Bottom bar navigation OnClick
@@ -116,6 +116,7 @@ public class MainActivity_pedidos_lista_historia extends AppCompatActivity {
                 }
                 return true;
             }});
+
 
         // Cargar DAtos
         CargarPedidos_Delivery();

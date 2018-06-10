@@ -113,6 +113,8 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
                 return true;
             }});
 
+
+
         // Firebase (Comprobar  es estaddo de la configuracion)
         DocumentReference documentReference_Conf_PEdido=firestore.collection( getResources().getString(R.string.DB_NEGOCIOS) ).document( ID_NEGOCIO ).collection( getResources().getString(R.string.DB_CONFIGURACION) ).document( getResources().getString(R.string.DB_sistema_pedido) );
         documentReference_Conf_PEdido.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -162,6 +164,13 @@ public class MainActivity_pedidos_lista extends AppCompatActivity {
                         imageView_ReitorPorNegocio.setColorFilter( newColor, PorterDuff.Mode.SRC_ATOP);
 
                     }
+                }else{
+                    //
+                    final int newColor = getResources().getColor(R.color.md_grey_400);
+
+                    // Set Color
+                    textView_cantidadPeidos_delivery.setTextColor( newColor );
+                    imageView_delivery.setColorFilter( newColor , PorterDuff.Mode.SRC_ATOP);
                 }
 
             }
